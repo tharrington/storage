@@ -1,0 +1,51 @@
+<ion-view hide-nav-bar="false" view-title="Order" cache-view="false" ng-controller="OrderCtrl">
+<ion-nav-back-button>
+      </ion-nav-back-button>
+  <ion-nav-title>
+    <div class="browse-nav-title">{{order.name}}</div>
+  </ion-nav-title>
+
+  <ion-content class="has-header">
+  	<div class="list">
+			<label class="item item-input item-select">
+		    <div class="input-label">
+		      Order Status
+		    </div>
+		    <select ng-change="sendUpdate()" ng-model="order.status">
+		    	<option ng-repeat="stage in orderUpdates" ng-selected="order.status == stage.status">{{stage.status}}</option>
+		    </select>
+		  </label>
+
+		  <label class="item item-input">
+		  	<textarea placeholder="Order Notes" ng-model="order.notes" style="height:100px;"></textarea>
+		 	</label>
+
+		 	<button ng-click="sendUpdate()" class="button button-full button-positive">
+			  Save Notes
+			</button>
+
+		  <a class="item" href="#">Name - {{order.name}} ({{order.customerId}})</a>
+	    <div class="item item-divider">Location</div>
+	    <a class="item item-text-wrap" href="#" ng-click="openInGoogleMaps()">Open In Google Maps</a>
+	    <a class="item item-text-wrap" href="#">Address - {{order.address}}</a>
+	    <a class="item item-text-wrap" href="#">Building - {{order.building}}</a>
+
+	    <div class="item item-divider">Contact</div>
+	    <a class="item item-text-wrap" href="tel:+{{order.phone}}" href="#">Phone - {{order.phone}}</a>
+	    <a class="item item-text-wrap" href="tel:+{{order.altPhone}}" href="#">Alt Phone - {{order.altPhone}}</a>
+	    <a class="item item-text-wrap" href="tel:+{{order.friendPhone}}" href="#">Friend Phone - {{order.friendPhone}}</a>
+	    <a class="item item-text-wrap" href="#">Email - {{order.email}}</a>
+
+	    <div class="item item-divider">Order Details</div>
+	    <a class="item item-text-wrap" ng-if="order.hasInsurace" href="#">Declared Value - {{order.insuranceUnits}}</a>
+	    <a class="item item-text-wrap" href="#">Service - {{order.serviceType}}</a>
+	    <a class="item item-text-wrap" href="#">Guaranteed Pickup - {{order.guartanteedPickup}}</a>
+	    <a class="item item-text-wrap" href="#">Delivery Time - {{order.deliveryTime}}</a>
+	    <a class="item item-text-wrap" href="#">Needs Shipping? - {{order.shipping}}</a>
+
+
+	    <!-- <div class="item item-divider">Invoice</div>
+	    <a class="item item-text-wrap" href="#" ng-click="openInSalesforce1();">Open In Salesforce 1</a> -->
+		</div>
+  </ion-content>
+</ion-view>

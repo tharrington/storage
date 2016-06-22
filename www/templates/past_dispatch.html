@@ -1,0 +1,48 @@
+<ion-view view-title="Today" ng-controller="PastDispatchCtrl">
+  <ion-content>
+  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
+
+  	<div class="list" ng-if="!dispatch">
+			<div class="item item-divider">
+		    Summary
+		  </div>
+		  <div class="item item-body">
+				<p>There are no orders today.</p>
+			</div>
+		</div>
+
+		<div class="list" ng-if="dispatch._id">
+			<div class="item item-divider">
+		    Today's Summary <span ng-if="dispatch.orders">- ({{dispatch.orders.length}} orders)</span>
+		  </div>
+		  <div class="item item-body" ng-if="dispatch._id && orders.length == 0">
+				<p>You have completed all your orders for the day. Well done.</p>
+			</div>
+
+			<label class="item item-input item-select" ng-if="dispatch._id && dispatch.orders.length > 0">
+		    <div class="input-label">
+		      Dispatch Status
+		    </div>
+		    <select ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.status">
+		    	<option ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.status}}</option>
+		    </select>
+		  </label>
+		</div>
+
+    <div class="list" ng-if="dispatch._id && orders.length > 0 && dispatch.status != 'New'">
+
+			<div class="item item-divider" ng-if="orders.length > 0">
+		    Appointments ({{orders.length}})
+		  </div>
+
+		  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
+	      <h2>{{appointment.name}} - {{appointment.deliveryTime}} - {{appointment.status}}</h2>
+	      <p>
+	      	{{ substringField(appointment.serviceType)}} - {{ appointment.phone }} -
+		      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
+		      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
+		    </p>
+	    </a>
+		</div>
+	</ion-content>
+</ion-view>

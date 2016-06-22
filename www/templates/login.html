@@ -1,0 +1,38 @@
+<ion-view hide-nav-bar="true" ng-controller="LoginCtrl">
+
+  <ion-content scroll="false" class="has-footer">
+    <div style="width: 100%; padding-top: 20px; text-align: center;" >
+      <h3>Storage Squad</h3>
+      <p>Username and Password Found on Tablet</p>
+    </div>
+
+    <form class="form" name="form" novalidate>
+	    <div class="list" style="padding-top:15px; margin-bottom:0px;">
+	      <label class="item item-input item-stacked-label">
+	        <span class="input-label">Username / Email</span>
+	        <input type="text" name="email" placeholder="john@mycompany.com" ng-model="user.email" required>
+	      </label>
+	      <label class="item item-input item-stacked-label">
+	        <span class="input-label">Password</span>
+	        <input type="password" name="password" placeholder="Password" ng-model="user.password" required>
+	      </label>
+	    </div>
+	    <div class="" ng-if="hasErrors" style="width: 100%; padding-top: 20px; text-align: center;" >
+	      <p style="color:red;">{{errorMessage}}<p>
+	    </div>
+	    <div class="form-group has-error" style="width: 100%; padding-top: 20px; text-align: center;">
+        <p class="help-block" style="color:red;" ng-show="form.email.$error.required && form.password.$error.required && submitted">
+           Please enter your email and password.
+        </p>
+        <p class="help-block" style="color:red;" ng-show="form.email.$error.email && submitted">
+           Please enter a valid email.
+        </p>
+
+        <p class="help-block">{{ errors.other }}</p>
+      </div>
+      <button class="button button-block button-positive" style="margin-top:0px;" ng-click="login(form);">
+	      Login
+	    </button>
+	  </form>
+  </ion-content>
+</ion-view>

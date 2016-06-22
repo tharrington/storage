@@ -1,0 +1,11 @@
+<ion-view view-title="Today" ng-controller="PastDispatchesCtrl">
+  <ion-content>
+  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
+
+  	<div class="list" ng-if="!dispatch">
+			<div class="item item-divider">
+		    Summary
+		  </div>
+		</div>
+	</ion-content>
+</ion-view>
