@@ -19,11 +19,15 @@
     <ion-content>
       <ion-list>
         <ion-item menu-close href="#/app/orders">
-          Today
+          Today's Dispatches
         </ion-item>
 
-        <ion-item href="#/app/past_dispatches">
-          Past Dispatches
+        <ion-item menu-close href="#/app/warehouse">
+          Warehouse
+        </ion-item>
+
+        <ion-item menu-close href="#" ng-click="viewDispatches();">
+          Future Dispatches
         </ion-item>
 
         <ion-item menu-close href="#" ng-click="logout();">

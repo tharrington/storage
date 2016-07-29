@@ -3,7 +3,7 @@
 angular.module('fencesForBusiness.data_service', [])
 	.factory('fencesData', ['$http', '$ionicLoading', '$q', 'ApiEndpoint', '$localStorage', '$rootScope', '$timeout', '$cordovaPush', '$state', '$ionicHistory',
     function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, $ionicHistory) { 
-    var dispatch = {};
+    var dispatch = {}, order = {};
 
     function buildRequestConfig(method, endpoint, body) {
       var config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method };
@@ -19,8 +19,6 @@ angular.module('fencesForBusiness.data_service', [])
      */
     function getOrder(id) {
     	var deferred = $q.defer();
-    	console.log('### getting order with id: ' + id);
-    	
     	if(dispatch && dispatch.orders) {
     		dispatch.orders.forEach(function(entry) {
 	    		if(entry._id == id) {
@@ -118,6 +116,21 @@ angular.module('fencesForBusiness.data_service', [])
       return deferred.promise;
     }
 
+    function setDispatch(dispatch) {
+      dispatch = dispatch;
+      return;
+    }
+
+    function setOrder(order) {
+      order = order;
+      return;
+    }
+
+    function getLoadOrder() {
+      return order;
+    }
+
+
 
     /**
      * Public API
@@ -127,6 +140,9 @@ angular.module('fencesForBusiness.data_service', [])
       postInfo                  : postInfo,
       getOrder									: getOrder,
       changeOrderStatus					: changeOrderStatus,
-      callWrapper								: callWrapper						
+      callWrapper								: callWrapper,
+      setDispatch               : setDispatch,
+      setOrder                  : setOrder,
+      getLoadOrder              : getLoadOrder    
     };
 	}]);

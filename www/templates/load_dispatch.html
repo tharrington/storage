@@ -1,0 +1,54 @@
+<ion-view view-title="Dispatch" ng-controller="LoadDispatchCtrl">
+	<ion-nav-back-button>
+      </ion-nav-back-button>
+  <ion-nav-title>
+    <div class="browse-nav-title"> LOAD - {{ dispatch.dispatchDate | amDateFormat:'dddd, MMMM Do'}}</div>
+  </ion-nav-title>
+
+  <ion-content>
+  	<div class="list" ng-if="!dispatch">
+			<div class="item item-divider">
+		    Summary 
+		  </div>
+		  <div class="item item-body">
+				<p>There are no orders today.</p>
+			</div>
+		</div>
+
+		<div class="list" ng-if="dispatch._id">
+			<div class="item item-divider">
+		    Summary <span ng-if="dispatch.orders">- ({{dispatch.orders.length}} orders)</span>
+		  </div>
+
+			<label class="item item-input item-select" ng-if="dispatch._id">
+		    <div class="input-label">
+		      Warehouse Status: {{dispatch.warehouseStatus}} 
+		    </div>
+		    <select ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.warehouseStatus">
+		    	<option ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.warehouseStatus}}</option>
+		    </select>
+		  </label>
+		</div>
+
+    <div class="list" ng-if="dispatch._id && dispatch.orders.length > 0">
+
+			<div class="item item-divider" ng-if="dispatch.orders.length > 0">
+		    Appointments ({{dispatch.orders.length}})
+		  </div>
+
+		  <a class="item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in dispatch.orders track by $index">
+	      <h2>{{appointment.name}} - {{appointment.deliveryTime}} - {{appointment.status}}
+	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
+			    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+			    </select>
+
+	      </h2>
+	      <p>
+	      	{{ substringField(appointment.serviceType)}} - {{ appointment.phone }} -
+		      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
+		      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
+		    </p>
+	    </a>
+		</div>
+	</ion-content>
+</ion-view>

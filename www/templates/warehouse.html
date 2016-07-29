@@ -1,0 +1,11 @@
+<ion-view view-title="Warehouse" ng-controller="WarehouseCtrl">
+  <ion-content>
+  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getDispatches()"></ion-refresher>
+
+  	<div class="list">
+		  <a class="item" href="#/app/load_dispatch/{{dispatch._id}}" ng-repeat="dispatch in dispatches">
+	      <h2>{{ dispatch.dispatchDate | amDateFormat:'dddd, MMMM Do'}} ({{dispatch.warehouseStatus}} - {{dispatch.orders.length}} orders)</h2>
+	    </a>
+		</div>
+	</ion-content>
+</ion-view>

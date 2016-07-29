@@ -10,4 +10,10 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
   	$ionicHistory.nextViewOptions({ disableBack: true });
 		$state.go('app.login');	
   }
+
+  $scope.viewDispatches = function() {
+  	console.log('#### VIEW DISPATCHES!');
+  	$ionicHistory.nextViewOptions({ disableBack: true });
+    $state.go('app.past');
+  };
 })

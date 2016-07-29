@@ -9,12 +9,17 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.data_service',
   'fencesForBusiness.location_service',
   'fencesForBusiness.auth_service',
+  'fencesForBusiness.past_dispatches_ctrl',
+  'fencesForBusiness.past_dispatch_ctrl',
+  'fencesForBusiness.warehouse_ctrl',
+  'fencesForBusiness.load_dispatch_ctrl',
+  'fencesForBusiness.load_order_ctrl',
   'ngStorage', 
   'ngCordova',
   'angularMoment'
 ])
 
-//.constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
+// .constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
 .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
 //.constant('ApiEndpoint', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
@@ -37,7 +42,6 @@ angular.module('fencesForBusiness', [
       templateUrl: 'templates/menu.html',
       controller: 'AppCtrl'
     })
-
     .state('app.login', {
       url: '/login',
       controller: 'LoginCtrl',
@@ -47,7 +51,31 @@ angular.module('fencesForBusiness', [
         }
       }
     })
-
+    .state('app.warehouse', {
+      url: '/warehouse',
+      controller: 'WarehouseCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/warehouse.html'
+        }
+      }
+    })
+    .state('app.load_dispatch', {
+      url: '/load_dispatch/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/load_dispatch.html'
+        }
+      }
+    })
+    .state('app.load_order', {
+      url: '/load_order/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/load_order.html'
+        }
+      }
+    })
     .state('app.orders', {
       url: '/orders',
       views: {
@@ -56,26 +84,22 @@ angular.module('fencesForBusiness', [
         }
       }
     })
-
-    .state('app.past_dispatches', {
-      url: '/past_dispatches',
+    .state('app.past', {
+      url: '/past',
       views: {
         'menuContent': {
           templateUrl: 'templates/past_dispatches.html'
         }
       }
     })
-
-
     .state('app.past_dispatch', {
-      url: '/past_dispatch',
+      url: '/past_dispatch/:id',
       views: {
         'menuContent': {
           templateUrl: 'templates/past_dispatch.html'
         }
       }
     })
-
 
     .state('app.order', {
       url: '/orders/:id',

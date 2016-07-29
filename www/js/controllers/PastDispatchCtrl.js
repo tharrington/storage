@@ -1,31 +1,31 @@
 angular.module('fencesForBusiness.past_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('PastDispatchCtrl', function($scope, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
-  function organizeOrders() {
-    var date;
-    fencesData.getDispatch(date).then(function(result) {
-      $scope.dispatch = result;
-      $rootScope.dispatch = result;
-      $ionicLoading.hide();
-    }).finally(function() {
-      $log.info('Hit finally');
-      $ionicLoading.hide();
-      $scope.$broadcast('scroll.refreshComplete');
-    });;
-  }
+.controller('PastDispatchCtrl', function($scope, $ionicPopup, fencesData, $ionicLoading, $state, $stateParams) {
+  $scope.dispatch  = {};
 
-  $scope.getOrders = function() {
-    $scope.dispatch = {};
-    $ionicLoading.show({ template: 'Loading dispatch...' });
-    organizeOrders();
+  $scope.substringField = function(value) {
+    if(!value) return 'Not declared';
+    if(value.length < 10) return value;
+    return value.substring(0, 10);
+  }
+  
+  $scope.getDispatch = function() {
+    $ionicLoading.show({ template: 'Loading dispatches...' });
+
+    fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
+      $ionicLoading.hide();
+      $scope.dispatch = result;
+    });
   };
 
   $scope.$on('$ionicView.enter', function(e) {
-    $scope.getOrders();
+    $scope.getDispatch();
   });
 
-  $scope.viewOrder = function(order) {
-    $ionicLoading.hide();
-    $state.go('app.orders', { id : order._id });
-  };
+  // $scope.viewOrder = function(order) {
+  //   $ionicLoading.hide();
+  //   console.log("#### VIEW ORDERS");
+  //   fencesData.setDispatch($scope.dispatch);
+  //   $state.go('app.orders', { id : order._id });
+  // };
 });

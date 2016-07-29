@@ -1,0 +1,31 @@
+<ion-view hide-nav-bar="false" view-title="Load Order" cache-view="false" ng-controller="LoadOrderCtrl">
+  <ion-content class="has-header">
+  	<div class="list">
+			<label class="item item-input item-select">
+		    <div class="input-label">
+		      Order Status
+		    </div>
+		    <select ng-change="sendUpdate()" ng-model="order.warehouseStatus">
+		    	<option ng-repeat="stage in orderUpdates" ng-selected="order.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+		    </select>
+		  </label>
+
+		  <a class="item" href="#">Name - {{order.name}} ({{order.customerId}})</a>
+		  <a class="item" href="#">School - {{ order.account.name }} </a>
+
+	    <div class="item item-divider">Order Details</div>
+	    <a class="item item-text-wrap">Delivery Date - {{ order.deliveryDate | amDateFormat:'dddd, MMMM Do'}}</a>
+	    <a class="item item-text-wrap" href="#">Needs Shipping? - {{order.shipping}}</a>
+
+	    <div class="item item-divider">Invoice Details</div>
+	    <a ng-repeat="item in invoice.items" class="item item-text-wrap">{{ item.product_name }}</a>
+		</div>
+
+		<ion-scroll direction="x" style="height:300px; min-height: 300px; overflow: scroll;">
+			<span ng-repeat="image in images">
+				<img ng-src="{{image}}" style="height:200px;" />	
+			</span>
+    </ion-scroll>	
+  </ion-content>
+
+</ion-view>

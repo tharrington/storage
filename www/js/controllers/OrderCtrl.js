@@ -1,7 +1,6 @@
 angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
 .controller('OrderCtrl', function($scope, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
-  $scope.orderUpdates = $localStorage.orderUpdates;
   $scope.order_status;
 
 	$scope.openInGoogleMaps = function() {
@@ -28,6 +27,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   	{ status : 'Flagged' }
   ];
 
+  console.log('### LOADED ORDER: ' + $stateParams.id);
   /**
    * Get the order
    */
@@ -35,6 +35,14 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 		$scope.order = result;
     $scope.order_status = result.status;
 	});
+
+  $scope.$on('$ionicView.enter', function(e) {
+    fencesData.getOrder($stateParams.id).then(function(result) {
+      $scope.order = result;
+      $scope.order_status = result.status;
+    });
+  });
+
 
   /**
    * Sends a status update, depending on current status.

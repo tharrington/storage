@@ -67,7 +67,6 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();
 
-  		console.log('### DISPATCH: ' + JSON.stringify(result));
   		if($scope.dispatch && $scope.dispatch.orders) {
   			$scope.dispatch.orders.forEach(function(entry) {
 	  			if(entry.status == 'Complete') {
