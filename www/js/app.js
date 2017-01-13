@@ -11,6 +11,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.location_service',
   'fencesForBusiness.auth_service',
   'fencesForBusiness.invoice_service',
+  'fencesForBusiness.order_invoice_service',
   'fencesForBusiness.past_dispatches_ctrl',
   'fencesForBusiness.past_dispatch_ctrl',
   'fencesForBusiness.warehouse_ctrl',
