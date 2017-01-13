@@ -5,7 +5,11 @@ angular.module('fencesForBusiness.past_dispatches_ctrl', ['ngIOS9UIWebViewPatch'
   $scope.getDispatches = function() {
     $ionicLoading.show({ template: 'Loading dispatches...' });
 
-    fencesData.callWrapper('/dispatches/drivers/getAllDriverDispatches', 'GET', null).then(function(result) {
+    var myMoment = moment();
+    myMoment.hours(0).minutes(0).seconds(0);
+    var myDate = new Date(myMoment);
+
+    fencesData.callWrapper('/dispatches/drivers/getAllDriverDispatches/' + myDate, 'GET', null).then(function(result) {
       $ionicLoading.hide();
       $scope.dispatches = result;
     })

@@ -27,7 +27,7 @@ angular.module('fencesForBusiness.location_service', [])
       bgGeo = window.BackgroundGeolocation;      
       if(bgGeo) {
         var locationConfig = {
-          desiredAccuracy: 10,
+          desiredAccuracy: 100,
           stationaryRadius: 50,
           distanceFilter: 50,
           disableElasticity: false, 

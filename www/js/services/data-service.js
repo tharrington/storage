@@ -1,12 +1,19 @@
 'use strict';
 
 angular.module('fencesForBusiness.data_service', [])
-	.factory('fencesData', ['$http', '$ionicLoading', '$q', 'ApiEndpoint', '$localStorage', '$rootScope', '$timeout', '$cordovaPush', '$state', '$ionicHistory',
-    function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, $ionicHistory) { 
+	.factory('fencesData', ['$http', '$ionicLoading', '$q', 'ApiEndpoint', '$localStorage', '$rootScope', '$timeout', '$cordovaPush', '$state', '$ionicHistory', 'ApiEndpointStaging',
+    function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, $ionicHistory, ApiEndpointStaging) { 
     var dispatch = {}, order = {};
 
     function buildRequestConfig(method, endpoint, body) {
-      var config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method };
+      var config;
+
+      if(!$localStorage.isStaging) {
+        config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method };
+      } else {
+        config = { url: ApiEndpointStaging.url + endpoint, timeout: 6000, method: method };
+      }
+
       if(method === 'POST' || method === 'PUT' || method === 'PATCH') {
         config.data = body;
       }
@@ -78,23 +85,18 @@ angular.module('fencesForBusiness.data_service', [])
       var deferred = $q.defer();
       var config = buildRequestConfig(method, endpoint, post);
       
-      if(navigator.connection.type != Connection.NONE) {
-        $http(config).success(function(data, status, header, config) {
-          $rootScope.notConnected = false;
-          $rootScope.errorCount = 0;
-          deferred.resolve(data);
-        }).error(function(data, status, header, config) {
-          if(!$rootScope.errorCount) $rootScope.errorCount = 0;
-          $rootScope.errorCount = $rootScope.errorCount + 1;
-          if($rootScope.errorCount == 5) {
-            $rootScope.notConnected = true;
-          } 
-          deferred.resolve();
-        });
-      } else {
-        $rootScope.notConnected = true;
+      $http(config).success(function(data, status, header, config) {
+        $rootScope.notConnected = false;
+        $rootScope.errorCount = 0;
+        deferred.resolve(data);
+      }).error(function(data, status, header, config) {
+        if(!$rootScope.errorCount) $rootScope.errorCount = 0;
+        $rootScope.errorCount = $rootScope.errorCount + 1;
+        if($rootScope.errorCount == 5) {
+          $rootScope.notConnected = true;
+        } 
         deferred.resolve();
-      }
+      });
       return deferred.promise;
     };
 

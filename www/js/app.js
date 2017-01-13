@@ -7,34 +7,43 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.login_ctrl', 
   'fencesForBusiness.order_ctrl', 
   'fencesForBusiness.data_service',
+  'fencesForBusiness.image_service',
   'fencesForBusiness.location_service',
   'fencesForBusiness.auth_service',
+  'fencesForBusiness.invoice_service',
   'fencesForBusiness.past_dispatches_ctrl',
   'fencesForBusiness.past_dispatch_ctrl',
   'fencesForBusiness.warehouse_ctrl',
   'fencesForBusiness.load_dispatch_ctrl',
   'fencesForBusiness.load_order_ctrl',
+  'fencesForBusiness.invoice_ctrl',
+  'fencesForBusiness.lookup_ctrl',
+  'fencesForBusiness.finalize_invoice_ctrl',
   'ngStorage', 
   'ngCordova',
   'angularMoment'
 ])
 
-// .constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
-.constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-//.constant('ApiEndpoint', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+.constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
+.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '1.1.0 production';
+	$rootScope.version = '3.0.7';
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();
+    if(hockeyapp) {
+      hockeyapp.start(null, null, "ff5782db811a44a79fb5eb47a37cec95");
+      hockeyapp.checkForUpdate(function() {}, function(err) {});
+    }    
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
-  
+
   $stateProvider
     .state('app', {
       url: '/app',
@@ -60,11 +69,45 @@ angular.module('fencesForBusiness', [
         }
       }
     })
+    .state('app.order_summary', {
+      url: '/order_summary/:id',
+      controller: 'OrderSummaryCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/order_summary.html'
+        }
+      }
+    })
+    .state('app.lookup', {
+      url: '/lookup',
+      controller: 'LookupCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/lookup.html'
+        }
+      }
+    })
     .state('app.load_dispatch', {
       url: '/load_dispatch/:id',
       views: {
         'menuContent': {
           templateUrl: 'templates/load_dispatch.html'
+        }
+      }
+    })
+    .state('app.invoice', {
+      url: '/invoice/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/invoice.html'
+        }
+      }
+    })
+    .state('app.finalize_invoice', {
+      url: '/finalize_invoice/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/finalize_invoice.html'
         }
       }
     })
@@ -109,7 +152,7 @@ angular.module('fencesForBusiness', [
         }
       }
     });
-    $urlRouterProvider.otherwise('/app/orders');
+    $urlRouterProvider.otherwise('/app/lookup');
 })
 
 
@@ -121,7 +164,7 @@ angular.module('fencesForBusiness', [
 
       if ($localStorage.token) {
         config.headers['x-access-token'] = $localStorage.token;
-      }
+      } 
       return config;
     },
 

@@ -2,7 +2,14 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
 
 .controller('AppCtrl', function($scope, $localStorage, fencesData, $ionicHistory, $state) {
   
+  $scope.isSandbox = false;
+
   $scope.$on('$ionicView.enter', function(e) {
+    if($localStorage.isStaging) {
+      $scope.isSandbox = true;
+    } else {
+      $scope.isSandbox = false;
+    }
   });
 
   $scope.logout = function() {

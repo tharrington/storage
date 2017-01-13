@@ -1,22 +1,30 @@
 angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('LoadDispatchCtrl', function($scope, $ionicPopup, fencesData, $ionicLoading, $state, $stateParams) {
+.controller('LoadDispatchCtrl', function($scope, $ionicPopup, $localStorage, fencesData, $ionicLoading, $state, $stateParams) {
   $scope.dispatch  = {};
 
   $scope.dispatchUpdates = [
-    { warehouseStatus : 'Unloaded' },
+    { warehouseStatus : 'Not Loaded' },
     { warehouseStatus : 'In Progress' },
     { warehouseStatus : 'Loaded' }
   ];
 
+  $scope.user = $localStorage.user;
+  
   $scope.orderUpdates = [
-    { warehouseStatus : 'Unloaded' },
+    { warehouseStatus : 'Not Loaded' },
     { warehouseStatus : 'Pulled' },
+    { warehouseStatus : 'Pulled - Incomplete'},
     { warehouseStatus : 'Loaded' },
     { warehouseStatus : 'Loaded - Incomplete' },
+    { warehouseStatus : 'Loaded - Last Order on Truck' },
     { warehouseStatus : 'Missing' }
   ];
 
+  $scope.displayDate = function(dispatch) {
+    return moment(dispatch.dispatchDate).add(1, 'days').format('dddd, MMMM Do');
+  };
+  
   $scope.setDispatchStatus = function() {
     fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
       var alertPopup = $ionicPopup.alert({
@@ -47,6 +55,17 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
       $ionicLoading.hide();
       $scope.dispatch = result;
+
+      var orders = [];
+      result.orders.forEach(function(entry) {
+        var dispatchDate = moment.utc($scope.dispatch.dispatchDate);
+        var delDate = moment.utc(entry.deliveryDate);
+        if(dispatchDate.isSame(delDate, 'day') && entry.type == 'Delivery') {
+        // if(dispatchDate.isSame(delDate, 'day')) {
+          orders.push(entry);
+        }
+      });
+      $scope.dispatch.orders = orders;
     });
   };
 

@@ -18,19 +18,40 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
+        <div class="item item-divider" style="height:30px;">
+          Driver
+        </div>
         <ion-item menu-close href="#/app/orders">
-          Today's Dispatches
+          <i class="icon ion-map"></i> Today's Schedule
         </ion-item>
+
+
+        <ion-item menu-close href="#/app/lookup">
+          <i class="icon ion-home"></i> Customer Lookup
+        </ion-item>
+
+        <div class="item item-divider" style="height:30px;">
+          Warehouse
+        </div>
 
         <ion-item menu-close href="#/app/warehouse">
-          Warehouse
+          <i class="icon ion-home"></i> Switch To Warehouse
         </ion-item>
 
-        <ion-item menu-close href="#" ng-click="viewDispatches();">
-          Future Dispatches
+        <div class="item item-divider" ng-if="isSandbox" style="height:30px;">
+          Training
+        </div>
+
+        <ion-item menu-close ng-if="isSandbox" href="#/app/invoice/a064C000000IGlPQAW">
+          Invoice Tester
         </ion-item>
 
+        <div class="item item-divider" style="height:30px;">
+          Account
+        </div>
         <ion-item menu-close href="#" ng-click="logout();">
+        
+          <i class="icon ion-reply"></i>
           Logout
         </ion-item>
       </ion-list>

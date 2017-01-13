@@ -1,7 +1,8 @@
 angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('OrderCtrl', function($scope, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+.controller('OrderCtrl', function($scope, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
+  $scope.user = $localStorage.user;
 
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
@@ -13,26 +14,37 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 	};
 
 	$scope.openInSalesforce1 = function() {
-		console.log('### OPENING IN SALESFORCE1');
 		var scheme = "com.salesforce.salesforce1://";
 		window.open(scheme, '_system', 'location=no');
 	};
 
 	$scope.orderUpdates = [
-		{ status : 'Appointment Scheduled' },
-  	{ status : 'En Route' },
-  	{ status : 'Arrived' },
   	{ status : 'Rescheduled' },
-  	{ status : 'Complete' },
-  	{ status : 'Flagged' }
+    { status : 'No Answer' },
+    { status : 'Canceled' }
   ];
 
-  console.log('### LOADED ORDER: ' + $stateParams.id);
+  $scope.deliveryUpdates = [
+    { status : 'Rescheduled' },
+    { status : 'No Answer' },
+    { status : 'Complete' }
+  ];
+
+  $scope.formatNumber = function(s) {
+    var s2 = (""+s).replace(/\D/g, '');
+    var m = s2.match(/^(\d{3})(\d{3})(\d{4})$/);
+    return (!m) ? null : "(" + m[1] + ") " + m[2] + "-" + m[3];
+  }
+
+
   /**
    * Get the order
    */
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
+    if($scope.order.type == 'Delivery') {
+      $scope.orderUpdates({ status: 'Complete- Left Unattended' });
+    }
     $scope.order_status = result.status;
 	});
 
@@ -45,35 +57,35 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
 
   /**
+   * Complete the invoice
+   */
+
+  $scope.completeInvoice = function() {
+    $state.go('app.invoice', { id : $scope.order.ssOrderId });
+  }
+
+  /**
    * Sends a status update, depending on current status.
    */ 
   $scope.sendUpdate = function() {
-    if(($scope.order.status == 'Flagged' || $scope.order.status == 'Rescheduled') && 
+    if(($scope.order.status == 'No Answer' || $scope.order.status == 'Rescheduled' || $scope.order.status == 'Canceled') && 
       (!$scope.order.notes || $scope.order.notes.trim().length == 0)) {
       var alertPopup = $ionicPopup.alert({
         title: 'NOT SAVED',
-        template: 'You must enter notes for flagged or rescheduled orders.'
+        template: 'You must enter notes for rescheduled orders.'
       });
-      $scope.order.status = $scope.order_status;
-
-      alertPopup.then(function(res) {
-      });
+      alertPopup.then(function(res) { });
     } else {
       if($scope.order && $scope.order._id) {
-        console.log('### send update: ' + JSON.stringify($scope.order));
+
+        if($scope.order.status == 'No Answer') {
+          $scope.order.status = 'Rescheduled';
+          $scope.order.notes = 'No Answer - ' + $scope.order.notes;
+        }
+
         fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
           $scope.order_status = result.status;
-          if($scope.order.status == 'Complete') {
-            $state.go('app.orders');
-          } else {
-            var alertPopup = $ionicPopup.alert({
-              title: 'Order Saved.',
-              template: 'Status and notes updated.'
-            });
-
-            alertPopup.then(function(res) {
-            });
-          }
+          $ionicLoading.show({template : 'Order Saved', duration: 500});
         });
 
         // update the dispatch status if it hasn't been started.

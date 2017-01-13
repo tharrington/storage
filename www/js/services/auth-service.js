@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('fencesForBusiness.auth_service', [])
-	.factory('Auth', ['$http', '$q', '$localStorage', '$ionicHistory', '$state', 'ApiEndpoint',
-  function($http, $q, $localStorage, $ionicHistory, $state, ApiEndpoint) { 
+	.factory('Auth', ['$http', '$q', '$localStorage', '$ionicHistory', '$state', 'ApiEndpoint', 'ApiEndpointStaging',
+  function($http, $q, $localStorage, $ionicHistory, $state, ApiEndpoint, ApiEndpointStaging) { 
     var currentUser = {};
     if($localStorage.token) {
       currentUser = $localStorage.user;
@@ -21,7 +21,12 @@ angular.module('fencesForBusiness.auth_service', [])
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
-        var endpoint = ApiEndpoint.baseURL + '/auth/local';
+        var endpoint;
+        if($localStorage.isStaging) {
+          endpoint = ApiEndpointStaging.baseURL + '/auth/local';
+        } else {
+          endpoint = ApiEndpoint.baseURL + '/auth/local';
+        }
 
         $http.post(endpoint, {
           email: user.email,

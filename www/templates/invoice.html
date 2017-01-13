@@ -1,0 +1,40 @@
+<ion-view hide-nav-bar="false" view-title="Invoice {{invoice.name}}" ng-controller="InvoiceCtrl">
+
+  <ion-nav-title>
+    <div class="browse-nav-title">Invoice</div>
+  </ion-nav-title>
+  
+  <ion-content class="has-header">
+	  	
+	  <div class="list">
+	  	<div class="item item-divider">
+		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
+		  </div>
+			<a class="item item-icon-right" href="#">
+		    Shipping
+		    
+		    <i class="icon ion-arrow-up-c" ng-click="incrementShipping(1);" style="right: 45px;">{{shipping_count}}</i>
+		    <i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1);"></i>
+		  </a>
+
+		  <button ng-click="takeShippingPhoto()" class="button button-full button-energized" ng-if="shipping_count > 0">
+			  Take Photo of Shipment Items
+			</button>
+
+		  <div class="item item-divider">
+		    Storage Items - ({{total_count}})
+		  </div>
+			<a class="item item-icon-right" ng-repeat="product in products track by $index" href="#">
+		    {{product.name}}
+		    
+		    <i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
+		    
+		    <i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);"></i>
+		  </a>
+		</div>		
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced" ng-click="takeImages();">
+	  <div class="title">Save Invoice & Take Storage Images <i class="icon ion-camera"></i></div>
+	</div>
+</ion-view>

@@ -3,11 +3,18 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('TodayCtrl', function($scope, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
   $scope.completedOrders = [];
   $scope.rescheduledOrders = [];
+  $scope.canceledOrders = [];
   $scope.flaggedOrders = [];
   $scope.onScheduleText = 'On Time';
   $scope.dispatchUpdates = [];
+  $scope.total_orders = 0;
+  $scope.user = $localStorage.user;
 
   $scope.setDispatchStatus = function() {
+    console.log('### dispatch status: ' + $scope.dispatch.status);
+    if($scope.dispatch.status == 'Start') {
+      $scope.dispatch.status = 'On Time';
+    }
   	fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
 	  });
 	  checkStatus();
@@ -15,10 +22,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.setOrderStatus = function(appointment) {
   	fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
-			var alertPopup = $ionicPopup.alert({
-		    title: 'Order Saved.',
-		    template: 'Order Updated'
-		  });
+			$ionicLoading.show({template : 'Order Saved', duration: 500});
 		});
   }
 
@@ -33,13 +37,19 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 		{ status : 'Appointment Scheduled' },
   	{ status : 'En Route' },
   	{ status : 'Arrived' },
-  	//{ status : 'Rescheduled' },
-  	{ status : 'Complete' },
-  	//{ status : 'Flagged' }
+    { status : 'Servicing' }
+  ];
+
+  $scope.deliveryUpdates = [
+    { status : 'Appointment Scheduled' },
+    { status : 'En Route' },
+    { status : 'Arrived' },
+    { status : 'Servicing' },
+    { status : 'Complete' }
   ];
 
   function checkStatus() {
-  	if($scope.dispatch.status == 'New') {
+  	if($scope.dispatch && $scope.dispatch.status == 'New') {
   		$scope.dispatchUpdates = [
   				{ status : 'New' },
 			  	{ status : 'Start' }
@@ -68,16 +78,25 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		$ionicLoading.hide();
 
   		if($scope.dispatch && $scope.dispatch.orders) {
+        $scope.total_orders = 0;
   			$scope.dispatch.orders.forEach(function(entry) {
-	  			if(entry.status == 'Complete') {
-	  				$scope.completedOrders.push(entry);
-	  			} else if(entry.status == 'Rescheduled') {
-	  				$scope.rescheduledOrders.push(entry);
-	  			} else if(entry.status == 'Flagged') {
-	  				$scope.flaggedOrders.push(entry);
-	  			}else {
-	  				$scope.orders.push(entry);
-	  			}
+          var today = moment();
+          
+          var delDate = moment(entry.deliveryDate);
+          if(today.isSame(delDate, 'day')) {
+            $scope.total_orders++;
+            if(entry.status == 'Complete') {
+              $scope.completedOrders.push(entry);
+            } else if(entry.status == 'Rescheduled') {
+              $scope.rescheduledOrders.push(entry);
+            } else if(entry.status == 'Canceled') {
+              $scope.canceledOrders.push(entry);
+            } else if(entry.status == 'Flagged') {
+              $scope.flaggedOrders.push(entry);
+            } else {
+              $scope.orders.push(entry);
+            }
+          }
 	  		});
   		}
   		checkStatus();
@@ -100,6 +119,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   };
 
   $scope.$on('$ionicView.enter', function(e) {
+    $scope.user = $localStorage.user;
   	$scope.getOrders();
   });
 

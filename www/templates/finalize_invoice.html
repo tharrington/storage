@@ -1,0 +1,37 @@
+<ion-view hide-nav-bar="false" view-title="Finalize {{invoice.name}}" cache-view="false" ng-controller="FinalizeInvoiceCtrl">
+	<style>
+		.invoicePic {
+		  height: 200px;
+		  width: auto;
+		  margin: 2px;
+		}
+	</style>	
+  <ion-nav-title>
+    <div class="browse-nav-title">Finalize Invoice</div>
+  </ion-nav-title>
+
+  <ion-content class="has-header has-footer has-subfooter">
+	  <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+		  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+		</ion-scroll>
+
+  	<div class="list">
+		  <div class="item item-divider">
+		    Storage Invoice Items ({{total_item_count}})
+		  </div>
+	  	<a class="item" href="#" ng-repeat="item in invoice.items">
+	    	{{item.product_name}}
+	    	<span class="item-note">
+	     	{{item.quantity}}
+	    	</span>
+	  	</a>
+		</div>
+  </ion-content>
+
+  <div class="bar bar-subfooter bar-energized" ng-click="uploadImage();">
+	  <div class="title">Take Images</div>
+	</div>
+  <div class="bar bar-footer bar-balanced" ng-click="saveInvoice();">
+	  <div class="title">Save Invoice</div>
+	</div>
+</ion-view>

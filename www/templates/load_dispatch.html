@@ -2,10 +2,13 @@
 	<ion-nav-back-button>
       </ion-nav-back-button>
   <ion-nav-title>
-    <div class="browse-nav-title"> LOAD - {{ dispatch.dispatchDate | amDateFormat:'dddd, MMMM Do'}}</div>
+    <div class="browse-nav-title"> {{ displayDate(dispatch) }}</div>
   </ion-nav-title>
 
   <ion-content>
+  	<div class="item item-divider" style="background-color: #f00; color: #fff; text-align: 'center'; height: 40px;">
+	    Warehouse Role as {{user.nickname}}
+	  </div>
   	<div class="list" ng-if="!dispatch">
 			<div class="item item-divider">
 		    Summary 
@@ -36,17 +39,14 @@
 		    Appointments ({{dispatch.orders.length}})
 		  </div>
 
-		  <a class="item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in dispatch.orders track by $index">
-	      <h2>{{appointment.name}} - {{appointment.deliveryTime}} - {{appointment.status}}
+		  <a class="item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in dispatch.orders | orderBy:'-'">
+	      <h2>{{appointment.name}} - {{appointment.deliveryTime}}
 	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
 			    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
 			    </select>
-
 	      </h2>
 	      <p>
-	      	{{ substringField(appointment.serviceType)}} - {{ appointment.phone }} -
-		      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
-		      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
+	      	{{ appointment.warehouseLocation }} 
 		    </p>
 	    </a>
 		</div>
