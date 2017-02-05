@@ -12,6 +12,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.auth_service',
   'fencesForBusiness.invoice_service',
   'fencesForBusiness.order_invoice_service',
+  'fencesForBusiness.order_summary_ctrl',
   'fencesForBusiness.past_dispatches_ctrl',
   'fencesForBusiness.past_dispatch_ctrl',
   'fencesForBusiness.warehouse_ctrl',
@@ -26,12 +27,12 @@ angular.module('fencesForBusiness', [
 ])
 
 .constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
-.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '3.0.7';
+	$rootScope.version = '3.0.9';
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();
@@ -72,7 +73,6 @@ angular.module('fencesForBusiness', [
     })
     .state('app.order_summary', {
       url: '/order_summary/:id',
-      controller: 'OrderSummaryCtrl',
       views: {
         'menuContent': {
           templateUrl: 'templates/order_summary.html'
@@ -153,7 +153,7 @@ angular.module('fencesForBusiness', [
         }
       }
     });
-    $urlRouterProvider.otherwise('/app/lookup');
+    $urlRouterProvider.otherwise('/app/orders');
 })
 
 

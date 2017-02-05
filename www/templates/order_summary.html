@@ -1,7 +1,93 @@
-<ion-view hide-nav-bar="false" view-title="Order Summary" cache-view="false" ng-controller="">
-	
+<ion-view hide-nav-bar="false" view-title="Summary" cache-view="false" ng-controller="OrderSummaryCtrl">
+	<style>
+		.invoicePic {
+		  height: 200px;
+		  width: auto;
+		  margin: 2px;
+		}
+	</style>
+
   <ion-content class="has-header">
-  	<h1> Order Summary COMING SOON!</h1>
+  	<div class="list">
+  		<div class="item item-divider">
+		    {{pickup.name}} - {{pickup.customerId}} - {{pickup.warehouseLocation}}
+		  </div>
+		  <div class="item item-text-wrap">
+		    {{pickup.school}} - {{pickup.pickupSeason}}
+		  </div>
+
+		  <div class="item item-divider">
+		    Warehouse Details
+		  </div>
+
+
+		  <label class="item item-input">
+		    <span class="input-label">WH Location </span>
+		    <input type="text" placeholder="WH Location" ng-model="pickup.warehouseLocation">
+		  </label>
+
+		  <label class="item item-input">
+		    <span class="input-label">WH Notes </span>
+		    <input type="text" placeholder="WH Notes" ng-model="pickup.warehouse_notes">
+		  </label>
+
+		  <button class="button button-full button-royal" ng-click="saveNotes();">
+			  Save Warehouse Info
+			</button>
+
+		  <div class="item item-divider">
+		    Storage Invoice Details ({{total_invoice_items}} items)
+		  </div>
+			<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+			</ion-scroll>
+
+		  <a class="item" href="#" ng-repeat="item in invoice.items">
+		    {{item.quantity}} - {{item.product_name}}
+		  </a>
+
+		  <button class="button button-full button-royal" ng-if="invoice && invoice.status == 'Ready for Review'" ng-click="editInvoice();">
+			  Edit Storage Invoice
+			</button>
+
+			<div ng-if="shipping_invoice && shipping_invoice._id">
+				<div class="item item-divider">
+				  Shipping Invoice Details ({{total_shipping_items}} items)
+			  </div>
+				<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="shipping_invoice && shipping_invoice._id">
+				  <img ng-repeat="imageURL in pickup.shippingImageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+				</ion-scroll>
+
+			  <a class="item" href="#" ng-repeat="item in shipping_invoice.items">
+			    {{item.quantity}} - {{item.product_name}}
+			  </a>
+			</div>
+
+
+		  <div class="item item-divider">
+		    Other Info
+		  </div>
+
+		  <a class="item" href="#">
+		    Phone - {{pickup.phone}}
+		  </a>
+
+		  <a class="item" href="#">
+		    Pickup Date - {{formatDate(pickup.deliveryDate)}}
+		  </a>
+		  <a class="item" href="#">
+		    Pickup Status - {{pickup.status}}
+		  </a>
+
+		  <a class="item" href="#">
+		    Delivery Date - {{formatDate(delivery.deliveryDate)}}
+		  </a>
+		  <a class="item" href="#">
+		    Delivery Status - {{delivery.status}}
+		  </a>
+		</div>
+
   </ion-content>
 
+	
 </ion-view>

@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="false" view-title="Lookup Customer" cache-view="false" ng-controller="LookupCtrl">
+<ion-view hide-nav-bar="false" view-title="Lookup Customer" ng-controller="LookupCtrl">
 	<style>
 		input[type="search"] {
 			background-color: transparent !important; 
@@ -6,7 +6,6 @@
 			width: 100% !important;
 
 		}
-
 
 		input::-webkit-input-placeholder {
 		  color: white ;
@@ -18,14 +17,35 @@
 		  color: white ;
 		}
 	</style>
-	
-  <ion-content class="has-header">
-  	<div class="bar bar-calm">
-	  	<label class="item-input-wrapper textbox-search" style="background-color: transparent !important; color: #fff !important;">
-	      <i class="icon ion-ios7-search placeholder-icon"></i>
-	      <input type="search" placeholder="Search..." id="searchBar" ng-change="inputChanged(vm.query)" ng-model="vm.query" ng-model-options="{debounce: 1000}" />
-	    </label>
-    </div>
+
+	<div class="bar bar-subheader bar-calm">
+  	<label class="item-input-wrapper textbox-search" style="background-color: transparent !important; color: #fff !important;">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" placeholder="Search..." id="searchBar" ng-change="inputChanged(vm.query)" ng-model="vm.query" ng-model-options="{debounce: 1000}" />
+    </label>
+  </div>
+
+  <ion-content class="has-header has-subheader">
+  	<div class="card" ng-if="results.length == 0">
+		  <div class="item item-text-wrap">
+		    No Results.
+		  </div>
+		</div>
+
+		<div class="card" ng-if="results.length > 0">
+		  <div class="item item-text-wrap">
+		    {{results.length}} Results.
+		  </div>
+		</div>
+
+  	<div class="card" ng-repeat="item in results" ng-click="navigateToOrder(item);">
+		  <div class="item item-divider">
+		    {{item.name}} - {{item.customerId}} - {{item.warehouseLocation}}
+		  </div>
+		  <div class="item item-text-wrap">
+		    {{item.school}} - {{item.pickupSeason}}
+		  </div>
+		</div>
   </ion-content>
 
 </ion-view>

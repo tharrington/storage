@@ -1,6 +1,6 @@
 {
   "name": "Storage Squad",
-  "version": "3.0.7",
+  "version": "3.0.9",
   "description": "Storage Squad",
   "dependencies": {
     "gulp": "^3.5.6",

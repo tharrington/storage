@@ -11,11 +11,15 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/invoices/search/' + val, 'GET', null)
 	    .then(function(results) {
 	      $ionicLoading.hide();
-	      console.log('### got results: ' + JSON.stringify(results));
 	      $scope.results = results;
 	    }, function(err) {
 	    	console.log('### err: ' + err);
 	    	$ionicLoading.show({ template: 'There was an error', duration: 1000 });
 	    });
 	}
+
+	$scope.navigateToOrder = function(order) {
+		console.log('### order: ' + JSON.stringify(order.ssOrderId));
+		$state.go('app.order_summary', { id : order.ssOrderId });
+	};
 });
