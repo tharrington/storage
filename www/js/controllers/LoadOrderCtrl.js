@@ -22,7 +22,6 @@ angular.module('fencesForBusiness.load_order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.images = [];
 
   fencesData.callWrapper('/orders/getOrder/getInvoice/' + $stateParams.id, 'GET', null).then(function(result) {
-    console.log('### result: ' + JSON.stringify(result));
     $scope.order = result.order;
     $scope.invoiceURL = $sce.trustAsResourceUrl("http://storage-squad-image.na34.force.com/ssimages?id=" + result.order.ssOrderId);
     $scope.invoice = result.invoice;

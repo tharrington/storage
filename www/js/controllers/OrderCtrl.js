@@ -1,5 +1,8 @@
 angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
+/**
+ * OrderCtrl - view the order details and update the status.
+ */
 .controller('OrderCtrl', function($scope, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
   $scope.user = $localStorage.user;
@@ -65,7 +68,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   /**
-   * Sends a status update, depending on current status.
+   * Sends a status update, depending on current status of the order
    */ 
   $scope.sendUpdate = function() {
     if(($scope.order.status == 'No Answer' || $scope.order.status == 'Rescheduled' || $scope.order.status == 'Canceled') && 

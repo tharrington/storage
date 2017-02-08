@@ -1,5 +1,9 @@
 angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
 
+
+/**
+ * This is the main app controller.
+ */
 .controller('AppCtrl', function($scope, $localStorage, fencesData, $ionicHistory, $state) {
   
   $scope.isSandbox = false;
@@ -19,7 +23,6 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.viewDispatches = function() {
-  	console.log('#### VIEW DISPATCHES!');
   	$ionicHistory.nextViewOptions({ disableBack: true });
     $state.go('app.past');
   };

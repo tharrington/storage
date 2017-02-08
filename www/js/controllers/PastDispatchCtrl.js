@@ -1,5 +1,8 @@
 angular.module('fencesForBusiness.past_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
+/**
+ * Past Dispatch controller - view allows users to see a dispatch in the past. no editing allowed.
+ */
 .controller('PastDispatchCtrl', function($scope, $ionicPopup, fencesData, $ionicLoading, $state, $stateParams) {
   $scope.dispatch  = {};
 
@@ -21,11 +24,4 @@ angular.module('fencesForBusiness.past_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.$on('$ionicView.enter', function(e) {
     $scope.getDispatch();
   });
-
-  // $scope.viewOrder = function(order) {
-  //   $ionicLoading.hide();
-  //   console.log("#### VIEW ORDERS");
-  //   fencesData.setDispatch($scope.dispatch);
-  //   $state.go('app.orders', { id : order._id });
-  // };
 });

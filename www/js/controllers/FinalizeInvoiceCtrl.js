@@ -1,5 +1,9 @@
 angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
+
+/**
+ * Finalize Invoices - 
+ */
 .controller('FinalizeInvoiceCtrl', function($scope, $state, $ionicPopup, $ionicLoading, fencesData, ImageService, $ionicHistory, InvoiceService, $cordovaCamera) {
   $scope.invoice = InvoiceService.getInvoice();
   $scope.total_item_count = 0;
@@ -19,6 +23,9 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       saveToPhotoAlbum: false
     };
 
+
+    // Take photos and upload the image urls to Cloudinary. 
+    // The image urls are then saved on the invoice record.
     $cordovaCamera.getPicture(options).then(function(imageData) {
     		ImageService.uploadImage(imageData).then(function(response) {
           $scope.invoice.imageURLs.push(response.url);
