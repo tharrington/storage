@@ -13,7 +13,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     
     invoice.items.forEach(function(item) {
       products.forEach(function(product) {
-        if(product.name == item.product_name) {
+        if(product.name == item.product_name && item.type != 'Service Fees') {
           product.invoice_count = item.quantity;
           $scope.total_count += item.quantity;
         }
@@ -82,7 +82,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    * Do validation and move on to the shipping page
    */
   $scope.takeImages = function() {
-    console.log('### shipping photos: ' + $scope.order.shippingImageURLs); 
+
     if($scope.shipping_count > 0 && ($scope.order.shippingImageURLs == null || $scope.order.shippingImageURLs == '')) {
       var alertPopup = $ionicPopup.alert({
          title: 'Please add shipping photos.',

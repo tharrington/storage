@@ -11,7 +11,7 @@
 	}
 </style>
 
-	<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }">
+	<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }" ng-if="dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'">
 	  <label ng-if="dispatch && dispatch._id" class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" ng-if="dispatch._id && dispatch.orders.length > 0">
 	    <div class="input-label" style="color: #fff;">
 	      <strong>Truck Status</strong>
@@ -22,7 +22,7 @@
 	  </label>
 	</div>
 
-  <ion-content class="has-header has-subheader">
+  <ion-content class="has-header" ng-class="{ 'has-subheader' : (dispatch && dispatch.status != 'New' && dispatch.status != 'Complete') }">
   	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
 
 
@@ -35,6 +35,12 @@
 			</div>
 		</div>			
 
+
+
+		<button class="button button-full button-balanced" ng-click="startDispatch()" ng-if="dispatch._id && dispatch.status == 'New'" ng-if="dispatch._id && dispatch.status != 'New'">
+		  Start Route
+		</button>
+
 		<!-- BEGEIN ORDERS SUMMARY -->
     <div class="list" ng-if="dispatch._id && dispatch.status != 'New'">
     	<div class="item item-body" ng-if="dispatch._id && orders.length == 0">
@@ -44,10 +50,6 @@
 			<div class="item item-divider" ng-if="orders.length > 0">
 		    Appointments ({{orders.length}} orders)
 		  </div>
-
-		  <!-- <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
-		    {{appointment.name}} ({{appointment.status}} - {{appointment.deliveryTime}})
-		  </ion-item> -->
 
 		  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
 	      <h2>

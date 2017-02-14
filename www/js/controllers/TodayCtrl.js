@@ -11,13 +11,17 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.user = $localStorage.user;
 
   $scope.setDispatchStatus = function() {
-    console.log('### dispatch status: ' + $scope.dispatch.status);
     if($scope.dispatch.status == 'Start') {
       $scope.dispatch.status = 'On Time';
     }
   	fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
 	  });
 	  checkStatus();
+  }
+
+  $scope.startDispatch = function() {
+    $scope.dispatch.status = 'Start';
+    $scope.setDispatchStatus();
   }
 
   $scope.setOrderStatus = function(appointment) {
@@ -76,6 +80,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();
+      console.log('### result: ' + JSON.stringify(result));
 
   		if($scope.dispatch && $scope.dispatch.orders) {
         $scope.total_orders = 0;

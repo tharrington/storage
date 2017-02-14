@@ -9,7 +9,9 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   $scope.total_item_count = 0;
 
   $scope.invoice.items.forEach(function(entry) {
-    $scope.total_item_count += entry.quantity;
+    if(entry.type != 'Service Fees') {
+      $scope.total_item_count += entry.quantity;
+    }
   });
 
   $scope.uploadImage = function() {
@@ -37,6 +39,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   }
 
   $scope.saveInvoice = function() {
+    console.log('### invoice: ' + JSON.stringify())
   	if($scope.invoice.imageURLs.length == 0) {
       var alertPopup = $ionicPopup.alert({
          title: 'Take some photos!',

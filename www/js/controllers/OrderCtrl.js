@@ -79,6 +79,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
       });
       alertPopup.then(function(res) { });
     } else {
+
       if($scope.order && $scope.order._id) {
 
         if($scope.order.status == 'No Answer') {
@@ -89,6 +90,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
         fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
           $scope.order_status = result.status;
           $ionicLoading.show({template : 'Order Saved', duration: 500});
+          $state.go('app.today');
         });
 
         // update the dispatch status if it hasn't been started.

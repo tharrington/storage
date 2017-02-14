@@ -9,14 +9,14 @@
   	<div class="list">
 			<label class="item item-input item-select" ng-if="order.status != 'Complete'">
 		    <div class="input-label">
-		      Missed Appointment?
+		      Missed Appointment? <span ng-if="order.status == 'No Answer' || order.status == 'Rescheduled' || order.status == 'Canceled'">{{order.status}}</span>
 		    </div>
-		    <select ng-model="order.status" style="color: #fff !important;" onchange="changeOrderStatus();">
+		    <select ng-model="order.status" onchange="changeOrderStatus();">
 		    	<option ng-repeat="stage in orderUpdates" ng-selected="order.status == stage.status">{{stage.status}}</option>
 		    </select>
 		  </label>
 
-		  <label class="item item-input" ng-if="order.status == 'No Answer' || order.status == 'Rescheduled' || order.status == 'Canceled'">
+		  <label class="item item-input">
 		  	<textarea placeholder="Order Notes" ng-model="order.notes" style="height:100px;"></textarea>
 		 	</label>
 
@@ -24,7 +24,7 @@
 			  Save Notes
 			</button>
 
-			<button ng-click="completeInvoice()" ng-if="order.type == 'Pickup'" class="button button-full button-calm">
+			<button ng-click="completeInvoice()" ng-if="order.type == 'Pickup' && order.status != 'Canceled' && order.status != 'Rescheduled' && order.status != 'No Answer'" class="button button-full button-calm">
 			  Complete Invoice
 			</button>
 

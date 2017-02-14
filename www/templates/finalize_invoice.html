@@ -11,9 +11,7 @@
   </ion-nav-title>
 
   <ion-content class="has-header has-footer has-subfooter">
-	  <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-		  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
-		</ion-scroll>
+	  
 
   	<div class="list">
 		  <div class="item item-divider">
@@ -26,6 +24,11 @@
 	    	</span>
 	  	</a>
 		</div>
+
+		<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+		  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+		</ion-scroll>
+		
   </ion-content>
 
   <div class="bar bar-subfooter bar-energized" ng-click="uploadImage();">
