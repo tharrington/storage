@@ -22,6 +22,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 	};
 
 	$scope.orderUpdates = [
+    { status : 'Ok'},
   	{ status : 'Rescheduled' },
     { status : 'No Answer' },
     { status : 'Canceled' }

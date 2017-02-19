@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <access origin="sms:*" launch-external="yes"/>
+    <access launch-external="yes" origin="sms:*" />
     <allow-navigation href="*" />
     <allow-navigation href="http://full-storage-squad-image.cs52.force.com/*" />
     <allow-navigation href="http://storage-squad-image.na34.force.com/*" />
@@ -30,7 +30,6 @@
     </feature>
     <platform name="android">
         <allow-navigation href="http://*/*" />
-
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -68,4 +67,5 @@
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="ionic-plugin-keyboard" spec="~2.0.1" />
+    <plugin name="cordova-plugin-camera" spec="~2.3.1" />
 </widget>
