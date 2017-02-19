@@ -39,7 +39,6 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   }
 
   $scope.saveInvoice = function() {
-    console.log('### invoice: ' + JSON.stringify())
   	if($scope.invoice.imageURLs.length == 0) {
       var alertPopup = $ionicPopup.alert({
          title: 'Take some photos!',
