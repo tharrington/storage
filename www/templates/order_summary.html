@@ -38,13 +38,12 @@
 		  <div class="item item-divider">
 		    Storage Invoice Details ({{total_invoice_items}} items)
 		  </div>
-			<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
-			</ion-scroll>
-
 		  <a class="item" href="#" ng-repeat="item in invoice.items">
 		    {{item.quantity}} - {{item.product_name}}
 		  </a>
+		  <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+			</ion-scroll>
 
 		  <button class="button button-full button-royal" ng-if="invoice && invoice.status == 'Ready for Review'" ng-click="editInvoice();">
 			  Edit Storage Invoice
