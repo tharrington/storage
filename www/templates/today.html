@@ -17,7 +17,7 @@
 	      <strong>Truck Status</strong>
 	    </div>
 	    <select style="background-color: transparent !important;" ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.status">
-	    	<option ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.status}}</option>
+	    	<option style='color: black !important;' ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.status}}</option>
 	    </select>
 	  </label>
 	</div>

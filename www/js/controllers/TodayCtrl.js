@@ -85,10 +85,10 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		if($scope.dispatch && $scope.dispatch.orders) {
         $scope.total_orders = 0;
   			$scope.dispatch.orders.forEach(function(entry) {
-          var today = moment();
-          
-          var delDate = moment(entry.deliveryDate);
+          var today = moment.utc();
+          var delDate = moment.utc(entry.deliveryDate);
           if(today.isSame(delDate, 'day')) {
+            console.log("is the same day");
             $scope.total_orders++;
             if(entry.status == 'Complete') {
               $scope.completedOrders.push(entry);
@@ -105,7 +105,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 	  		});
   		}
   		checkStatus();
-  		
+  		console.log($scope.orders);
 	  }).finally(function() {
       $log.info('Hit finally');
       $ionicLoading.hide();
