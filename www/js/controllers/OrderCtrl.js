@@ -46,6 +46,9 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
+    if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
+      $scope.order.notes = '';
+    }
     if($scope.order.type == 'Delivery') {
       $scope.orderUpdates({ status: 'Complete- Left Unattended' });
     }
