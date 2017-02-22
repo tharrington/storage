@@ -90,6 +90,15 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
           $scope.order.status = 'Rescheduled';
           $scope.order.notes = 'No Answer - ' + $scope.order.notes;
         }
+        else if($scope.order.status == 'Rescheduled'){
+          $scope.order.notes = 'Rescheduled - ' + $scope.order.notes;
+        }
+        else if($scope.order.status == 'Canceled'){
+          $scope.order.notes = 'Canceled - ' + $scope.order.notes;
+        }
+        else{
+          $scope.order.notes = '';
+        }
 
         fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
           $scope.order_status = result.status;
