@@ -2,25 +2,25 @@
 	<style>
 		input[type="search"] {
 			background-color: transparent !important; 
-			color: #fff !important;
+			color: black !important;
 			width: 100% !important;
 
 		}
 
 		input::-webkit-input-placeholder {
-		  color: white ;
+		  color: black ;
 		}
 		input:-moz-placeholder {
-		  color: white ;
+		  color: black ;
 		}
 		input:-ms-input-placeholder { /* IE10+ */
-		  color: white ;
+		  color: black ;
 		}
 	</style>
 
 	<div class="bar bar-subheader bar-calm">
-  	<label class="item-input-wrapper textbox-search" style="background-color: transparent !important; color: #fff !important;">
-      <i class="icon ion-ios7-search placeholder-icon"></i>
+  	<label class="item-input-wrapper textbox-search" style="background-color: white !important; border: 1px solid #CDCFD2; border-radius: 15px; width: 30%; height: 95%; min-width: 200px;">
+      <i class="icon ion-search placeholder-icon" style='font-size: 32px;'></i>
       <input type="search" placeholder="Search..." id="searchBar" ng-change="inputChanged(vm.query)" ng-model="vm.query" ng-model-options="{debounce: 1000}" />
     </label>
   </div>
