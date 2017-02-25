@@ -10,7 +10,7 @@
     <content src="index.html" />
     <access origin="*" />
     <access launch-external="yes" origin="sms:*" />
-    <access origin="tel:*" launch-external="yes" />
+    <access launch-external="yes" origin="tel:*" />
     <allow-navigation href="*" />
     <allow-navigation href="http://full-storage-squad-image.cs52.force.com/*" />
     <allow-navigation href="http://storage-squad-image.na34.force.com/*" />
@@ -69,4 +69,6 @@
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
     <plugin name="ionic-plugin-keyboard" spec="~2.0.1" />
     <plugin name="cordova-plugin-camera" spec="~2.3.1" />
+    <plugin name="cordova-plugin-file" spec="~4.3.1" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.6.1" />
 </widget>
