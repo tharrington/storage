@@ -20,7 +20,7 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-minSdkVersion" value="24" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="cordova-background-geolocation-license" value="a0a414ac6025d3446e909b36eac5797ddea3c113f64c2d88782034a46ce448da" />
