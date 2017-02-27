@@ -83,6 +83,16 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   $scope.takeImages = function() {
 
+    if($scope.total_count == 0 && $scope.shipping_count == 0){
+      var alertPopup = $ionicPopup.alert({
+         title: 'Must ship or store something',
+         template: 'Please add items to ship or store.'
+      });
+
+      alertPopup.then(function(res) {});
+      return;
+    }
+
     if($scope.shipping_count > 0 && ($scope.order.shippingImageURLs == null || $scope.order.shippingImageURLs == '')) {
       var alertPopup = $ionicPopup.alert({
          title: 'Please add shipping photos.',
@@ -93,32 +103,42 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       return;
     }
 
-    if($scope.total_count == 0) {
-      var alertPopup = $ionicPopup.alert({
-         title: 'You need to add some items!',
-         template: 'Hey dipshit, is this customer really storing nothing?'
+    if($scope.total_count == 0 ) {
+      var confirmPopup = $ionicPopup.confirm({
+         title: 'Not Storing anything?',
+         template: 'Are you sure you want to submit the invoice without any storage items or images?  This can only be done for customers shipping all of their items IMMEDIATELY after pickup'
       });
 
-      alertPopup.then(function(res) {});
-      return;
+      confirmPopup.then(function(res) {
+        if(res) {createInvoice();}
+        else {
+          return;
+         }
+      });
     }
+    else {
+      createInvoice();
+    }
+  }
+
+  function createInvoice(){
     var items = [];
-    $scope.products.forEach(function(entry) {
-      if(entry.invoice_count > 0) {
-        items.push({
-          product_id : entry.externalId,
-          type: "Storage Goods",
-          item_price : entry.price,
-          total_price: entry.price,
-          quantity : entry.invoice_count,
-          product_name : entry.name
-        });
-      }
-    });
-    $scope.invoice.items = items;
-    InvoiceService.setInvoice($scope.invoice);
-    $state.go('app.finalize_invoice', { id : $scope.invoice._id });
-  };
+      $scope.products.forEach(function(entry) {
+        if(entry.invoice_count > 0) {
+          items.push({
+            product_id : entry.externalId,
+            type: "Storage Goods",
+            item_price : entry.price,
+            total_price: entry.price,
+            quantity : entry.invoice_count,
+            product_name : entry.name
+          });
+        }
+      });
+      $scope.invoice.items = items;
+      InvoiceService.setInvoice($scope.invoice);
+      $state.go('app.finalize_invoice', { id : $scope.invoice._id });
+  }
 
   $scope.incrementProduct = function(index, value) {
   	if($scope.products[index].invoice_count > 0 || value == 1) {

@@ -19,12 +19,11 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       quality: 100,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
-      allowEdit: true,
+      allowEdit: false,
       encodingType: Camera.EncodingType.JPEG,
       popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false
     };
-
 
     // Take photos and upload the image urls to Cloudinary. 
     // The image urls are then saved on the invoice record.
@@ -39,7 +38,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   }
 
   $scope.saveInvoice = function() {
-  	if($scope.invoice.imageURLs.length == 0) {
+  	if($scope.invoice.imageURLs.length == 0 && $scope.total_item_count != 0) {
       var alertPopup = $ionicPopup.alert({
          title: 'Take some photos!',
          template: 'Take some photos, dude!'
