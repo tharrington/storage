@@ -7,6 +7,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.login_ctrl', 
   'fencesForBusiness.order_ctrl', 
   'fencesForBusiness.data_service',
+  'fencesForBusiness.mock_data_service',
   'fencesForBusiness.image_service',
   'fencesForBusiness.location_service',
   'fencesForBusiness.auth_service',
@@ -32,7 +33,7 @@ angular.module('fencesForBusiness', [
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '3.0.9';
+	$rootScope.version = '4.0.0';
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();

@@ -33,6 +33,9 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
     $localStorage.isStaging = true;
     $scope.submitted = true;
 
+    $rootScope.isTutorial = false;
+    $localStorage.isTutorial = false;
+
     if(form.$valid) {
       Auth.login($scope.user)
       .then( function() {
@@ -45,6 +48,15 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
         $scope.errorMessage = err.message;
       });
     }
+  };
+
+  $scope.doTutorial = function(form) {
+    $rootScope.isTutorial = false;
+    $localStorage.isTutorial = false;
+    $scope.submitted = true;
+
+    $ionicHistory.nextViewOptions({ disableBack: true });
+    $state.go('app.orders');
   };
 });
 
