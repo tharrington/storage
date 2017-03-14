@@ -59,11 +59,11 @@
 	      	- {{appointment.name}} - {{appointment.deliveryTime}}
 	      	<span style="background-color:'#f00'" ng-if="appointment.warehouseStatus == 'Loaded - Last Order on Truck'">Last -- </span>
 	      	
-	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
+	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 20px;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
 			    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 			    </select>
 
-			    <select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
+			    <select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 20px;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
 			    	<option ng-repeat="stage in deliveryUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 			    </select>
 	      </h2>
