@@ -5,6 +5,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.order = {};
   $scope.products = [];
   $scope.total_count = 0, $scope.shipping_count = 0;
+  var miscIndex;
 
   function handleResult(invoice, products) {
     products.forEach(function(entry) {
@@ -102,6 +103,16 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       alertPopup.then(function(res) {});
       return;
     }
+  
+    if(miscIndex != null && $scope.products[miscIndex].notes != null && $scope.products[miscIndex].notes.trim().length == 0){
+      var alertPopup = $ionicPopup.alert({
+         title: 'Add miscellaneous notes.',
+         template: 'Please describe the items that you maked as miscellaneous.'
+      });
+
+      alertPopup.then(function(res) {});
+      return;
+    }
 
     if($scope.total_count == 0 ) {
       var confirmPopup = $ionicPopup.confirm({
@@ -124,7 +135,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   function createInvoice(){
     var items = [];
       $scope.products.forEach(function(entry) {
-        if(entry.invoice_count > 0) {
+        if(entry.invoice_count > 0 && entry.name != 'Miscellaneous') {
           items.push({
             product_id : entry.externalId,
             type: "Storage Goods",
@@ -132,6 +143,17 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
             total_price: entry.price,
             quantity : entry.invoice_count,
             product_name : entry.name
+          });
+        }
+        else if(entry.invoice_count > 0 && entry.name == 'Miscellaneous'){
+          items.push({
+            product_id : entry.externalId,
+            type: "Storage Goods",
+            item_price : entry.price,
+            total_price: entry.price,
+            quantity : entry.invoice_count,
+            product_name : entry.name,
+            misc_notes : entry.notes
           });
         }
       });
@@ -145,6 +167,15 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 	  	$scope.products[index].invoice_count = $scope.products[index].invoice_count + value; 
   		$scope.total_count += value;
   	}
+
+    if($scope.products[index].invoice_count == 0 && $scope.products[index].name == "Miscellaneous"){
+      $scope.products[index].notes = null;
+      miscIndex = null;
+    }
+
+    if($scope.products[index].name == 'Miscellaneous' && $scope.products[index].invoice_count > 0){
+      miscIndex = index;
+    }
   }
 
   $scope.incrementShipping = function(value) {

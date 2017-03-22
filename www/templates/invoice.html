@@ -30,6 +30,9 @@
 		    <i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
 		    
 		    <i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);"></i>
+		    <label ng-if='product.name == "Miscellaneous" && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top=8px;">
+		  		<textarea placeholder="Miscellaneous Description" ng-init='product.notes = ""' ng-model="product.notes"></textarea>
+		 		</label>
 		  </a>
 		</div>		
   </ion-content>
