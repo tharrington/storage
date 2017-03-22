@@ -50,7 +50,7 @@ angular.module('fencesForBusiness.data_service', [])
       myMoment.hours(0).minutes(0).seconds(0);
       var myDate = new Date(myMoment);
 
-      if(!rootScope.isTutorial) {
+      if(!$rootScope.isTutorial) {
         var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
         $http(config).success(function(data, status, header, config) {
             dispatch = data.dispatch;          
@@ -69,7 +69,7 @@ angular.module('fencesForBusiness.data_service', [])
     	var deferred = $q.defer();
       var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/driver');
       
-      if(!rootScope.isTutorial) {
+      if(!$rootScope.isTutorial) {
         if(navigator.connection.type != Connection.NONE) {
           $http(config).success(function(data, status, header, config) {
   	          deferred.resolve(data);
@@ -93,7 +93,7 @@ angular.module('fencesForBusiness.data_service', [])
       var deferred = $q.defer();
       var config = buildRequestConfig(method, endpoint, post);
       
-      if(!rootScope.isTutorial) {
+      if(!$rootScope.isTutorial) {
         $http(config).success(function(data, status, header, config) {
           $rootScope.notConnected = false;
           $rootScope.errorCount = 0;
@@ -123,7 +123,7 @@ angular.module('fencesForBusiness.data_service', [])
       var config = buildRequestConfig(myMethod, endpoint, body);
       var deferred = $q.defer();
 
-      if(!rootScope.isTutorial) {
+      if(!$rootScope.isTutorial) {
         $http(config).success(function(data, status, header, config) {
           deferred.resolve(data);
         }).error(function(data, status, header, config) {
