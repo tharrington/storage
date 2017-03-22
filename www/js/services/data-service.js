@@ -50,13 +50,17 @@ angular.module('fencesForBusiness.data_service', [])
       myMoment.hours(0).minutes(0).seconds(0);
       var myDate = new Date(myMoment);
 
-      var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
-      $http(config).success(function(data, status, header, config) {
-          dispatch = data.dispatch;          
-          deferred.resolve(dispatch);
-        }).error(function(data, status, header, config) {
-        	$ionicLoading.hide();
-        });
+      if(!rootScope.isTutorial) {
+        var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
+        $http(config).success(function(data, status, header, config) {
+            dispatch = data.dispatch;          
+            deferred.resolve(dispatch);
+          }).error(function(data, status, header, config) {
+            $ionicLoading.hide();
+          });
+      } else {
+        console.log('### do tutorial');
+      }
       
       return deferred.promise;
     }
@@ -65,14 +69,18 @@ angular.module('fencesForBusiness.data_service', [])
     	var deferred = $q.defer();
       var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/driver');
       
-      if(navigator.connection.type != Connection.NONE) {
-        $http(config).success(function(data, status, header, config) {
-	          deferred.resolve(data);
-	        }).error(function(data, status, header, config) {
-	        });
+      if(!rootScope.isTutorial) {
+        if(navigator.connection.type != Connection.NONE) {
+          $http(config).success(function(data, status, header, config) {
+  	          deferred.resolve(data);
+  	        }).error(function(data, status, header, config) {
+  	        });
+        } else {
+          $rootScope.notConnected = true;
+          deferred.resolve();
+        }
       } else {
-        $rootScope.notConnected = true;
-        deferred.resolve();
+        console.log('### DO TUTORIAL')
       }
       return deferred.promise;
     };
@@ -85,19 +93,24 @@ angular.module('fencesForBusiness.data_service', [])
       var deferred = $q.defer();
       var config = buildRequestConfig(method, endpoint, post);
       
-      $http(config).success(function(data, status, header, config) {
-        $rootScope.notConnected = false;
-        $rootScope.errorCount = 0;
-        deferred.resolve(data);
-      }).error(function(data, status, header, config) {
-        if(!$rootScope.errorCount) $rootScope.errorCount = 0;
-        $rootScope.errorCount = $rootScope.errorCount + 1;
-        if($rootScope.errorCount == 5) {
-          $rootScope.notConnected = true;
-        } 
-        deferred.resolve();
-      });
+      if(!rootScope.isTutorial) {
+        $http(config).success(function(data, status, header, config) {
+          $rootScope.notConnected = false;
+          $rootScope.errorCount = 0;
+          deferred.resolve(data);
+        }).error(function(data, status, header, config) {
+          if(!$rootScope.errorCount) $rootScope.errorCount = 0;
+          $rootScope.errorCount = $rootScope.errorCount + 1;
+          if($rootScope.errorCount == 5) {
+            $rootScope.notConnected = true;
+          } 
+          deferred.resolve();
+        });
+      } else {
+        console.log('### do tutorial post');
+      }
       return deferred.promise;
+    
     };
 
 
@@ -108,26 +121,39 @@ angular.module('fencesForBusiness.data_service', [])
     		myMethod = method;
     	}
       var config = buildRequestConfig(myMethod, endpoint, body);
-
       var deferred = $q.defer();
-      $http(config).success(function(data, status, header, config) {
-        deferred.resolve(data);
-      }).error(function(data, status, header, config) {
-        deferred.reject();
-      });
+
+      if(!rootScope.isTutorial) {
+        $http(config).success(function(data, status, header, config) {
+          deferred.resolve(data);
+        }).error(function(data, status, header, config) {
+          deferred.reject();
+        });
+      } else {
+        console.log('### call wrapper tutorial');
+      }
       return deferred.promise;
     }
 
+    /** 
+     * setDispatch
+     */
     function setDispatch(dispatch) {
       dispatch = dispatch;
       return;
     }
 
+    /**
+     * setOrder
+     */
     function setOrder(order) {
       order = order;
       return;
     }
 
+    /**
+     * getLoadOrder
+     */
     function getLoadOrder() {
       return order;
     }

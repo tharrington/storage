@@ -184,8 +184,12 @@ angular.module('fencesForBusiness', [
   };
 })
 
-.run(function ($rootScope, $state, Auth) {
+.run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations) {
   // Redirect to login if route requires auth and you're not logged in
   $rootScope.$on('$stateChangeStart', function (event, next) {
+  });
+
+  $ionicPlatform.on('resume', function(){
+    fencesLocations.sendUpdate();
   });
 });

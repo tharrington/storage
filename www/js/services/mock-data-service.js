@@ -7,16 +7,6 @@ angular.module('fencesForBusiness.mock_data_service', [])
 
     function buildRequestConfig(method, endpoint, body) {
       var config;
-
-      if(!$localStorage.isStaging) {
-        config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method };
-      } else {
-        config = { url: ApiEndpointStaging.url + endpoint, timeout: 6000, method: method };
-      }
-
-      if(method === 'POST' || method === 'PUT' || method === 'PATCH') {
-        config.data = body;
-      }
       return config;
     }
 
@@ -45,35 +35,12 @@ angular.module('fencesForBusiness.mock_data_service', [])
      */
     function getTodaysDispatch() {
       var deferred = $q.defer();
-
-      var myMoment = moment();
-      myMoment.hours(0).minutes(0).seconds(0);
-      var myDate = new Date(myMoment);
-
-      var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
-      $http(config).success(function(data, status, header, config) {
-          dispatch = data.dispatch;          
-          deferred.resolve(dispatch);
-        }).error(function(data, status, header, config) {
-        	$ionicLoading.hide();
-        });
-      
       return deferred.promise;
     }
 
     function changeOrderStatus(status, orderId) {
     	var deferred = $q.defer();
       var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/driver');
-      
-      if(navigator.connection.type != Connection.NONE) {
-        $http(config).success(function(data, status, header, config) {
-	          deferred.resolve(data);
-	        }).error(function(data, status, header, config) {
-	        });
-      } else {
-        $rootScope.notConnected = true;
-        deferred.resolve();
-      }
       return deferred.promise;
     };
 
@@ -84,37 +51,12 @@ angular.module('fencesForBusiness.mock_data_service', [])
     function postInfo(endpoint, method, post) {
       var deferred = $q.defer();
       var config = buildRequestConfig(method, endpoint, post);
-      
-      $http(config).success(function(data, status, header, config) {
-        $rootScope.notConnected = false;
-        $rootScope.errorCount = 0;
-        deferred.resolve(data);
-      }).error(function(data, status, header, config) {
-        if(!$rootScope.errorCount) $rootScope.errorCount = 0;
-        $rootScope.errorCount = $rootScope.errorCount + 1;
-        if($rootScope.errorCount == 5) {
-          $rootScope.notConnected = true;
-        } 
-        deferred.resolve();
-      });
       return deferred.promise;
     };
 
 
     function callWrapper(endpoint, method, body) {
     	var deferred = $q.defer();
-    	var myMethod = 'GET';
-    	if(method) {
-    		myMethod = method;
-    	}
-      var config = buildRequestConfig(myMethod, endpoint, body);
-
-      var deferred = $q.defer();
-      $http(config).success(function(data, status, header, config) {
-        deferred.resolve(data);
-      }).error(function(data, status, header, config) {
-        deferred.reject();
-      });
       return deferred.promise;
     }
 

@@ -50,10 +50,8 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
     }
   };
 
-  $scope.doTutorial = function(form) {
-    $rootScope.isTutorial = false;
-    $localStorage.isTutorial = false;
-    $scope.submitted = true;
+  $scope.doTutorial = function() {
+    $rootScope.isTutorial = true;
 
     $ionicHistory.nextViewOptions({ disableBack: true });
     $state.go('app.orders');

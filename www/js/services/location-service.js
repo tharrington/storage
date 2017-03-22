@@ -14,9 +14,11 @@ angular.module('fencesForBusiness.location_service', [])
     pushLocation = function(position, taskId) {
       $rootScope.locationServicesDisabled = false;
       $rootScope.position = position;
-      fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
-        bgGeo.finish(taskId);
-      });
+      if(!rootScope.isTutorial) {
+        fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
+          bgGeo.finish(taskId);
+        });
+      }
     }
 
     function sendUpdate() {
