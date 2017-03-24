@@ -1,7 +1,11 @@
 angular.module('fencesForBusiness.warehouse_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('WarehouseCtrl', function($scope, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
-    $scope.user = $localStorage.user;
+.controller('WarehouseCtrl', function($scope, $rootScope, Auth, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
+  $scope.user = $localStorage.user;
+  console.log('### warehouse: ');
+
+  Auth.checkLastTruckLogin();
+
 
   $scope.dispatches = [];
   $scope.getDispatches = function() {

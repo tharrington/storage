@@ -33,9 +33,13 @@ angular.module('fencesForBusiness.auth_service', [])
           password: user.password
         }).
         success(function(data) {
-        	$localStorage.vendor = data.user.vendor;
-        	$localStorage.user = data.user;
-          $localStorage.token = data.token;
+          if(data.user.role == 'Mover') {
+            $localStorage.mover = data.user;
+            $localStorage.mover_token = data.token;
+          } else {
+            $localStorage.user = data.user;
+            $localStorage.token = data.token;
+          }
           deferred.resolve(data);
           return cb();
         }).
@@ -82,6 +86,26 @@ angular.module('fencesForBusiness.auth_service', [])
        */
       getToken: function() {
         return $localStorage.token;
+      },
+
+      /**
+       * Check the last truck login, the user needs to have selected a truck within the last 24 
+       * hours or they should be returned to the main screen.
+       */ 
+      checkLastTruckLogin : function() {
+        if($localStorage.token || $localStorage.mover_token) {
+          // the user has logged in before
+          if($localStorage.lastTruckLogin && $localStorage.user.tutorialCompleted && !$localStorage.truck) {
+            // check when the last time they selected a driver was
+            if(!moment($localStorage.lastTruckLogin).isSame(moment(), 'day')) {
+              $ionicHistory.nextViewOptions({ disableBack: true });
+              $state.go('app.drivers');
+            } 
+          } else {
+            $ionicHistory.nextViewOptions({ disableBack: true });
+            $state.go('app.drivers');
+          } 
+        }
       }
     };
   }]);

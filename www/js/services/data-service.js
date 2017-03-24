@@ -50,6 +50,7 @@ angular.module('fencesForBusiness.data_service', [])
       myMoment.hours(0).minutes(0).seconds(0);
       var myDate = new Date(myMoment);
 
+      console.log('### tutorial: ' + $rootScope.isTutorial);
       if(!$rootScope.isTutorial) {
         var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
         $http(config).success(function(data, status, header, config) {

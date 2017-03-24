@@ -1,0 +1,37 @@
+<ion-view hide-nav-bar="false" view-title="{{title}}" ng-controller="DriversCtrl">
+
+  <ion-nav-title>
+    <div class="browse-nav-title">{{title}}</div>
+  </ion-nav-title>
+  
+  <ion-content>
+
+  	<div ng-if="!currentUser.tutorialCompleted || isTutorial">
+		  <ul class="list">
+		    <li class="item">
+					You must complete the training.
+		    </li>
+			</ul>
+
+	  	<button class="button button-block button-assertive" style="margin-top:10px;" ng-click="doTutorial();">
+	      Start Training
+	    </button>
+	  </div>
+
+	  <div ng-if="currentUser.tutorialCompleted">
+
+	  	<div class="list">
+
+			  <div class="item item-divider">
+					Select a driver...
+			  </div>
+
+
+			  <a class="item" ng-repeat="driver in drivers" href="#" ng-click="loginAsUser(driver);">
+			    {{driver.nickname}} - {{driver.name}}
+			  </a>
+
+			</div>
+	  </div>
+	</ion-content>
+</ion-view>

@@ -21,19 +21,20 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.load_order_ctrl',
   'fencesForBusiness.invoice_ctrl',
   'fencesForBusiness.lookup_ctrl',
+  'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.finalize_invoice_ctrl',
   'ngStorage', 
   'ngCordova',
   'angularMoment'
 ])
 
-.constant('ApiEndpoint', { url: 'https://onelight-fences.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
-// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
+.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '4.0.0';
+	$rootScope.version = '4.0.1';
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();
@@ -146,6 +147,15 @@ angular.module('fencesForBusiness', [
       }
     })
 
+    .state('app.drivers', {
+      url: '/drivers',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/drivers.html'
+        }
+      }
+    })
+
     .state('app.order', {
       url: '/orders/:id',
       views: {
@@ -154,7 +164,7 @@ angular.module('fencesForBusiness', [
         }
       }
     });
-    $urlRouterProvider.otherwise('/app/orders');
+    $urlRouterProvider.otherwise('/app/drivers');
 })
 
 
@@ -166,7 +176,9 @@ angular.module('fencesForBusiness', [
 
       if ($localStorage.token) {
         config.headers['x-access-token'] = $localStorage.token;
-      } 
+      } else if($localStorage.mover_token) {
+        config.headers['x-access-token'] = $localStorage.mover_token;
+      }
       return config;
     },
 
@@ -184,12 +196,12 @@ angular.module('fencesForBusiness', [
   };
 })
 
-.run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations) {
+.run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations, $state, $localStorage) {
   // Redirect to login if route requires auth and you're not logged in
-  $rootScope.$on('$stateChangeStart', function (event, next) {
-  });
+  $rootScope.$on('$stateChangeStart', function (event, next) {});
 
   $ionicPlatform.on('resume', function(){
     fencesLocations.sendUpdate();
   });
+
 });

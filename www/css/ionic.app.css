@@ -51,14 +51,14 @@ For example, you might change some of the default colors:
   border-radius: 50%; }
 
 .menu-left {
-  background-color: #1c2b36 !important; }
+  background-color: #444444 !important; }
 
 .menu-left .item {
-  border-color: #869fb1 !important; }
+  border-color: #fff !important; }
 
 .menu-left .item-content {
-  color: #869fb1 !important;
-  background-color: #1c2b36 !important; }
+  color: #fff !important;
+  background-color: #444444 !important; }
 
 .angular-google-map {
   width: 100% !important;

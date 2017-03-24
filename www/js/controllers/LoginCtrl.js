@@ -41,20 +41,14 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
       .then( function() {
         fencesLocations.startLocation();
         $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('app.orders');
+        
+        $state.go('app.drivers');
       })
       .catch( function(err) {
         $scope.hasErrors = true;
         $scope.errorMessage = err.message;
       });
     }
-  };
-
-  $scope.doTutorial = function() {
-    $rootScope.isTutorial = true;
-
-    $ionicHistory.nextViewOptions({ disableBack: true });
-    $state.go('app.orders');
   };
 });
 

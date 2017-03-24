@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('TodayCtrl', function($scope, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
+.controller('TodayCtrl', function($scope, Auth, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
   $scope.completedOrders = [];
   $scope.rescheduledOrders = [];
   $scope.canceledOrders = [];
@@ -9,6 +9,9 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.dispatchUpdates = [];
   $scope.total_orders = 0;
   $scope.user = $localStorage.user;
+
+  Auth.checkLastTruckLogin();
+
 
   $scope.setDispatchStatus = function() {
     if($scope.dispatch.status == 'Start') {
