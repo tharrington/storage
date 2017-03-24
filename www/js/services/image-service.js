@@ -22,7 +22,7 @@ angular.module('fencesForBusiness.image_service', [])
       var percentage ;
 
 
-      if(!rootScope.isTutorial) {
+      if(!rootScope.isTraining) {
         window.resolveLocalFileSystemURL(imageURI, function(fileEntry) {
           fileEntry.file(function(fileObj) {
             fileSize = fileObj.size;

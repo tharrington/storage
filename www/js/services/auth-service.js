@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('fencesForBusiness.auth_service', [])
-	.factory('Auth', ['$http', '$q', '$localStorage', '$ionicHistory', '$state', 'ApiEndpoint', 'ApiEndpointStaging',
-  function($http, $q, $localStorage, $ionicHistory, $state, ApiEndpoint, ApiEndpointStaging) { 
+	.factory('Auth', ['$http', '$log', '$rootScope', '$q', '$localStorage', '$ionicHistory', '$state', 'ApiEndpoint', 'ApiEndpointStaging',
+  function($http, $log, $rootScope, $q, $localStorage, $ionicHistory, $state, ApiEndpoint, ApiEndpointStaging) { 
     var currentUser = {};
     if($localStorage.token) {
       currentUser = $localStorage.user;
@@ -26,6 +26,17 @@ angular.module('fencesForBusiness.auth_service', [])
           endpoint = ApiEndpointStaging.baseURL + '/auth/local';
         } else {
           endpoint = ApiEndpoint.baseURL + '/auth/local';
+        }
+
+        if($rootScope.isTraining) {
+          var data = {};
+
+          console.log('### is tutorial');
+
+          $localStorage.user = data.user;
+          $localStorage.token = data.token;
+          
+          deferred.resolve(data);
         }
 
         $http.post(endpoint, {
@@ -93,9 +104,18 @@ angular.module('fencesForBusiness.auth_service', [])
        * hours or they should be returned to the main screen.
        */ 
       checkLastTruckLogin : function() {
+        if($rootScope.trainingInProgress) {
+          console.log('### training in progress');
+          return;
+        }
+        
+        // check the user has logged in before
         if($localStorage.token || $localStorage.mover_token) {
-          // the user has logged in before
-          if($localStorage.lastTruckLogin && $localStorage.user.tutorialCompleted && !$localStorage.truck) {
+          $log.info('lastTruckLogin: ' + $localStorage.lastTruckLogin);
+          $log.info('$localStorage.mover.tutorialCompleted: ' +$localStorage.mover.tutorialCompleted);
+          $log.info('$localStorage.user: ' + $localStorage.user);
+
+          if($localStorage.lastTruckLogin && $localStorage.mover.tutorialCompleted && $localStorage.user) {
             // check when the last time they selected a driver was
             if(!moment($localStorage.lastTruckLogin).isSame(moment(), 'day')) {
               $ionicHistory.nextViewOptions({ disableBack: true });

@@ -5,6 +5,14 @@ in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
 */
+
+.tutorial-alert {
+  background-color: #f00 !important; 
+  color: #fff !important; 
+  text-align: center !important; 
+  height: 40px !important; 
+}
+
 .pin {
   width: 30px;
   height: 30px;

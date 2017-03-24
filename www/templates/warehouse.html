@@ -1,5 +1,8 @@
 <ion-view view-title="Warehouse" ng-controller="WarehouseCtrl">
   <ion-content>
+
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+
 		<div class="item item-divider" style="background-color: #f00; color: #fff; text-align: 'center'; height: 40px;">
 	    Warehouse Role as {{user.nickname}}
 	  </div>

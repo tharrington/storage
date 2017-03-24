@@ -5,7 +5,8 @@
   </ion-nav-title>
   
   <ion-content class="has-header has-footer">
-	  	
+	  <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+	
 	  <div class="list">
 	  	<div class="item item-divider">
 		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>

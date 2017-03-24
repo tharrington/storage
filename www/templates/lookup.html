@@ -19,13 +19,15 @@
 	</style>
 
 	<div class="bar bar-subheader bar-calm">
-  	<label class="item-input-wrapper textbox-search" style="background-color: white !important; border: 1px solid #CDCFD2; border-radius: 15px; width: 30%; height: 95%; min-width: 200px;">
+  	<label class="item-input-wrapper textbox-search" style="background-color: white !important; border: 1px solid #CDCFD2; border-radius: 15px; width: 30%; height: 95%; width: 100% !important;">
       <i class="icon ion-search placeholder-icon" style='font-size: 32px;'></i>
-      <input type="search" placeholder="Search..." id="searchBar" ng-change="inputChanged(vm.query)" ng-model="vm.query" ng-model-options="{debounce: 1000}" />
+      <input type="search" placeholder="Search..." id="searchBar" ng-change="inputChanged(vm.query)" ng-model="vm.query" ng-model-options="{debounce: 1000}" style="display:table-cell; width:100%" />
     </label>
   </div>
 
   <ion-content class="has-header has-subheader">
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+
   	<div class="card" ng-if="results.length == 0">
 		  <div class="item item-text-wrap">
 		    No Results.

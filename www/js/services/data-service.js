@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('fencesForBusiness.data_service', [])
-	.factory('fencesData', ['$http', '$ionicLoading', '$q', 'ApiEndpoint', '$localStorage', '$rootScope', '$timeout', '$cordovaPush', '$state', '$ionicHistory', 'ApiEndpointStaging',
-    function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, $ionicHistory, ApiEndpointStaging) { 
+	.factory('fencesData', ['$http', '$ionicLoading', '$q', 'ApiEndpoint', '$localStorage', '$rootScope', '$timeout', '$cordovaPush', '$state', 'mockFencesData', '$ionicHistory', 'ApiEndpointStaging',
+    function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, mockFencesData, $ionicHistory, ApiEndpointStaging) { 
     var dispatch = {}, order = {};
 
     function buildRequestConfig(method, endpoint, body) {
@@ -26,15 +26,20 @@ angular.module('fencesForBusiness.data_service', [])
      */
     function getOrder(id) {
     	var deferred = $q.defer();
-    	if(dispatch && dispatch.orders) {
-    		dispatch.orders.forEach(function(entry) {
-	    		if(entry._id == id) {
-	    			deferred.resolve(entry);
-	    		}
-	    	});
-    	} else {
-    		deferred.reject();
-    	}
+
+      if(!$rootScope.isTraining) {
+      	if(dispatch && dispatch.orders) {
+      		dispatch.orders.forEach(function(entry) {
+  	    		if(entry._id == id) {
+  	    			deferred.resolve(entry);
+  	    		}
+  	    	});
+      	} else {
+      		deferred.reject();
+      	}
+      } else {
+        deferred.resolve(mockFencesData.getOrder(id));
+      }
     	return deferred.promise;
     }
 
@@ -50,8 +55,7 @@ angular.module('fencesForBusiness.data_service', [])
       myMoment.hours(0).minutes(0).seconds(0);
       var myDate = new Date(myMoment);
 
-      console.log('### tutorial: ' + $rootScope.isTutorial);
-      if(!$rootScope.isTutorial) {
+      if(!$rootScope.isTraining) {
         var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/' + myDate);
         $http(config).success(function(data, status, header, config) {
             dispatch = data.dispatch;          
@@ -61,6 +65,7 @@ angular.module('fencesForBusiness.data_service', [])
           });
       } else {
         console.log('### do tutorial');
+        deferred.resolve(mockFencesData.getTodaysDispatch());
       }
       
       return deferred.promise;
@@ -70,18 +75,14 @@ angular.module('fencesForBusiness.data_service', [])
     	var deferred = $q.defer();
       var config = buildRequestConfig('GET', '/dispatches/getDispatchByDriver/driver');
       
-      if(!$rootScope.isTutorial) {
-        if(navigator.connection.type != Connection.NONE) {
-          $http(config).success(function(data, status, header, config) {
-  	          deferred.resolve(data);
-  	        }).error(function(data, status, header, config) {
-  	        });
-        } else {
-          $rootScope.notConnected = true;
-          deferred.resolve();
-        }
+      if(!$rootScope.isTraining) {
+        $http(config).success(function(data, status, header, config) {
+	          deferred.resolve(data);
+	        }).error(function(data, status, header, config) {
+	        });
       } else {
-        console.log('### DO TUTORIAL')
+        console.log('### changeOrderStatus TUTORIAL')
+        deferred.resolve(mockFencesData.changeOrderStatus(status, orderId));
       }
       return deferred.promise;
     };
@@ -94,21 +95,16 @@ angular.module('fencesForBusiness.data_service', [])
       var deferred = $q.defer();
       var config = buildRequestConfig(method, endpoint, post);
       
-      if(!$rootScope.isTutorial) {
+      if(!$rootScope.isTraining) {
         $http(config).success(function(data, status, header, config) {
-          $rootScope.notConnected = false;
-          $rootScope.errorCount = 0;
           deferred.resolve(data);
         }).error(function(data, status, header, config) {
-          if(!$rootScope.errorCount) $rootScope.errorCount = 0;
-          $rootScope.errorCount = $rootScope.errorCount + 1;
-          if($rootScope.errorCount == 5) {
-            $rootScope.notConnected = true;
-          } 
-          deferred.resolve();
+          
+          deferred.reject();
         });
       } else {
         console.log('### do tutorial post');
+        mockFencesData.postInfo(endpoint, method, post);
       }
       return deferred.promise;
     
@@ -124,15 +120,15 @@ angular.module('fencesForBusiness.data_service', [])
       var config = buildRequestConfig(myMethod, endpoint, body);
       var deferred = $q.defer();
 
-      if(!$rootScope.isTutorial) {
+      if(!$rootScope.isTraining) {
         $http(config).success(function(data, status, header, config) {
           deferred.resolve(data);
         }).error(function(data, status, header, config) {
           deferred.reject();
         });
       } else {
-        console.log('### call wrapper tutorial');
-      }
+        deferred.resolve(mockFencesData.callWrapper(endpoint, method, body));
+      } 
       return deferred.promise;
     }
 
@@ -140,7 +136,11 @@ angular.module('fencesForBusiness.data_service', [])
      * setDispatch
      */
     function setDispatch(dispatch) {
-      dispatch = dispatch;
+      if(!$rootScope.isTraining) {
+        dispatch = dispatch;
+      } else {
+        mockFencesData.setDispatch(dispatch)
+      }
       return;
     }
 
@@ -148,7 +148,11 @@ angular.module('fencesForBusiness.data_service', [])
      * setOrder
      */
     function setOrder(order) {
-      order = order;
+      if(!$rootScope.isTraining) {
+        order = order;
+      } else {
+        mockFencesData.setOrder(dispatch)
+      }
       return;
     }
 
@@ -156,7 +160,11 @@ angular.module('fencesForBusiness.data_service', [])
      * getLoadOrder
      */
     function getLoadOrder() {
-      return order;
+      if(!$rootScope.isTraining) {
+        return order;
+      } else {
+        return mockFencesData.getLoadOrder();
+      }
     }
 
 

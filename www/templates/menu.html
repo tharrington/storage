@@ -23,12 +23,17 @@
   <ion-side-menu side="left" class="left-menu">
 
     <ion-header-bar class="bar-dark">
-      <h1 class="title" ng-if="user">Logged in as {{user.nickname}}</h1>
-      <h1 class="title" ng-if="!user">Select Truck</h1>
+      <h1 class="title" ng-if="mover && !mover.tutorialCompleted">Complete Training</h1>
+
+
+      <h1 class="title" ng-if="user && (mover && mover.tutorialCompleted)">Logged in as {{user.nickname}}</h1>
+      <h1 class="title" ng-if="!user && (mover && mover.tutorialCompleted)">Select Truck</h1>
 
     </ion-header-bar>
 
     <ion-content>
+      <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+
       <ion-list>
         <div class="item item-divider">
           Driver

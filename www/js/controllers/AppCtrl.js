@@ -12,8 +12,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.isSandbox = false;
     }
     $scope.user = $localStorage.user;
-
-    console.log('### user: ' + JSON.stringify($scope.user));
+    $scope.mover = $localStorage.mover;
   });
 
   $scope.logout = function() {

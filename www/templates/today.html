@@ -11,105 +11,110 @@
 	}
 </style>
 
-	<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }" ng-if="dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'">
-	  <label ng-if="dispatch && dispatch._id" class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" ng-if="dispatch._id && dispatch.orders.length > 0">
-	    <div class="input-label" style="color: #fff;">
-	      <strong>Truck Status</strong>
-	    </div>
-	    <select style="background-color: transparent !important;" ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.status">
-	    	<option style='color: black !important;' ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.status}}</option>
-	    </select>
-	  </label>
+	<div ng-if="!loading">
+		<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }" ng-if="dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'">
+
+		  <label ng-if="dispatch && dispatch._id" class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" ng-if="dispatch._id && dispatch.orders.length > 0">
+		    <div class="input-label" style="color: #fff;">
+		      <strong>Truck Status</strong>
+		    </div>
+		    <select style="background-color: transparent !important;" ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.status">
+		    	<option style='color: black !important;' ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.status}}</option>
+		    </select>
+		  </label>
+		</div>
+
+	  <ion-content class="has-header" ng-class="{ 'has-subheader' : (dispatch && dispatch.status != 'New' && dispatch.status != 'Complete') }">
+			<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+
+	  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
+
+
+	  	<div class="list" ng-if="!dispatch">
+				<div class="item item-divider">
+			    Today's Summary
+			  </div>
+			  <div class="item item-body">
+					<p>There are no orders today.</p>
+				</div>
+			</div>			
+
+
+
+			<button class="button button-full button-balanced" ng-click="startDispatch()" ng-if="dispatch._id && dispatch.status == 'New'" ng-if="dispatch._id && dispatch.status != 'New'">
+			  Start Route
+			</button>
+
+			<!-- BEGEIN ORDERS SUMMARY -->
+	    <div class="list" ng-if="dispatch._id && dispatch.status != 'New'">
+	    	<div class="item item-body" ng-if="dispatch._id && orders.length == 0">
+					<p>You have completed all your orders for the day. Well done.</p>
+				</div>
+
+				<div class="item item-divider" ng-if="orders.length > 0">
+			    Appointments ({{orders.length}} orders)
+			  </div>
+
+			  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
+		      <h2>
+			      <span ng-if="appointment.type == 'Delivery'">Del</span>
+			      <span ng-if="appointment.type == 'Pickup'">Pickup</span>
+
+		      	- {{appointment.name}} - {{appointment.deliveryTime}}
+		      	<span style="background-color:'#f00'" ng-if="appointment.warehouseStatus == 'Loaded - Last Order on Truck'">Last -- </span>
+		      	
+		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
+				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
+				    </select>
+
+				    <select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
+				    	<option ng-repeat="stage in deliveryUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
+				    </select>
+		      </h2>
+		      <p>
+		      	{{ substringField(appointment.serviceType)}} - {{ appointment.phone }} -
+		      	
+			      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
+			      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
+			    </p>
+		    </a>
+			</div>
+
+			<div class="list" ng-if="dispatch._id && flaggedOrders.length > 0 && dispatch.status != 'New'">
+				<div class="item item-divider" ng-if="flaggedOrders.length > 0">
+			    Flagged Appointments ({{flaggedOrders.length}})
+			  </div>
+			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in flaggedOrders track by $index">
+			    {{appointment.name}}
+			  </ion-item>
+			</div>
+
+			<div class="list" ng-if="dispatch._id && rescheduledOrders.length > 0 && dispatch.status != 'New'">
+				<div class="item item-divider" ng-if="rescheduledOrders.length > 0">
+			    Rescheduled Appointments ({{rescheduledOrders.length}})
+			  </div>
+			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in rescheduledOrders track by $index">
+			    {{appointment.name}}
+			  </ion-item>
+			</div>
+
+			<div class="list" ng-if="dispatch._id && completedOrders.length > 0 && dispatch.status != 'New'">
+				<div class="item item-divider" ng-if="completedOrders.length > 0">
+			    Completed Appointments ({{completedOrders.length}})
+			  </div>
+			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in completedOrders track by $index">
+			    {{appointment.name}}
+			  </ion-item>
+			</div>
+
+			<div class="list" ng-if="dispatch._id && canceledOrders.length > 0 && dispatch.status != 'New'">
+				<div class="item item-divider" ng-if="canceledOrders.length > 0">
+			    Canceled Appointments ({{canceledOrders.length}})
+			  </div>
+			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in canceledOrders track by $index">
+			    {{appointment.name}}
+			  </ion-item>
+			</div>
+		</ion-content>
 	</div>
-
-  <ion-content class="has-header" ng-class="{ 'has-subheader' : (dispatch && dispatch.status != 'New' && dispatch.status != 'Complete') }">
-  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
-
-
-  	<div class="list" ng-if="!dispatch">
-			<div class="item item-divider">
-		    Today's Summary
-		  </div>
-		  <div class="item item-body">
-				<p>There are no orders today.</p>
-			</div>
-		</div>			
-
-
-
-		<button class="button button-full button-balanced" ng-click="startDispatch()" ng-if="dispatch._id && dispatch.status == 'New'" ng-if="dispatch._id && dispatch.status != 'New'">
-		  Start Route
-		</button>
-
-		<!-- BEGEIN ORDERS SUMMARY -->
-    <div class="list" ng-if="dispatch._id && dispatch.status != 'New'">
-    	<div class="item item-body" ng-if="dispatch._id && orders.length == 0">
-				<p>You have completed all your orders for the day. Well done.</p>
-			</div>
-
-			<div class="item item-divider" ng-if="orders.length > 0">
-		    Appointments ({{orders.length}} orders)
-		  </div>
-
-		  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
-	      <h2>
-		      <span ng-if="appointment.type == 'Delivery'">Del</span>
-		      <span ng-if="appointment.type == 'Pickup'">Pickup</span>
-
-	      	- {{appointment.name}} - {{appointment.deliveryTime}}
-	      	<span style="background-color:'#f00'" ng-if="appointment.warehouseStatus == 'Loaded - Last Order on Truck'">Last -- </span>
-	      	
-	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
-			    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
-			    </select>
-
-			    <select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
-			    	<option ng-repeat="stage in deliveryUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
-			    </select>
-	      </h2>
-	      <p>
-	      	{{ substringField(appointment.serviceType)}} - {{ appointment.phone }} -
-	      	
-		      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
-		      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
-		    </p>
-	    </a>
-		</div>
-
-		<div class="list" ng-if="dispatch._id && flaggedOrders.length > 0 && dispatch.status != 'New'">
-			<div class="item item-divider" ng-if="flaggedOrders.length > 0">
-		    Flagged Appointments ({{flaggedOrders.length}})
-		  </div>
-		  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in flaggedOrders track by $index">
-		    {{appointment.name}}
-		  </ion-item>
-		</div>
-
-		<div class="list" ng-if="dispatch._id && rescheduledOrders.length > 0 && dispatch.status != 'New'">
-			<div class="item item-divider" ng-if="rescheduledOrders.length > 0">
-		    Rescheduled Appointments ({{rescheduledOrders.length}})
-		  </div>
-		  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in rescheduledOrders track by $index">
-		    {{appointment.name}}
-		  </ion-item>
-		</div>
-
-		<div class="list" ng-if="dispatch._id && completedOrders.length > 0 && dispatch.status != 'New'">
-			<div class="item item-divider" ng-if="completedOrders.length > 0">
-		    Completed Appointments ({{completedOrders.length}})
-		  </div>
-		  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in completedOrders track by $index">
-		    {{appointment.name}}
-		  </ion-item>
-		</div>
-
-		<div class="list" ng-if="dispatch._id && canceledOrders.length > 0 && dispatch.status != 'New'">
-			<div class="item item-divider" ng-if="canceledOrders.length > 0">
-		    Canceled Appointments ({{canceledOrders.length}})
-		  </div>
-		  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in canceledOrders track by $index">
-		    {{appointment.name}}
-		  </ion-item>
-		</div>
-	</ion-content>
 </ion-view>

@@ -5,33 +5,36 @@
   </ion-nav-title>
   
   <ion-content>
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
-  	<div ng-if="!currentUser.tutorialCompleted || isTutorial">
-		  <ul class="list">
-		    <li class="item">
-					You must complete the training.
-		    </li>
-			</ul>
+  	<div ng-if="!loading">
+	  	<div ng-if="!currentUser.tutorialCompleted && !isTraining">
+			  <ul class="list">
+			    <li class="item">
+						You must complete the training.
+			    </li>
+				</ul>
 
-	  	<button class="button button-block button-assertive" style="margin-top:10px;" ng-click="doTutorial();">
-	      Start Training
-	    </button>
-	  </div>
+		  	<button class="button button-block button-balanced" style="margin-top:10px;" ng-click="doTutorial();">
+		      Start Training
+		    </button>
+		  </div>
 
-	  <div ng-if="currentUser.tutorialCompleted">
+		  <div ng-if="currentUser.tutorialCompleted || isTraining">
 
-	  	<div class="list">
+		  	<div class="list">
 
-			  <div class="item item-divider">
-					Select a driver...
-			  </div>
+				  <div class="item item-divider">
+						Select a driver...
+				  </div>
 
 
-			  <a class="item" ng-repeat="driver in drivers" href="#" ng-click="loginAsUser(driver);">
-			    {{driver.nickname}} - {{driver.name}}
-			  </a>
+				  <a class="item" ng-repeat="driver in drivers" href="#" ng-click="loginAsUser(driver);">
+				    {{driver.nickname}} - {{driver.name}}
+				  </a>
 
-			</div>
+				</div>
+	  	</div>
 	  </div>
 	</ion-content>
 </ion-view>

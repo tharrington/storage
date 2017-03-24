@@ -1,0 +1,182 @@
+{
+	"GET" : {
+		"/users/driversByRegion" : [
+			{ 
+				"email" : "tutorial@storagesquad.com",
+				"name" : "Tutorial Truck",
+				"nickname" : "TT",
+        "return_type" : "array"
+			}
+		]
+	},
+
+	"POST" : {
+
+	},
+
+	"PUT" : {
+    "/orders/1" : { "object_name": "orders", "return_type" : "record" }
+	},
+	"PATCH" : {
+		"/dispatches/1" : { "object_name": "dispatch", "return_type" : "array" }
+	},
+	"orders" : 
+	[
+    {
+      "_id": "1",
+      "truckOrder": 0,
+      "driverName": "BT10",
+      "deliveryTime": "123",
+      "updatedAt": "2017-03-24T16:15:28.922Z",
+      "customer": "58581649dc6a7c0400913257",
+      "position": {
+        "coords": {
+          "latitude": 41.2670518,
+          "longitude": -95.92452809999999
+        }
+      },
+      "name": "Tyler Harrington",
+      "ssOrderId": "a064C000000IkmeQAC",
+      "ssOrderName": "SS-ORDER-00013324",
+      "externalId": "a024C000001dfjoQAA",
+      "deliveryDate": "2017-03-24T06:00:00.000Z",
+      "address": "555 Riverfront Plaza, 903",
+      "email": "tyler@tylerharrington.com",
+      "editURL": "https://www.tfaforms.com/4603332?id=a064C000000IkmeQAC&signature=CjQZez%2BGnI3U1%2FiUPlfjG8z00Ni8jwmcF%2BJyZ4N1wDM%3D",
+      "school": "Harvard",
+      "phone": "3092021115",
+      "guartanteedPickup": false,
+      "pickupSeason": "Study Abroad 2016",
+      "serviceType": "Room Service - We do all the lifting ($15 total)",
+      "guartanteedTime": "XX:XX - XX:XX",
+      "hasInsurace": false,
+      "insuranceUnits": 0,
+      "shipping": false,
+      "customerId": "26455",
+      "unpaidInvoices": false,
+      "region": "Boston",
+      "account": null,
+      "__v": 0,
+      "driver": "58c9526a6c29fe643a31311f",
+      "dispatch": "58d54616fc58641d88cb5637",
+      "trackingLink": "https://goo.gl/6IP12v",
+      "type": "Pickup",
+      "loadSize": 0,
+      "warehouseStatus": "Unloaded",
+      "status": "Appointment Scheduled"
+    }
+  ],
+
+	"dispatch" : {
+	  "_id": "1",
+	  "driver": "58c9526a6c29fe643a31311f",
+	  "dispatchDate": "2017-03-24T03:05:18.056Z",
+	  "isFinalized": true,
+	  "loadCapacity": 50,
+	  "currentLoadSize": 0,
+	  "status": "New",
+	  "warehouseStatus": "Unloaded"
+	},
+
+	"orders_validated" : 
+	[
+    {
+      "_id": "1",
+      "truckOrder": 0,
+      "driverName": "BT10",
+      "deliveryTime": "123",
+      "updatedAt": "2017-03-24T16:15:28.922Z",
+      "customer": "58581649dc6a7c0400913257",
+      "position": {
+        "coords": {
+          "latitude": 41.2670518,
+          "longitude": -95.92452809999999
+        }
+      },
+      "name": "Tyler Harrington",
+      "ssOrderId": "a064C000000IkmeQAC",
+      "ssOrderName": "SS-ORDER-00013324",
+      "externalId": "a024C000001dfjoQAA",
+      "deliveryDate": "2017-03-24T06:00:00.000Z",
+      "address": "555 Riverfront Plaza, 903",
+      "email": "tyler@tylerharrington.com",
+      "editURL": "https://www.tfaforms.com/4603332?id=a064C000000IkmeQAC&signature=CjQZez%2BGnI3U1%2FiUPlfjG8z00Ni8jwmcF%2BJyZ4N1wDM%3D",
+      "school": "Harvard",
+      "phone": "3092021115",
+      "guartanteedPickup": false,
+      "pickupSeason": "Study Abroad 2016",
+      "serviceType": "Room Service - We do all the lifting ($15 total)",
+      "guartanteedTime": "XX:XX - XX:XX",
+      "hasInsurace": false,
+      "insuranceUnits": 0,
+      "shipping": false,
+      "customerId": "26455",
+      "unpaidInvoices": false,
+      "region": "Boston",
+      "account": null,
+      "__v": 0,
+      "driver": "58c9526a6c29fe643a31311f",
+      "dispatch": "58d54616fc58641d88cb5637",
+      "trackingLink": "https://goo.gl/6IP12v",
+      "type": "Pickup",
+      "loadSize": 0,
+      "warehouseStatus": "Unloaded",
+      "status": "Appointment Scheduled"
+    }
+  ],
+
+	"dispatch_validated" : {
+	  "_id": "1",
+	  "driver": "1",
+	  "dispatchDate": "2017-03-24T03:05:18.056Z",
+	  "isFinalized": true,
+	  "loadCapacity": 50,
+	  "currentLoadSize": 0,
+	  "status": "New",
+	  "warehouseStatus": "Unloaded"
+	},
+  "products": [
+    {
+      "_id": "5858715605c21a0f00bc8c8b",
+      "name": "Furniture",
+      "externalId": "01t61000002fb5MAAQ",
+      "__v": 0,
+      "price": 90,
+      "show_to_driver": true,
+      "tier": 1
+    },
+    {
+      "_id": "587545fe62e5c80f001b7690",
+      "name": "Shelves/Drawers",
+      "externalId": "01t61000001aJB3AAM",
+      "show_to_driver": true,
+      "price": 43,
+      "__v": 0
+    },
+    {
+      "_id": "58c830080cb0470f0014cff4",
+      "name": "Miscellaneous",
+      "externalId": "01t61000000oFYEAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "__v": 0
+    },
+    {
+      "_id": "58d52c0ea1bea60b00b2e3e0",
+      "name": "Bag/Duffel",
+      "externalId": "01t61000001aJ9RAAU",
+      "show_to_driver": true,
+      "price": 43,
+      "__v": 0
+    },
+    {
+      "_id": "58d52c2aa1bea60b00b2e3e1",
+      "name": "Bicycle",
+      "externalId": "01t61000001aJ9lAAE",
+      "show_to_driver": true,
+      "price": 53,
+      "__v": 0
+    }
+  ]
+}

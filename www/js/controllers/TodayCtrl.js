@@ -9,9 +9,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.dispatchUpdates = [];
   $scope.total_orders = 0;
   $scope.user = $localStorage.user;
-
-  Auth.checkLastTruckLogin();
-
+  $scope.loading = true;
 
   $scope.setDispatchStatus = function() {
     if($scope.dispatch.status == 'Start') {
@@ -83,15 +81,15 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();
-      console.log('### result: ' + JSON.stringify(result));
 
   		if($scope.dispatch && $scope.dispatch.orders) {
         $scope.total_orders = 0;
   			$scope.dispatch.orders.forEach(function(entry) {
           var today = moment.utc();
           var delDate = moment.utc(entry.deliveryDate);
+
+          // Make sure the order date is the same day as the current date.
           if(today.isSame(delDate, 'day')) {
-            console.log("is the same day");
             $scope.total_orders++;
             if(entry.status == 'Complete') {
               $scope.completedOrders.push(entry);
@@ -106,11 +104,10 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
             }
           }
 	  		});
+        $scope.loading = false;
   		}
   		checkStatus();
-  		console.log($scope.orders);
 	  }).finally(function() {
-      $log.info('Hit finally');
       $ionicLoading.hide();
       $scope.$broadcast('scroll.refreshComplete');
     });;
@@ -128,6 +125,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.$on('$ionicView.enter', function(e) {
     $scope.user = $localStorage.user;
+    Auth.checkLastTruckLogin();
   	$scope.getOrders();
   });
 

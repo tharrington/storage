@@ -6,12 +6,14 @@
   </ion-nav-title>
 
   <ion-content class="has-header">
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+
   	<div class="list">
 			<label class="item item-input item-select" ng-if="order.status != 'Complete'">
 		    <div class="input-label">
 		      Missed Appointment? <span ng-if="order.status == 'No Answer' || order.status == 'Rescheduled' || order.status == 'Canceled'">{{order.status}}</span>
 		    </div>
-		    <select ng-model="order.status" onchange="changeOrderStatus();">
+		    <select ng-model="order.status">
 		    	<option style='color: black !important;' ng-repeat="stage in orderUpdates" ng-selected="order.status == stage.status">{{stage.status}}</option>
 		    </select>
 		  </label>
