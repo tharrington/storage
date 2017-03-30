@@ -61,37 +61,57 @@ angular.module('fencesForBusiness.mock_data_service', [])
 
       var data = $localStorage.tutorial_data;
       
-      if(method == 'GET') {
-        var return_val = data[method][endpoint];
+      // this endpoint is harder
+      if(endpoint.indexOf('/invoices/bySSOrderId/') != -1) {
+        // $scope.products = result.products;
+        // $scope.order = result.order;
+        // $scope.invoice = result.invoice;
+        var order = {}, invoice = {};
+        data.orders.forEach(function(entry) {
 
-        // should we return an array or a specific record?
-        if(return_val instanceof Array && data[method][endpoint].return_type == 'record') {
-          var record_id = endpoint[endpoint.length - 1];
-          console.log('### record id: ' + record_id);
-          return_val.forEach(function(entry) {
-            if(entry._id == record_id) {
-              deferred.resolve(entry);
-            }
-          });
+        });
+        data.invoices.forEach(function(entry) {
+
+        });
+        var retObj = {
+          products : data.products,
+          order : order,
+          invoice : invoice
+        }
+      } else {
+        if(method == 'GET') {
+          var return_val = data[method][endpoint];
+
+          // should we return an array or a specific record?
+          if(return_val instanceof Array && data[method][endpoint].return_type == 'record') {
+            var record_id = endpoint[endpoint.length - 1];
+            console.log('### record id: ' + record_id);
+            return_val.forEach(function(entry) {
+              if(entry._id == record_id) {
+                deferred.resolve(entry);
+              }
+            });
+          } else {
+            deferred.resolve(return_val);
+          }
+
+          
         } else {
+          var return_val = data[method][endpoint];
+          // if(return_val instanceof Array) {
+          //   var record_id = endpoint[endpoint.length - 1];
+          //   console.log('### record id: ' + record_id);
+          //   return_val.forEach(function(entry) {
+          //     if(entry._id == record_id) {
+          //       entry = body;
+          //     }
+          //   });
+          // }
+
           deferred.resolve(return_val);
         }
-
-        
-      } else {
-        var return_val = data[method][endpoint];
-        // if(return_val instanceof Array) {
-        //   var record_id = endpoint[endpoint.length - 1];
-        //   console.log('### record id: ' + record_id);
-        //   return_val.forEach(function(entry) {
-        //     if(entry._id == record_id) {
-        //       entry = body;
-        //     }
-        //   });
-        // }
-
-        deferred.resolve(return_val);
       }
+      
       return deferred.promise;
     }
 

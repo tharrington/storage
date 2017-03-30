@@ -7,23 +7,23 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.errorMessage = '';
   $scope.user = {};
 
-  $scope.showTerms = function() {
-
-  };
-
   $scope.login = function(form) {
   	$scope.submitted = true;
+    console.log('### logging in');
 
   	if(form.$valid) {
   		Auth.login($scope.user)
       .then( function() {
       	fencesLocations.startLocation();
         $ionicHistory.nextViewOptions({ disableBack: true });
-	  		$state.go('app.orders');
+        $state.go('app.drivers');
+
       })
       .catch( function(err) {
         $scope.hasErrors = true;
-  			$scope.errorMessage = err.message;
+        if(err) {
+          $scope.errorMessage = err.message;
+        }
       });
   	}
   };
@@ -42,11 +42,12 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
         fencesLocations.startLocation();
         $ionicHistory.nextViewOptions({ disableBack: true });
         
-        $state.go('app.drivers');
       })
       .catch( function(err) {
         $scope.hasErrors = true;
-        $scope.errorMessage = err.message;
+        if(err) {
+          $scope.errorMessage = err.message;
+        }
       });
     }
   };

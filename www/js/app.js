@@ -28,13 +28,13 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
-.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://onelight-fences.herokuapp.com' })
+.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
 .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
 // .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '4.0.1';
+	$rootScope.version = '4.0.2';
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();

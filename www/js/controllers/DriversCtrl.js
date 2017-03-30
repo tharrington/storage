@@ -4,7 +4,7 @@ angular.module('fencesForBusiness.drivers_ctrl', ['ngIOS9UIWebViewPatch'])
  * Drivers Controller - Login as a driver or complete the tutorial
  */
 .controller('DriversCtrl', function($scope, mockFencesData, $rootScope, $ionicHistory, $ionicPopup, $localStorage, fencesData, $ionicLoading, Auth, $state, $stateParams) {
-  $scope.title = "Complete Tutorial";
+  $scope.title = "Complete Training";
   $scope.currentUser = {};
   $scope.drivers = [];
 

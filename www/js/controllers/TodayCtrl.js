@@ -104,8 +104,9 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
             }
           }
 	  		});
-        $scope.loading = false;
   		}
+      $scope.loading = false;
+
   		checkStatus();
 	  }).finally(function() {
       $ionicLoading.hide();

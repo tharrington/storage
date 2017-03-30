@@ -20,6 +20,9 @@
 	"PATCH" : {
 		"/dispatches/1" : { "object_name": "dispatch", "return_type" : "array" }
 	},
+  
+  "invoices" : [
+  ],
 	"orders" : 
 	[
     {
