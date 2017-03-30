@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('TodayCtrl', function($scope, Auth, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
+.controller('TodayCtrl', function($scope, $http, Auth, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
   $scope.completedOrders = [];
   $scope.rescheduledOrders = [];
   $scope.canceledOrders = [];
@@ -10,6 +10,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.total_orders = 0;
   $scope.user = $localStorage.user;
   $scope.loading = true;
+  $scope.training_complete = false;
 
   $scope.setDispatchStatus = function() {
     if($scope.dispatch.status == 'Start') {
@@ -107,11 +108,36 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		}
       $scope.loading = false;
 
+      if($rootScope.isTraining && $scope.orders.length == 0) {
+        console.log('### is training... do validation.');
+        $scope.training_complete = true;
+      }
+
   		checkStatus();
 	  }).finally(function() {
       $ionicLoading.hide();
       $scope.$broadcast('scroll.refreshComplete');
     });;
+  }
+
+  $scope.completeTraining = function() {
+    console.log('### completing training!');
+    var config;
+
+    if(!$localStorage.isStaging) {
+      config = { url: ApiEndpoint.url + '/users/training/completeTraining', timeout: 6000, method: 'GET' };
+    } else {
+      config = { url: ApiEndpointStaging.url + '/users/training/completeTraining', timeout: 6000, method: 'GET' };
+    }
+
+    $rootScope.isTraining = false;
+    $localStorage.token = null;
+    
+    $http(config).success(function(data, status, header, config) {
+      $localStorage.mover = data;
+    }).error(function(data, status, header, config) {
+      console.log("### ERROR!");
+    });
   }
 
   $scope.getOrders = function() {

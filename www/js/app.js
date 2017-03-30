@@ -177,6 +177,7 @@ angular.module('fencesForBusiness', [
       if ($localStorage.token) {
         config.headers['x-access-token'] = $localStorage.token;
       } else if($localStorage.mover_token) {
+        console.log("### add mover token: " + $localStorage.mover_token);
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
       return config;

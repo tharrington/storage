@@ -41,7 +41,7 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
       .then( function() {
         fencesLocations.startLocation();
         $ionicHistory.nextViewOptions({ disableBack: true });
-        
+        $state.go('app.drivers');
       })
       .catch( function(err) {
         $scope.hasErrors = true;
