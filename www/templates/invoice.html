@@ -1,4 +1,12 @@
 <ion-view hide-nav-bar="false" view-title="Invoice {{invoice.name}}" ng-controller="InvoiceCtrl">
+	<style>
+		.invoicePic {
+		  height: 200px;
+		  width: auto;
+		  margin: 2px;
+		}
+
+	</style>
 
   <ion-nav-title>
     <div class="browse-nav-title">Invoice</div>
@@ -22,19 +30,42 @@
 			  Take Photo of Shipment Items
 			</button>
 
+			<ion-scroll zooming="true" ng-if="order && order.shippingUnits > 0" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+			  <img ng-src="{{order.shippingImageURLs}}" class="invoicePic" >
+			</ion-scroll>
+
 		  <div class="item item-divider">
 		    Storage Items - ({{total_count}})
 		  </div>
+
+
 			<a class="item item-icon-right" ng-repeat="product in products track by $index" href="#">
 		    {{product.name}}
 		    
 		    <i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
 		    
 		    <i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);"></i>
-		    <label ng-if='product.name == "Miscellaneous" && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top=8px;">
-		  		<textarea placeholder="Miscellaneous Description" ng-init='product.notes = ""' ng-model="product.notes"></textarea>
+		    <label ng-if='(product.name == "Miscellaneous" || product.name == "Furniture") && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top:8px;">
+		  		<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
+
+		  		<textarea ng-if='(product.name == "Furniture")' placeholder="Furniture Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
+
 		 		</label>
 		  </a>
+
+		  <div class="item item-divider">
+		    Added Services - ({{added_services_count}})
+		  </div>
+
+
+			<a class="item item-icon-right" ng-repeat="product in added_services track by $index" href="#">
+		    {{product.name}}
+		    
+		    <i class="icon ion-arrow-up-c" ng-click="increment_added_services($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
+		    <i class="icon ion-arrow-down-c" ng-click="increment_added_services($index, -1);"></i>
+		  </a>
+
+
 		</div>		
   </ion-content>
 

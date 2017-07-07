@@ -1,15 +1,25 @@
 <ion-view view-title="Warehouse" ng-controller="WarehouseCtrl">
-  <ion-content>
+
+	<div class="bar bar-subheader bar-calm">
+
+	  <label class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" >
+	    <div class="input-label" style="color: #fff;">
+	      <strong>Truck To Load</strong>
+	    </div>
+	    <select style="background-color: transparent !important; font-weight: bold; color: #fff !important;" ng-change="switch_truck()" ng-model="driverName">
+	    	<option  ng-repeat="driver in drivers" ng-selected="driver._id == user._id">{{driver.name}}</option>
+	    </select>
+	  </label>
+	</div>
+
+  <ion-content class="has-header has-subheader">
 
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
-		<div class="item item-divider" style="background-color: #f00; color: #fff; text-align: 'center'; height: 40px;">
-	    Warehouse Role as {{user.nickname}}
-	  </div>
-  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getDispatches()"></ion-refresher>
+  	<ion-refresher ng-if="user" pulling-text="Pull to refresh your schedule..." on-refresh="getDispatches()"></ion-refresher>
 
-  	<div class="list">
-		  <a class="item" href="#/app/load_dispatch/{{dispatch._id}}" ng-repeat="dispatch in dispatches">
+  	<div class="list" ng-if="user && user._id">
+		  <a class="item" ng-click="viewDispatch(dispatch);" ng-repeat="dispatch in dispatches">
 	      <h2>{{ displayDate(dispatch) }} ({{dispatch.warehouseStatus}} - {{dispatch.orders.length}} orders)</h2>
 	    </a>
 		</div>

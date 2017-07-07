@@ -2,17 +2,16 @@
 
   <ion-content scroll="false" class="has-footer">
     <div style="width: 100%; padding-top: 20px; text-align: center;" >
-      <h3>Storage Squad</h3>
-      <p>Username and Password Found on Tablet</p>
+			<img src="img/logo-black.png"  class="img-responsive" style="max-width:80%;" alt="Storage Squad">
     </div>
 
     <form class="form" name="form" novalidate>
 	    <div class="list" style="padding-top:15px; margin-bottom:0px;">
 	      <label class="item item-input item-stacked-label">
-	        <span class="input-label">Username / Email</span>
-	        <input type="text" name="email" placeholder="john@mycompany.com" ng-model="user.email" required>
+	        <span class="input-label">Enter Your Email</span>
+	        <input type="text" name="email" placeholder="Enter your email..." ng-model="user.email" required>
 	      </label>
-	      <label class="item item-input item-stacked-label">
+	      <label class="item item-input item-stacked-label" ng-show="false">
 	        <span class="input-label">Password</span>
 	        <input type="password" name="password" placeholder="Password" ng-model="user.password" required>
 	      </label>
@@ -34,9 +33,11 @@
 	      Login
 	    </button>
 
-	    <button class="button button-block button-positive" style="margin-top:0px;" ng-click="loginSandbox(form);">
-	      Login to Sandbox
-	    </button>
+	    <div style="width: 100%;">
+		    <a href="" class="button-default" style="text-align: center; padding-top:300px; text-decoration:none; color: #aaa;" ng-click="loginSandbox(form);">
+		      Login to Sandbox
+		    </a>
+	    </div>
 	  </form>
   </ion-content>
 </ion-view>

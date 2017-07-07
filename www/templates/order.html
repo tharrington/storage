@@ -1,6 +1,17 @@
 <ion-view hide-nav-bar="false" view-title="Order" cache-view="false" ng-controller="OrderCtrl">
-<ion-nav-back-button>
-      </ion-nav-back-button>
+	
+	<style>
+		/*a.item {
+			padding: 10px !important;
+		}*/
+		.item-select select {
+			color : #000 !important;
+		}
+	</style>
+
+	<ion-nav-back-button>
+  </ion-nav-back-button>
+  
   <ion-nav-title>
     <div class="browse-nav-title">{{order.name}}</div>
   </ion-nav-title>
@@ -9,11 +20,13 @@
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
   	<div class="list">
+
+
 			<label class="item item-input item-select" ng-if="order.status != 'Complete'">
 		    <div class="input-label">
-		      Missed Appointment? <span ng-if="order.status == 'No Answer' || order.status == 'Rescheduled' || order.status == 'Canceled'">{{order.status}}</span>
+		      Missed Appointment?
 		    </div>
-		    <select ng-model="order.status">
+		    <select ng-model="order.status" ng-change="changeStatus();">
 		    	<option style='color: black !important;' ng-repeat="stage in orderUpdates" ng-selected="order.status == stage.status">{{stage.status}}</option>
 		    </select>
 		  </label>
@@ -27,30 +40,65 @@
 			</button>
 
 			<button ng-click="completeInvoice()" ng-if="order.type == 'Pickup' && order.status != 'Canceled' && order.status != 'Rescheduled' && order.status != 'No Answer'" class="button button-full button-calm">
-			  Complete Invoice
+			  Build Invoice
 			</button>
 
-		  <a class="item" href="#">Name - {{order.name}} ({{order.customerId}})</a>
+		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">Management Notes: {{order.management_notes}}</a>
+
+		  <div class="item item-divider">Contact: {{order.name}} ({{order.customerId}})</div>
+	    <a class="item item-icon-left" href="tel:{{order.phone}}" href="#">
+	    	<i class="icon ion-ios-telephone"></i>
+	    	Call: {{ formatNumber(order.phone)}}
+	    </a>
+	    <a class="item item-icon-left" href="sms:{{order.phone}}" href="#">
+	    <i class="icon ion-chatbubbles"></i>
+	    	Text: {{ formatNumber(order.phone)}}
+	    </a>
+	    <a class="item item-icon-left" href="tel:{{order.altPhone}}" href="#">
+	    	<i class="icon ion-ios-telephone"></i>
+	    	Alt Phone: {{order.altPhone}}
+	    </a>
+	    <a class="item item-icon-left" href="tel:{{order.friendPhone}}" href="#">
+	    	<i class="icon ion-ios-telephone"></i>
+	    	Friend Phone: <strong>{{order.friendPhone}}</strong>
+	    </a>
+	    <a class="item item-icon-left" href="#">
+	    	<i class="icon ion-email"></i>
+	    	Email: {{order.email}}
+	    </a>
+
+
 	    <div class="item item-divider">Location</div>
-	    <a class="item item-text-wrap" href="#" ng-click="openInGoogleMaps()">Open In Google Maps</a>
-	    <a class="item item-text-wrap" href="#">Address - {{order.address}}</a>
-	    <a class="item item-text-wrap" href="#">Room Number - {{order.roomNumber}}</a>
-	    <a class="item item-text-wrap" href="#">Building - {{order.building}}</a>
+	    <a class="item item-icon-left" href="#" ng-click="openInGoogleMaps()">
+	    	<i class="icon ion-map"></i>
+	    	Open In Google Maps
+	    </a>
+	    <a class="item item-text-wrap" href="#">Address: {{order.address}}</a>
+	    <a class="item item-text-wrap" href="#">Room Number: {{order.roomNumber}}</a>
+	    <a class="item item-text-wrap" href="#">Building: {{order.building}}</a>
 
-	    <div class="item item-divider">Contact</div>
-	    <a class="item item-text-wrap" href="tel:{{order.phone}}" href="#">Call {{order.name}} - {{ formatNumber(order.phone)}}</a>
-	    <a class="item item-text-wrap" href="sms:{{order.phone}}" href="#">Text {{order.name}} - {{ formatNumber(order.phone)}}</a>
-	    <a class="item item-text-wrap" href="tel:{{order.altPhone}}" href="#">Alt Phone - {{order.altPhone}}</a>
-	    <a class="item item-text-wrap" href="tel:{{order.friendPhone}}" href="#">Friend Phone - <strong>{{order.friendPhone}}</strong></a>
-	    <a class="item item-text-wrap" href="#">Email - {{order.email}}</a>
-
+	    
 	    <div class="item item-divider">Order Details</div>
-	    <a class="item item-text-wrap" ng-if="order.hasInsurace" href="#">Declared Value - {{order.insuranceUnits}}</a>
-	    <a class="item item-text-wrap" href="#">Service - {{order.serviceType}}</a>
-	    <a class="item item-text-wrap" href="#">Guaranteed Pickup - {{order.guartanteedPickup}}</a>
-	    <a class="item item-text-wrap" href="#">Appointment Time - {{order.deliveryTime}}</a>
-	    <a class="item item-text-wrap" href="#">Needs Shipping? - {{order.shipping}}</a>
-	    <a class="item item-text-wrap" ng-if="order.type == 'Delivery'" href="#">Dropoff Permission - {{order.dropoffPermissions}}</a>
+	    
+
+	    <a class="item item-text-wrap" href="#">Appointment Time: {{order.deliveryTime}}</a>
+
+	    <a class="item item-text-wrap" href="#" ng-if="order.serviceType.indexOf('Main Entrance') != -1">Service Type: Main Entrance</a>
+
+	    <a class="item item-text-wrap" href="#" ng-if="order.serviceType.indexOf('Room Service') != -1">Service Type: Room Service</a>
+
+
+	    <a class="item item-icon-left" href="#" ng-if="order.guartanteedPickup">
+	    	<i class="icon ion-checkmark-circled"></i>
+	    	Guaranteed Pickup
+	    </a>
+
+	    <a class="item item-icon-left" href="#" ng-if="order.shipping">
+	    	<i class="icon ion-checkmark-circled"></i>
+	    	Needs Shipping
+	    </a>
+	    <a class="item item-text-wrap" ng-if="order.type == 'Delivery'" href="#">Dropoff Permission: {{order.dropoffPermissions}}</a>
+	    <a class="item item-text-wrap" ng-if="order.hasInsurace" href="#">Declared Value: {{order.insuranceUnits}}</a>
 		</div>
   </ion-content>
 </ion-view>

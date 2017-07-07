@@ -3,9 +3,11 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 /**
  * OrderCtrl - view the order details and update the status.
  */
-.controller('OrderCtrl', function($scope, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+.controller('OrderCtrl', function($scope, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
   $scope.user = $localStorage.user;
+
+  
 
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
@@ -57,6 +59,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.$on('$ionicView.enter', function(e) {
     Auth.checkLastTruckLogin();
+    $ionicNavBarDelegate.showBackButton(true);
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
       $scope.order_status = result.status;
@@ -70,6 +73,15 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.completeInvoice = function() {
     $state.go('app.invoice', { id : $scope.order.ssOrderId });
+  }
+
+  $scope.changeStatus = function() {
+    if($scope.order.status == 'Ok')  {
+      $scope.order.status = 'Appointment Scheduled';
+      $scope.sendUpdate();
+    } else {
+      $ionicNavBarDelegate.showBackButton(false);
+    }
   }
 
   /**
@@ -89,23 +101,38 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
         if($scope.order.status == 'No Answer') {
           $scope.order.status = 'Rescheduled';
-          $scope.order.notes = 'No Answer - ' + $scope.order.notes;
-        }
-        else if($scope.order.status == 'Rescheduled'){
-          $scope.order.notes = 'Rescheduled - ' + $scope.order.notes;
-        }
-        else if($scope.order.status == 'Canceled'){
-          $scope.order.notes = 'Canceled - ' + $scope.order.notes;
+
+          if($scope.order.notes.indexOf('No Answer') == -1) {
+            $scope.order.notes = 'No Answer - ' + $scope.order.notes;
+          }
+        } else if($scope.order.status == 'Rescheduled'){
+          if($scope.order.notes.indexOf('Rescheduled') == -1) {
+            $scope.order.notes = 'Rescheduled - ' + $scope.order.notes;
+          }
+        } else if($scope.order.status == 'Canceled'){
+          if($scope.order.notes.indexOf('Canceled') == -1) {
+            $scope.order.notes = 'Canceled - ' + $scope.order.notes;
+          }
         }
         else{
           $scope.order.notes = '';
         }
 
-        fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
-          $scope.order_status = result.status;
-          $ionicLoading.show({template : 'Order Saved', duration: 500});
-          $state.go('app.today');
-        });
+        if(!$rootScope.isTraining) {
+          fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+            $scope.order_status = result.status;
+            $ionicLoading.show({template : 'Order Saved', duration: 500});
+            $ionicNavBarDelegate.showBackButton(true);
+
+            if($scope.order.status != 'Appointment Scheduled') {
+              $ionicHistory.nextViewOptions({ disableBack: true });
+              $state.go('app.orders');
+            }
+          });
+        } else {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('app.orders');
+        }
 
         // update the dispatch status if it hasn't been started.
         if($rootScope.dispatch && $rootScope.dispatch.status == 'Started') {

@@ -14,8 +14,8 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.invoice_service',
   'fencesForBusiness.order_invoice_service',
   'fencesForBusiness.order_summary_ctrl',
-  'fencesForBusiness.past_dispatches_ctrl',
-  'fencesForBusiness.past_dispatch_ctrl',
+  'fencesForBusiness.supplies_ctrl',
+
   'fencesForBusiness.warehouse_ctrl',
   'fencesForBusiness.load_dispatch_ctrl',
   'fencesForBusiness.load_order_ctrl',
@@ -28,19 +28,31 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
-.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
-.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+// .constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
+.constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '4.0.2';
+	$rootScope.version = '6.0.2';
+
+  if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
+    $rootScope.isTraining = true;
+  }
 
   $ionicPlatform.ready(function() {
-    fencesLocations.startLocation();
+    // fencesLocations.startLocation();
+    
     if(hockeyapp) {
-      hockeyapp.start(null, null, "ff5782db811a44a79fb5eb47a37cec95");
-      hockeyapp.checkForUpdate(function() {}, function(err) {});
+      if(device.platform != 'Android') {
+        hockeyapp.start(null, null, "ff5782db811a44a79fb5eb47a37cec95");
+        hockeyapp.checkForUpdate(function() {}, function(err) {});
+      } else {
+        hockeyapp.start(null, null, "7a6c56a424724895bcb2da0564d04935");
+        hockeyapp.checkForUpdate(function() {}, function(err) {});
+      }
+      
     }    
   });
 })
@@ -70,6 +82,24 @@ angular.module('fencesForBusiness', [
       views: {
         'menuContent': {
           templateUrl: 'templates/warehouse.html'
+        }
+      }
+    })
+    .state('app.supplies', {
+      url: '/supplies',
+      controller: 'SuppliesCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/supplies.html'
+        }
+      }
+    })
+    .state('app.supplies-lookup', {
+      url: '/supplies-lookup',
+      controller: 'LookupCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/lookup.html'
         }
       }
     })
@@ -130,22 +160,6 @@ angular.module('fencesForBusiness', [
         }
       }
     })
-    .state('app.past', {
-      url: '/past',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/past_dispatches.html'
-        }
-      }
-    })
-    .state('app.past_dispatch', {
-      url: '/past_dispatch/:id',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/past_dispatch.html'
-        }
-      }
-    })
 
     .state('app.drivers', {
       url: '/drivers',
@@ -177,7 +191,6 @@ angular.module('fencesForBusiness', [
       if ($localStorage.token) {
         config.headers['x-access-token'] = $localStorage.token;
       } else if($localStorage.mover_token) {
-        console.log("### add mover token: " + $localStorage.mover_token);
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
       return config;
@@ -199,10 +212,15 @@ angular.module('fencesForBusiness', [
 
 .run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations, $state, $localStorage) {
   // Redirect to login if route requires auth and you're not logged in
-  $rootScope.$on('$stateChangeStart', function (event, next) {});
+  $rootScope.$on('$stateChangeStart', function (event, next) {
+    if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
+      $rootScope.isTraining = true;
+    }
+
+  });
 
   $ionicPlatform.on('resume', function(){
-    fencesLocations.sendUpdate();
+    // fencesLocations.sendUpdate();
   });
 
 });

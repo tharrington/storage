@@ -7,9 +7,18 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.errorMessage = '';
   $scope.user = {};
 
+  $scope.user.password = "Storage1";
+  
   $scope.login = function(form) {
   	$scope.submitted = true;
     console.log('### logging in');
+
+    $rootScope.isStaging = false;
+    $localStorage.isStaging = false;
+    $scope.submitted = true;
+
+    $rootScope.isTraining = false;
+    $localStorage.isTraining = false;
 
   	if(form.$valid) {
   		Auth.login($scope.user)

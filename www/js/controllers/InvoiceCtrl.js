@@ -1,10 +1,12 @@
 angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('InvoiceCtrl', function($scope, $ionicPopup, $ionicLoading, $interval, $localStorage, $rootScope, $state, fencesData, $stateParams, InvoiceService, ImageService, $cordovaCamera) {
+.controller('InvoiceCtrl', function($scope, $ionicNavBarDelegate, $ionicPopup, $ionicLoading, $interval, $localStorage, $rootScope, $state, fencesData, $stateParams, InvoiceService, ImageService, $cordovaCamera) {
   $scope.invoice = {};
   $scope.order = {};
   $scope.products = [];
-  $scope.total_count = 0, $scope.shipping_count = 0;
+  $scope.all_products = [];
+  $scope.added_services = [];
+  $scope.total_count = 0, $scope.shipping_count = 0, $scope.added_services_count = 0;
   var miscIndex;
 
   function handleResult(invoice, products) {
@@ -12,26 +14,49 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       entry.invoice_count = 0;
     });
     
-    invoice.items.forEach(function(item) {
+    if(invoice && invoice.items) {
       products.forEach(function(product) {
-        if(product.name == item.product_name && item.type != 'Service Fees') {
-          product.invoice_count = item.quantity;
-          $scope.total_count += item.quantity;
+        if(product.name.indexOf('Mattress Bag') != 0 && 
+          product.name.indexOf('Overweight Box') != 0 && 
+          product.name.indexOf('Room Service') != 0 && 
+          product.name.indexOf('Moving Blanket') != 0 && 
+          product.name.indexOf('Declared Value') != 0) {
+          $scope.products.push(product);
+        } else {
+          $scope.added_services.push(product);
         }
-      });
-    });
 
+        invoice.items.forEach(function(item) {
+          if(product.name == item.product_name && item.type != 'Service Fees') {
+            product.invoice_count = item.quantity;
+
+            if(product.name.indexOf('Mattress Bag') != 0 && 
+              product.name.indexOf('Overweight Box') != 0 && 
+              product.name.indexOf('Room Service') != 0 && 
+              product.name.indexOf('Moving Blanket') != 0 && 
+              product.name.indexOf('Declared Value') != 0) {
+              $scope.total_count += item.quantity;
+            } else {
+              $scope.added_services_count += item.quantity;
+            }
+          }
+        });
+      });
+    } else {
+      $ionicLoading.show({template : 'There was an error. Contact your manager.', duration: 1500});
+    }
   }
 
   function getInvoice() {
-    fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {
-      console.log('### result: ' + JSON.stringify(result));
-      
+    console.log('### getting invoice: ' + $stateParams.id);
+    fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {      
       if(result && result.products) {
         handleResult(result.invoice, result.products);
 
-        $scope.products = result.products;
+        $scope.all_products = result.products;
         $scope.order = result.order;
+
+        $scope.shipping_count = $scope.order.shippingUnits;
         $scope.invoice = result.invoice;
         InvoiceService.setInvoice(result.invoice);
         InvoiceService.setProducts(result.products);
@@ -41,14 +66,22 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   }
   
   $scope.$on( "$ionicView.enter", function( scopes ) {
+    $ionicNavBarDelegate.showBackButton(true);
+    
+    $scope.invoice = {};
+    $scope.order = {};
+    $scope.products = [];
+    $scope.all_products = [];
+    $scope.added_services = [];
+    
     var inv = InvoiceService.getInvoice(); 
     $scope.total_count = 0;
     if(inv == null || inv._id == null || inv.order_id != $stateParams.id ) {
       getInvoice();
     } else {
-      $scope.products = InvoiceService.getProducts(); 
+      $scope.all_products = InvoiceService.getProducts(); 
       $scope.order = InvoiceService.getOrder(); 
-      handleResult(inv, $scope.products);
+      handleResult(inv, $scope.all_products);
       $scope.invoice = inv;
     }
   });
@@ -58,7 +91,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   $scope.takeShippingPhoto = function() {
     var options = {
-      quality: 100,
+      quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
       allowEdit: false,
@@ -85,7 +118,6 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    * Do validation and move on to the shipping page
    */
   $scope.takeImages = function() {
-
     if($scope.total_count == 0 && $scope.shipping_count == 0){
       var alertPopup = $ionicPopup.alert({
          title: 'Must ship or store something',
@@ -106,10 +138,10 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       return;
     }
   
-    if(miscIndex != null && $scope.products[miscIndex].notes != null && $scope.products[miscIndex].notes.trim().length == 0){
+    if(miscIndex != null && $scope.all_products[miscIndex].notes != null && $scope.all_products[miscIndex].notes.trim().length == 0){
       var alertPopup = $ionicPopup.alert({
          title: 'Add miscellaneous notes.',
-         template: 'Please describe the items that you maked as miscellaneous.'
+         template: 'Please describe miscellaneous and furniture items.'
       });
 
       alertPopup.then(function(res) {});
@@ -123,10 +155,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       });
 
       confirmPopup.then(function(res) {
-        if(res) {createInvoice();}
-        else {
-          return;
-         }
+        if(res) createInvoice();
       });
     }
     else {
@@ -134,10 +163,13 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     }
   }
 
+  /**
+   * create invoice helper
+   */
   function createInvoice(){
     var items = [];
-      $scope.products.forEach(function(entry) {
-        if(entry.invoice_count > 0 && entry.name != 'Miscellaneous') {
+      $scope.all_products.forEach(function(entry) {
+        if(entry.invoice_count > 0 && (entry.name != 'Miscellaneous' || entry.name != 'Furniture')) {
           items.push({
             product_id : entry.externalId,
             type: "Storage Goods",
@@ -147,7 +179,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
             product_name : entry.name
           });
         }
-        else if(entry.invoice_count > 0 && entry.name == 'Miscellaneous'){
+        else if(entry.invoice_count > 0 && (entry.name == 'Miscellaneous' || entry.name == 'Furniture')){
           items.push({
             product_id : entry.externalId,
             type: "Storage Goods",
@@ -164,25 +196,43 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       $state.go('app.finalize_invoice', { id : $scope.invoice._id });
   }
 
-  $scope.incrementProduct = function(index, value) {
-  	if($scope.products[index].invoice_count > 0 || value == 1) {
-	  	$scope.products[index].invoice_count = $scope.products[index].invoice_count + value; 
-  		$scope.total_count += value;
-  	}
 
-    if($scope.products[index].invoice_count == 0 && $scope.products[index].name == "Miscellaneous"){
-      $scope.products[index].notes = null;
+  /**
+   * increment product
+   */
+  $scope.incrementProduct = function(index, value) {
+    var product = $scope.products[index];
+
+    if(product.invoice_count > 0 || value == 1) {
+      product.invoice_count = product.invoice_count + value; 
+      $scope.total_count += value;
+    }
+
+    if(product.invoice_count == 0 && product.name == "Miscellaneous"){
+      product.notes = null;
       miscIndex = null;
     }
 
-    if($scope.products[index].name == 'Miscellaneous' && $scope.products[index].invoice_count > 0){
+    if(product.name == 'Miscellaneous' && product.invoice_count > 0){
       miscIndex = index;
+    }
+  }
+
+  /**
+   * increment product
+   */
+  $scope.increment_added_services = function(index, value) {
+    var product = $scope.added_services[index];
+    if(product.invoice_count > 0 || value == 1) {
+      product.invoice_count = product.invoice_count + value; 
+      $scope.added_services_count += value;
     }
   }
 
   $scope.incrementShipping = function(value) {
     if($scope.shipping_count > 0 || value == 1) {
       $scope.shipping_count = $scope.shipping_count + value; 
+      $scope.order.shippingUnits = $scope.shipping_count;
     }
   }
 

@@ -33,18 +33,29 @@
 
 		  <a class="item" href="#">Name - {{order.name}} ({{order.customerId}})</a>
 		  <a class="item" href="#">School - {{ order.account.name }} </a>
+		  <a class="item" href="#">Warehouse Location - {{ pickup.warehouseLocation }} </a>
+
+
+		  <div class="item item-divider">
+		    Invoice Details ({{total_invoice_items}} items)
+		  </div>
+		  <a class="item" href="#" ng-repeat="item in invoice.items">
+		    {{item.quantity}} - {{item.product_name}}
+		  </a>
+		  <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+			</ion-scroll>
 
 	    <div class="item item-divider">Order Details</div>
+
 	    <a class="item item-text-wrap">Delivery Date - {{ order.deliveryDate | amDateFormat:'dddd, MMMM Do'}}</a>
 	    <a class="item item-text-wrap" href="#">Needs Shipping? - {{order.shipping}}</a>
 	    <a class="item item-text-wrap" ng-if="order.type == 'Delivery'" href="#">Dropoff Permission - {{order.dropoffPermissions}}</a>
 
-	    <div class="item item-divider">Invoice Details</div>
-	    <a ng-repeat="item in invoice.items" class="item item-text-wrap">{{ item.quantity }} -- {{ item.product_name }}</a>
 
-	    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
-			</ion-scroll>
+			
+
+
 		</div>
 
 		<div ng-if="invoiceURL">

@@ -5,9 +5,8 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
  * LookupCtrl - A User will type in a text string, most likely customer name and the server will find 
  * results. Display all relevant Orders.
  */
-.controller('LookupCtrl', function($scope, OrderInvoiceService, $timeout, $sce, $ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+.controller('LookupCtrl', function($scope, $location, OrderInvoiceService, $timeout, $sce, $ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.results = [];
-
 	$scope.inputChanged = function(val){
 		$ionicLoading.show({ template: 'Searching Orders...' });
 
@@ -21,6 +20,14 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 	}
 
 	$scope.navigateToOrder = function(order) {
-		$state.go('app.order_summary', { id : order.ssOrderId });
+		var currentState = $state.current.name;
+
+		OrderInvoiceService.setOrderInvoice(order);
+
+		if(currentState == 'app.supplies-lookup') {
+			$state.go('app.supplies', { id : order.ssOrderId });
+		} else {
+			$state.go('app.order_summary', { id : order.ssOrderId });
+		}
 	};
 });

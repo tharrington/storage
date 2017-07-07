@@ -14,15 +14,32 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
+        console.log('### got result: ' + JSON.stringify(result));
+
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
 
         if(result.invoices && result.invoices.length > 0) {
+          var items = [];
+          var images = [];
 
           result.invoices.forEach(function(inv) {
             if(inv.invoice_type == 'Storage Goods') {
+
+              inv.items.forEach(function(item) {
+                if(item.type == 'Storage Goods') {
+                  items.push(item);
+                }
+              });
+
+              inv.imageURLs.forEach(function(item) {
+                images.push(item);
+              });
+
               $scope.invoice = inv;
+              $scope.invoice.imageURLs = images;
+              $scope.invoice.items = items;
             } else if(inv.invoice_type == 'Shipping') {
               $scope.shipping_invoice = inv;
             }
@@ -34,8 +51,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
               total_shipping_items = total_shipping_items + item.quantity;
             });
             $scope.total_shipping_items = total_shipping_items;
-
-
           }
           
 

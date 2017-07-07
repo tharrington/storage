@@ -12,39 +12,39 @@ angular.module('fencesForBusiness.location_service', [])
     }
 
     pushLocation = function(position, taskId) {
-      $rootScope.locationServicesDisabled = false;
-      $rootScope.position = position;
-      if(!$rootScope.isTraining) {
-        fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
-          bgGeo.finish(taskId);
-        });
-      }
+      // $rootScope.locationServicesDisabled = false;
+      // $rootScope.position = position;
+      // if(!$rootScope.isTraining) {
+      //   fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
+      //     bgGeo.finish(taskId);
+      //   });
+      // }
     }
 
     function sendUpdate() {
-      bgGeo.getCurrentPosition(pushLocation, failureFn);
+      // bgGeo.getCurrentPosition(pushLocation, failureFn);
     }
 
     function startLocation() {
-      bgGeo = window.BackgroundGeolocation;      
-      if(bgGeo) {
-        var locationConfig = {
-          desiredAccuracy: 100,
-          stationaryRadius: 50,
-          distanceFilter: 50,
-          disableElasticity: false, 
-          locationUpdateInterval: 5000,
-          minimumActivityRecognitionConfidence: 70, 
-          fastestLocationUpdateInterval: 4000,
-          activityType: 'Other',
-          debug: false, 
-          stopOnTerminate: false 
-        }
-        bgGeo.configure(pushLocation, failureFn, locationConfig);
-        bgGeo.start(function() {
-        	bgGeo.changePace(true);
-        });
-      } 
+      // bgGeo = window.BackgroundGeolocation;      
+      // if(bgGeo) {
+      //   var locationConfig = {
+      //     desiredAccuracy: 100,
+      //     stationaryRadius: 50,
+      //     distanceFilter: 50,
+      //     disableElasticity: false, 
+      //     locationUpdateInterval: 5000,
+      //     minimumActivityRecognitionConfidence: 70, 
+      //     fastestLocationUpdateInterval: 4000,
+      //     activityType: 'Other',
+      //     debug: false, 
+      //     stopOnTerminate: false 
+      //   }
+      //   bgGeo.configure(pushLocation, failureFn, locationConfig);
+      //   bgGeo.start(function() {
+      //   	bgGeo.changePace(true);
+      //   });
+      // } 
     }
 
 

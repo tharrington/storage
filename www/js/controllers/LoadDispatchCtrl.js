@@ -3,43 +3,40 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('LoadDispatchCtrl', function($scope, $ionicPopup, $localStorage, fencesData, $ionicLoading, $state, $stateParams) {
   $scope.dispatch  = {};
 
-  $scope.dispatchUpdates = [
-    { warehouseStatus : 'Not Loaded' },
-    { warehouseStatus : 'In Progress' },
-    { warehouseStatus : 'Loaded' }
-  ];
+  $scope.loadedOrders = [];
+  $scope.missingOrders = [];
+  $scope.pulledOrders = [];
 
   $scope.user = $localStorage.user;
   
   $scope.orderUpdates = [
-    { warehouseStatus : 'Not Loaded' },
     { warehouseStatus : 'Pulled' },
-    { warehouseStatus : 'Pulled - Incomplete'},
+    { warehouseStatus : 'Partially Loaded' },
+    { warehouseStatus : 'Missing' },
     { warehouseStatus : 'Loaded' },
-    { warehouseStatus : 'Loaded - Incomplete' },
-    { warehouseStatus : 'Loaded - Last Order on Truck' },
-    { warehouseStatus : 'Missing' }
+    { warehouseStatus : 'Loaded - last on truck' }
   ];
 
   $scope.displayDate = function(dispatch) {
     return moment(dispatch.dispatchDate).add(1, 'days').format('dddd, MMMM Do');
   };
+
+  $scope.startLoading = function(status) {
+    $scope.dispatch.warehouseStatus = status;
+    fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
+      $scope.getDispatch();
+    });
+  }
   
   $scope.setDispatchStatus = function() {
     fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Dispatch Saved.',
-        template: 'Dispatch Updated'
-      });
+      $scope.getDispatch();
     });
   }
 
   $scope.setOrderStatus = function(appointment) {
     fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Order Saved.',
-        template: 'Order Updated'
-      });
+      $scope.getDispatch();
     });
   }
 
@@ -50,22 +47,28 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   }
   
   $scope.getDispatch = function() {
-    $ionicLoading.show({ template: 'Loading dispatches...' });
+    $scope.loadedOrders = [];
+    $scope.missingOrders = [];
+    $scope.pulledOrders = [];
 
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
-      $ionicLoading.hide();
       $scope.dispatch = result;
-
-      var orders = [];
+      console.log('### got dispatch: ' + JSON.stringify(result));
       result.orders.forEach(function(entry) {
         var dispatchDate = moment.utc($scope.dispatch.dispatchDate);
         var delDate = moment.utc(entry.deliveryDate);
         if(dispatchDate.isSame(delDate, 'day') && entry.type == 'Delivery') {
-        // if(dispatchDate.isSame(delDate, 'day')) {
-          orders.push(entry);
+
+          if(entry.warehouseStatus == 'Loaded' || entry.warehouseStatus == 'Loaded - last on truck' || entry.warehouseStatus == 'Partially Loaded') {
+            $scope.loadedOrders.push(entry);
+          } else if(entry.warehouseStatus == 'Missing') {
+            $scope.missingOrders.push(entry);
+          } else {
+            $scope.pulledOrders.push(entry);
+          }
         }
       });
-      $scope.dispatch.orders = orders;
+
     });
   };
 

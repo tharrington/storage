@@ -28,12 +28,8 @@ angular.module('fencesForBusiness.auth_service', [])
           endpoint = ApiEndpoint.baseURL + '/auth/local';
         }
 
-        console.log('### logging in: ' + endpoint);
-
         if($rootScope.isTraining) {
           var data = {};
-
-          console.log('### is tutorial');
 
           $localStorage.user = data.user;
           $localStorage.token = data.token;
@@ -46,7 +42,6 @@ angular.module('fencesForBusiness.auth_service', [])
           password: user.password
         }).
         success(function(data) {
-          console.log('### successful login: ' + JSON.stringify(data));
           if(data.user.role == 'Mover') {
             $localStorage.mover = data.user;
             $localStorage.mover_token = data.token;
@@ -59,7 +54,6 @@ angular.module('fencesForBusiness.auth_service', [])
         }).
         error(function(err) {
           this.logout();
-          console.log('### error login: ' + JSON.stringify(err));
           deferred.reject(err);
           return cb(err);
         }.bind(this));
@@ -109,16 +103,11 @@ angular.module('fencesForBusiness.auth_service', [])
        */ 
       checkLastTruckLogin : function() {
         if($rootScope.trainingInProgress) {
-          console.log('### training in progress');
           return;
         }
         
         // check the user has logged in before
         if($localStorage.token || $localStorage.mover_token) {
-          $log.info('lastTruckLogin: ' + $localStorage.lastTruckLogin);
-          $log.info('$localStorage.mover.tutorialCompleted: ' +$localStorage.mover.tutorialCompleted);
-          $log.info('$localStorage.user: ' + $localStorage.user);
-
           if($localStorage.lastTruckLogin && $localStorage.mover && $localStorage.mover.tutorialCompleted && $localStorage.user) {
             // check when the last time they selected a driver was
             if(!moment($localStorage.lastTruckLogin).isSame(moment(), 'day')) {

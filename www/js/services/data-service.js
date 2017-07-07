@@ -64,7 +64,6 @@ angular.module('fencesForBusiness.data_service', [])
             $ionicLoading.hide();
           });
       } else {
-        console.log('### do tutorial');
         deferred.resolve(mockFencesData.getTodaysDispatch());
       }
       
@@ -81,7 +80,6 @@ angular.module('fencesForBusiness.data_service', [])
 	        }).error(function(data, status, header, config) {
 	        });
       } else {
-        console.log('### changeOrderStatus TUTORIAL')
         deferred.resolve(mockFencesData.changeOrderStatus(status, orderId));
       }
       return deferred.promise;
@@ -103,7 +101,6 @@ angular.module('fencesForBusiness.data_service', [])
           deferred.reject();
         });
       } else {
-        console.log('### do tutorial post');
         mockFencesData.postInfo(endpoint, method, post);
       }
       return deferred.promise;

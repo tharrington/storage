@@ -1,11 +1,42 @@
 <ion-view view-title="Dispatch" ng-controller="LoadDispatchCtrl">
+<style>
+	.truck-status {
+		background-color: transparent !important;
+	}
+
+	.item-select select {
+		color : #fff !important;
+	}
+
+	.item-select select {
+		color: #fff !important;
+		font-weight: 900 !important;
+	}
+	ul {
+    list-style-type: circle;
+	}
+	li {
+		padding-left: 16px;
+	}
+	a.today-item {
+		padding: 16px !important;
+		padding-bottom: 8px !important;
+		padding-top: 8px !important;
+	}
+
+	.item-note {
+		color : #000;
+	}
+	
+</style>
+
 	<ion-nav-back-button>
-      </ion-nav-back-button>
+  </ion-nav-back-button>
   <ion-nav-title>
     <div class="browse-nav-title"> {{ displayDate(dispatch) }}</div>
   </ion-nav-title>
 
-  <ion-content>
+  <ion-content class="has-header">
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
  
   	<div class="item item-divider" style="background-color: #f00; color: #fff; text-align: 'center'; height: 40px;">
@@ -20,37 +51,70 @@
 			</div>
 		</div>
 
-		<div class="list" ng-if="dispatch._id">
-			<div class="item item-divider">
-		    Summary <span ng-if="dispatch.orders">- ({{dispatch.orders.length}} orders)</span>
-		  </div>
+		<button class="button button-full button-balanced" ng-click="startLoading('In Progress')" ng-if="dispatch._id && dispatch.warehouseStatus == 'Unloaded'">
+		  Start Loading
+		</button>
 
-			<label class="item item-input item-select" ng-if="dispatch._id">
-		    <div class="input-label">
-		      Warehouse Status: {{dispatch.warehouseStatus}} 
-		    </div>
-		    <select ng-change="setDispatchStatus()" ng-if="dispatch && dispatch._id" ng-model="dispatch.warehouseStatus">
-		    	<option ng-repeat="stage in dispatchUpdates" ng-selected="dispatch.status == stage.status">{{stage.warehouseStatus}}</option>
-		    </select>
-		  </label>
-		</div>
 
-    <div class="list" ng-if="dispatch._id && dispatch.orders.length > 0">
+		<div ng-if="dispatch && dispatch.warehouseStatus != 'Unloaded'">
+			<div class="list" ng-if="pulledOrders.length == 0">
+				<div class="item item-body" ng-if="dispatch._id && pulledOrders.length == 0">
+	    		<h1 style="text-align: center;"><i class="icon ion-trophy"></i></h1>
+					<p style="text-align: center;">You have all the orders for the day!</p>
+				</div>
+			</div>
 
-			<div class="item item-divider" ng-if="dispatch.orders.length > 0">
-		    Appointments ({{dispatch.orders.length}})
-		  </div>
+	    <div class="list" ng-if="pulledOrders.length > 0">
 
-		  <a class="item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in dispatch.orders | orderBy:'-'">
-	      <h2>{{appointment.name}} - {{appointment.deliveryTime}}
-	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
-			    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
-			    </select>
-	      </h2>
-	      <p>
-	      	{{ appointment.warehouseLocation }} 
-		    </p>
-	    </a>
+			  <a class="item today-item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in pulledOrders | orderBy:'-'">
+		      <h2>{{appointment.name}} - {{appointment.truckOrder}}
+		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
+				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+				    </select>
+		      </h2>
+		      <!-- <p>
+		      	{{ appointment.warehouseLocation }} 
+			    </p> -->
+		    </a>
+			</div>
+
+
+
+			<div class="list" ng-if="loadedOrders.length > 0">
+
+				<div class="item item-divider" ng-if="loadedOrders.length > 0">
+			    Loaded Orders ({{loadedOrders.length}}) 
+			  </div>
+
+			  <a class="item today-item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in loadedOrders | orderBy:'-'">
+		      <h2>{{appointment.name}} - {{appointment.truckOrder}}
+		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
+				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+				    </select>
+		      </h2>
+		      <!-- <p>
+		      	{{ appointment.warehouseLocation }} 
+			    </p> -->
+		    </a>
+			</div>
+
+			<div class="list" ng-if="missingOrders.length > 0">
+
+				<div class="item item-divider" ng-if="missingOrders.length > 0">
+			    Missing Orders ({{missingOrders.length}}) 
+			  </div>
+
+			  <a class="item today-item" href="#/app/load_order/{{appointment._id}}" ng-repeat="appointment in missingOrders | orderBy:'-'">
+		      <h2>{{appointment.name}} - {{appointment.truckOrder}}
+		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
+				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+				    </select>
+		      </h2>
+		      <!-- <p>
+		      	{{ appointment.warehouseLocation }} 
+			    </p> -->
+		    </a>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

@@ -11,7 +11,21 @@ angular.module('fencesForBusiness.drivers_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.loading = true;
 
 
+  $scope.findTrucks = function() {
+    $scope.title = "Select Truck";
+    fencesData.callWrapper('/users/driversByRegion' , 'GET', null)
+      .then(function(results) {
+        $scope.drivers = results;
+        $scope.loading = false;
+      }, function(err) {
+        $ionicLoading.show({ template: 'There was an error', duration: 1000 });
+      });
+  }
+
   $scope.$on('$ionicView.enter', function(e) {
+    if(!$localStorage.mover_token) {
+      $state.go('app.login');
+    }
     $rootScope.isTraining = false;
     $scope.isTraining = false;
     $rootScope.trainingInProgress = false;
@@ -20,16 +34,21 @@ angular.module('fencesForBusiness.drivers_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.currentUser = $localStorage.mover;
 
     if($scope.currentUser && $scope.currentUser.tutorialCompleted) {
-      $scope.title = "Select Truck";
-      fencesData.callWrapper('/users/driversByRegion' , 'GET', null)
-        .then(function(results) {
-          $scope.drivers = results;
-          $scope.loading = false;
+      $scope.findTrucks();
+    } else {
+      $scope.title = "Complete Training";
+      fencesData.callWrapper('/users/me' , 'GET', null)
+        .then(function(result) {
+          $localStorage.mover = result;
+          $scope.currentUser = result;
+          if($scope.currentUser && $scope.currentUser.tutorialCompleted) {
+            $scope.findTrucks();
+          } else {
+            $scope.loading = false;
+          }
         }, function(err) {
           $ionicLoading.show({ template: 'There was an error', duration: 1000 });
         });
-    } else {
-      $scope.loading = false;
     }
   });
 

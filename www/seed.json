@@ -22,14 +22,153 @@
 	},
   
   "invoices" : [
+    {
+      "_id": "58dbb764eb5ad40b00081e26",
+      "status": "Skeleton",
+      "name": "SS-INV-00032300",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PgQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMNQA0",
+      "items": [],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dba8a0eb5ad40b00081e1c",
+      "status": "Skeleton",
+      "name": "SS-INV-00032297",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PCQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcLjQAK",
+      "updatedAt": "2017-03-31T18:36:07.817Z",
+      "items": [
+
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbaacceb5ad40b00081e1f",
+      "status": "Skeleton",
+      "name": "SS-INV-00032298",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PRQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcLyQAK",
+      "updatedAt": "2017-03-31T18:41:51.421Z",
+      "items": [
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbb01beb5ad40b00081e22",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032299",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PbQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMIQA0",
+      "updatedAt": "2017-03-31T18:43:56.332Z",
+      "items": [
+       
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbb834eb5ad40b00081e29",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032301",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PlQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMSQA0",
+      "updatedAt": "2017-03-31T18:45:39.803Z",
+      "items": [
+       
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbc7bf011a630b00ed8de7",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032302",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144QeQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMXQA0",
+      "updatedAt": "2017-03-31T18:46:39.769Z",
+      "items": [
+        
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbdd30011a630b00ed8dea",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032303",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144RIQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMcQAK",
+      "updatedAt": "2017-03-31T18:48:08.893Z",
+      "items": [
+       
+      ],
+      "imageURLs": [
+      ]
+    }
+
   ],
+
+
+
+
+
 
 	"orders" :  [
     {
       "_id": "58dba8a0eb5ad40b00081e1b",
       "truckOrder": 0,
       "driverName": "BT10",
-      "deliveryTime": "8:00am",
+      "deliveryTime": "8:15am",
       "updatedAt": "2017-03-30T18:45:07.256Z",
       "customer": "585878a63fddf20400678700",
       "position": {
@@ -38,7 +177,7 @@
           "longitude": -71.085009
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Tyrion Lannister",
       "ssOrderId": "a064C000000JcLjQAK",
       "ssOrderName": "SS-ORDER-00013349",
       "externalId": "a024C000001oFZjQAM",
@@ -55,6 +194,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -80,12 +221,12 @@
           "longitude": -71.0844312
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Jon Snow",
       "ssOrderId": "a064C000000JcLyQAK",
       "ssOrderName": "SS-ORDER-00013350",
       "externalId": "a024C000001oFZtQAM",
       "deliveryDate": "2017-03-30T06:00:00.000Z",
-      "address": "696 Columbus Ave, Boston, MA",
+      "address": "700 Columbus Ave, Boston, MA.",
       "email": "danhagberg2@gmail.com",
       "editURL": "https://www.tfaforms.com/4603332?id=a064C000000JcLyQAK&signature=%2FVTvK5oODgR1v4Ff72f%2BIc8eRU3EIljJxl2t4W8MUus%3D",
       "school": "Northeastern",
@@ -97,6 +238,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": true,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -120,7 +263,7 @@
           "longitude": -71.08815059999999
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Eddard Stark",
       "ssOrderId": "a064C000000JcMIQA0",
       "ssOrderName": "SS-ORDER-00013351",
       "externalId": "a024C000001oFZyQAM",
@@ -138,6 +281,8 @@
       "hasInsurace": true,
       "insuranceUnits": 0,
       "shipping": false,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -161,7 +306,7 @@
           "longitude": -71.091165
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Gregor Clegane",
       "ssOrderId": "a064C000000JcMNQA0",
       "ssOrderName": "SS-ORDER-00013352",
       "externalId": "a024C000001oFa3QAE",
@@ -178,6 +323,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -201,7 +348,7 @@
           "longitude": -71.0888161
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Petyr Baelish",
       "ssOrderId": "a064C000000JcMSQA0",
       "ssOrderName": "SS-ORDER-00013353",
       "externalId": "a024C000001oFa8QAE",
@@ -219,6 +366,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -242,7 +391,7 @@
           "longitude": -71.0921772
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Daenerys Targaryen",
       "ssOrderId": "a064C000000JcMXQA0",
       "ssOrderName": "SS-ORDER-00013354",
       "externalId": "a024C000001oFaIQAU",
@@ -259,6 +408,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": true,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -282,7 +433,7 @@
           "longitude": -71.090362
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Daario Naharis",
       "ssOrderId": "a064C000000JcMcQAK",
       "ssOrderName": "SS-ORDER-00013355",
       "externalId": "a024C000001oFbVQAU",
@@ -299,6 +450,8 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
+      "shippingUnits" : 0,
+      "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
@@ -322,6 +475,12 @@
     "warehouseStatus": "Unloaded"
   },
 
+
+
+
+
+
+
 	"orders_validated" : 
 	 [
     {
@@ -337,7 +496,7 @@
           "longitude": -71.085009
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Tyrion Lannister",
       "ssOrderId": "a064C000000JcLjQAK",
       "ssOrderName": "SS-ORDER-00013349",
       "externalId": "a024C000001oFZjQAM",
@@ -379,7 +538,7 @@
           "longitude": -71.0844312
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Jon Snow",
       "ssOrderId": "a064C000000JcLyQAK",
       "ssOrderName": "SS-ORDER-00013350",
       "externalId": "a024C000001oFZtQAM",
@@ -419,7 +578,7 @@
           "longitude": -71.08815059999999
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Eddard Stark",
       "ssOrderId": "a064C000000JcMIQA0",
       "ssOrderName": "SS-ORDER-00013351",
       "externalId": "a024C000001oFZyQAM",
@@ -460,7 +619,7 @@
           "longitude": -71.091165
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Gregor Clegane",
       "ssOrderId": "a064C000000JcMNQA0",
       "ssOrderName": "SS-ORDER-00013352",
       "externalId": "a024C000001oFa3QAE",
@@ -500,7 +659,7 @@
           "longitude": -71.0888161
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Petyr Baelish",
       "ssOrderId": "a064C000000JcMSQA0",
       "ssOrderName": "SS-ORDER-00013353",
       "externalId": "a024C000001oFa8QAE",
@@ -541,7 +700,7 @@
           "longitude": -71.0921772
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Daenerys Targaryen",
       "ssOrderId": "a064C000000JcMXQA0",
       "ssOrderName": "SS-ORDER-00013354",
       "externalId": "a024C000001oFaIQAU",
@@ -581,7 +740,7 @@
           "longitude": -71.090362
         }
       },
-      "name": "Daniel Hagberg",
+      "name": "Daario Naharis",
       "ssOrderId": "a064C000000JcMcQAK",
       "ssOrderName": "SS-ORDER-00013355",
       "externalId": "a024C000001oFbVQAU",
@@ -623,169 +782,645 @@
     "warehouseStatus": "Unloaded"
 	},
   "invoices_validated" : [
-  ],
-  "products": [
     {
-      "_id": "5858715605c21a0f00bc8c8b",
-      "name": "Furniture",
-      "externalId": "01t61000002fb5MAAQ",
-      "__v": 0,
-      "price": 90,
-      "show_to_driver": true,
-      "tier": 1
+      "_id": "58dbb764eb5ad40b00081e26",
+      "status": "Skeleton",
+      "name": "SS-INV-00032300",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PgQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMNQA0",
+      "items": [],
+      "imageURLs": []
     },
     {
-      "_id": "587545fe62e5c80f001b7690",
-      "name": "Rug",
-      "externalId": "01t61000001aJB3AAM",
+      "_id": "58dba8a0eb5ad40b00081e1c",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032297",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PCQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcLjQAK",
+      "updatedAt": "2017-03-31T18:36:07.817Z",
+      "items": [
+        {
+          "product_id": "01t61000001aJ9qAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 2,
+          "product_name": "Bin"
+        },
+        {
+          "product_id": "01t61000001aJ9vAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Box"
+        },
+        {
+          "product_id": "01t61000001aJAUAA2",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Luggage"
+        },
+        {
+          "product_id": "01t61000001aJAeAAM",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 3,
+          "product_name": "Mega Box"
+        }
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbaacceb5ad40b00081e1f",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032298",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PRQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcLyQAK",
+      "updatedAt": "2017-03-31T18:41:51.421Z",
+      "items": [
+        {
+          "product_id": "01t61000002fb5MAAQ",
+          "type": "Storage Goods",
+          "item_price": 90,
+          "total_price": 90,
+          "quantity": 1,
+          "product_name": "Furniture"
+        },
+        {
+          "product_id": "01t61000001aJAFAA2",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Fridge"
+        },
+        {
+          "product_id": "01t61000001aJAoAAM",
+          "type": "Storage Goods",
+          "item_price": 23,
+          "total_price": 23,
+          "quantity": 1,
+          "product_name": "Mirror"
+        },
+        {
+          "product_id": "01t61000001aJAeAAM",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 1,
+          "product_name": "Mega Box"
+        },
+        {
+          "product_id": "01t61000001ivOmAAI",
+          "type": "Storage Goods",
+          "item_price": 15,
+          "total_price": 15,
+          "quantity": 1,
+          "product_name": "Room Service"
+        },
+        {
+          "product_id": "01t6100000181GVAAY",
+          "type": "Storage Goods",
+          "item_price": 25,
+          "total_price": 25,
+          "quantity": 1,
+          "product_name": "Overweight Box (70+ LBS)"
+        }
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbb01beb5ad40b00081e22",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032299",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PbQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMIQA0",
+      "updatedAt": "2017-03-31T18:43:56.332Z",
+      "items": [
+        {
+          "product_id": "01t61000000oFYEAA2",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Miscellaneous",
+          "misc_notes": "Misc item"
+        },
+        {
+          "product_id": "01t61000001aJ9vAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Box"
+        },
+        {
+          "product_id": "01t61000001aJAFAA2",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Fridge"
+        },
+        {
+          "product_id": "01t61000001aJAZAA2",
+          "type": "Storage Goods",
+          "item_price": 73,
+          "total_price": 73,
+          "quantity": 2,
+          "product_name": "Mattress or Box Spring"
+        },
+        {
+          "product_id": "01t61000001aJBDAA2",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Television"
+        },
+        {
+          "product_id": "01t6100000181EjAAI",
+          "type": "Storage Goods",
+          "item_price": 10,
+          "total_price": 10,
+          "quantity": 2,
+          "product_name": "Mattress Bag"
+        }
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbb834eb5ad40b00081e29",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032301",
+      "school": "Northeastern",
+      "pickup_season": "Study Abroad 2016",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144PlQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMSQA0",
+      "updatedAt": "2017-03-31T18:45:39.803Z",
+      "items": [
+        {
+          "product_id": "01t61000000oFYEAA2",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Miscellaneous",
+          "misc_notes": "Misc 1"
+        },
+        {
+          "product_id": "01t61000001aJ9RAAU",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Bag/Duffel"
+        },
+        {
+          "product_id": "01t61000001aJ9qAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Bin"
+        },
+        {
+          "product_id": "01t61000001aJAeAAM",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 2,
+          "product_name": "Mega Box"
+        }
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbc7bf011a630b00ed8de7",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032302",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144QeQAI",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMXQA0",
+      "updatedAt": "2017-03-31T18:46:39.769Z",
+      "items": [
+        {
+          "product_id": "01t61000002fb5MAAQ",
+          "type": "Storage Goods",
+          "item_price": 90,
+          "total_price": 90,
+          "quantity": 1,
+          "product_name": "Furniture"
+        },
+        {
+          "product_id": "01t61000001aJ9vAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Box"
+        },
+        {
+          "product_id": "01t61000001aJAAAA2",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 1,
+          "product_name": "Fan"
+        },
+        {
+          "product_id": "01t61000001aJAFAA2",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Fridge"
+        }
+      ],
+      "imageURLs": [
+      ]
+    },
+    {
+      "_id": "58dbdd30011a630b00ed8dea",
+      "status": "Ready for Review",
+      "name": "SS-INV-00032303",
+      "school": "Northeastern",
+      "grand_total_price": 0,
+      "externalId": "a044C00000144RIQAY",
+      "invoice_type": "Storage Goods",
+      "invoice_date": "2017-03-29T00:00:00.000Z",
+      "due_date": "2017-04-05T00:00:00.000Z",
+      "days_past_due": -5,
+      "order_id": "a064C000000JcMcQAK",
+      "updatedAt": "2017-03-31T18:48:08.893Z",
+      "items": [
+        {
+          "product_id": "01t61000000oFYEAA2",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Miscellaneous",
+          "misc_notes": "Thing 1"
+        },
+        {
+          "product_id": "01t61000000oFYEAA2",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Fridge"
+        },
+        {
+          "product_id": "01t61000001aJ9lAAE",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Bicycle"
+        },
+        {
+          "product_id": "01t61000001aJ9qAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 2,
+          "product_name": "Bin"
+        },
+        {
+          "product_id": "01t61000001aJAPAA2",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 1,
+          "product_name": "Lamp"
+        },
+        {
+          "product_id": "01t61000001aJAUAA2",
+          "type": "Storage Goods",
+          "item_price": 53,
+          "total_price": 53,
+          "quantity": 1,
+          "product_name": "Luggage"
+        },
+        {
+          "product_id": "01t61000001aJAjAAM",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 1,
+          "product_name": "Microwave"
+        },
+        {
+          "product_id": "01t61000001aJAeAAM",
+          "type": "Storage Goods",
+          "item_price": 33,
+          "total_price": 33,
+          "quantity": 1,
+          "product_name": "Mega Box"
+        }
+      ],
+      "imageURLs": [
+
+      ]
+    }
+  ],
+
+  "products": [
+    {
+      "_id": "58e6448a1821340b007ca864",
+      "name": "Mega Box",
+      "externalId": "01t61000001aJAeAAM",
+      "product_family": "Storage",
       "show_to_driver": true,
-      "price": 43,
+      "price": 33,
+      "priority": 1,
       "__v": 0
     },
     {
-      "_id": "58c830080cb0470f0014cff4",
+      "_id": "58e6448a1821340b007ca85a",
+      "name": "Bag/Duffel",
+      "externalId": "01t61000001aJ9RAAU",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "priority": 3,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca85b",
+      "name": "Bicycle",
+      "externalId": "01t61000001aJ9lAAE",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 53,
+      "priority": 5,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca85c",
+      "name": "Bin",
+      "externalId": "01t61000001aJ9qAAE",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "priority": 8,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca85d",
+      "name": "Box",
+      "externalId": "01t61000001aJ9vAAE",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "priority": 9,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca85e",
+      "name": "Chair",
+      "externalId": "01t61000001aJA5AAM",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "priority": 11,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca85f",
+      "name": "Fan",
+      "externalId": "01t61000001aJAAAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 33,
+      "priority": 13,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca860",
+      "name": "Fridge",
+      "externalId": "01t61000001aJAFAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 53,
+      "priority": 15,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca86e",
+      "name": "Furniture",
+      "externalId": "01t61000002fb5MAAQ",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "tier": 1,
+      "price": 90,
+      "priority": 17,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca861",
+      "name": "Lamp",
+      "externalId": "01t61000001aJAPAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 33,
+      "priority": 19,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca862",
+      "name": "Luggage",
+      "externalId": "01t61000001aJAUAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 53,
+      "priority": 21,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca863",
+      "name": "Mattress or Box Spring",
+      "externalId": "01t61000001aJAZAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 73,
+      "priority": 23,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca865",
+      "name": "Microwave",
+      "externalId": "01t61000001aJAjAAM",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 33,
+      "priority": 25,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca866",
+      "name": "Mirror",
+      "externalId": "01t61000001aJAoAAM",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 23,
+      "priority": 27,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca847",
       "name": "Miscellaneous",
       "externalId": "01t61000000oFYEAA2",
       "product_family": "Storage",
       "show_to_driver": true,
       "price": 43,
+      "priority": 29,
       "__v": 0
     },
     {
-      "_id": "58d52c0ea1bea60b00b2e3e0",
-      "name": "Bag/Duffel",
-      "externalId": "01t61000001aJ9RAAU",
-      "show_to_driver": true,
-      "price": 43,
-      "__v": 0
-    },
-    {
-      "_id": "58d52c2aa1bea60b00b2e3e1",
-      "name": "Bicycle",
-      "externalId": "01t61000001aJ9lAAE",
-      "show_to_driver": true,
-      "price": 53,
-      "__v": 0
-    },
-    {
-      "_id": "58d96126d03b340b00a299a8",
-      "name": "Bin",
-      "externalId": "01t61000001aJ9qAAE",
-      "show_to_driver": true,
-      "price": 43,
-      "__v": 0
-    },
-    {
-      "_id": "58d9613ed03b340b00a299a9",
-      "name": "Box",
-      "externalId": "01t61000001aJ9vAAE",
-      "show_to_driver": true,
-      "price": 43,
-      "__v": 0
-    },
-    {
-      "_id": "58d96146d03b340b00a299aa",
-      "name": "Chair",
-      "externalId": "01t61000001aJA5AAM",
-      "show_to_driver": true,
-      "price": 43,
-      "__v": 0
-    },
-    {
-      "_id": "58d96157d03b340b00a299ab",
-      "name": "Fan",
-      "externalId": "01t61000001aJAAAA2",
-      "show_to_driver": true,
-      "price": 33,
-      "__v": 0
-    },
-    {
-      "_id": "58d96168d03b340b00a299ac",
-      "name": "Fridge",
-      "externalId": "01t61000001aJAFAA2",
-      "show_to_driver": true,
-      "price": 53,
-      "__v": 0
-    },
-    {
-      "_id": "58d96193d03b340b00a299ad",
-      "name": "Lamp",
-      "externalId": "01t61000001aJAPAA2",
-      "show_to_driver": true,
-      "price": 33,
-      "__v": 0
-    },
-    {
-      "_id": "58d961a3d03b340b00a299ae",
-      "name": "Luggage",
-      "externalId": "01t61000001aJAUAA2",
-      "show_to_driver": true,
-      "price": 53,
-      "__v": 0
-    },
-    {
-      "_id": "58d961c0d03b340b00a299af",
-      "name": "Mattress or Box Spring",
-      "externalId": "01t61000001aJAZAA2",
-      "show_to_driver": true,
-      "price": 73,
-      "__v": 0
-    },
-    {
-      "_id": "58d961dbd03b340b00a299b0",
-      "name": "Vacuum",
-      "externalId": "01t61000001aJBNAA2",
-      "show_to_driver": true,
-      "price": 33,
-      "__v": 0
-    },
-    {
-      "_id": "58d96219d03b340b00a299b1",
-      "name": "Microwave",
-      "externalId": "01t61000001aJAjAAM",
-      "show_to_driver": true,
-      "price": 33,
-      "__v": 0
-    },
-    {
-      "_id": "58d96227d03b340b00a299b2",
-      "name": "Mirror",
-      "externalId": "01t61000001aJAoAAM",
-      "show_to_driver": true,
-      "price": 23,
-      "__v": 0
-    },
-    {
-      "_id": "58d96253d03b340b00a299b3",
+      "_id": "58e6448a1821340b007ca867",
       "name": "Printer",
       "externalId": "01t61000001aJAyAAM",
+      "product_family": "Storage",
       "show_to_driver": true,
       "price": 33,
+      "priority": 31,
       "__v": 0
     },
     {
-      "_id": "58d96288d03b340b00a299b4",
+      "_id": "58e6448a1821340b007ca868",
+      "name": "Rug",
+      "externalId": "01t61000001aJB3AAM",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 43,
+      "priority": 33,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca869",
       "name": "Television",
       "externalId": "01t61000001aJBDAA2",
+      "product_family": "Storage",
       "show_to_driver": true,
       "price": 43,
+      "priority": 35,
       "__v": 0
     },
     {
-      "_id": "58d96299d03b340b00a299b5",
+      "_id": "58e6448a1821340b007ca86a",
       "name": "Trunk",
       "externalId": "01t61000001aJBIAA2",
+      "product_family": "Storage",
       "show_to_driver": true,
       "price": 43,
+      "priority": 37,
       "__v": 0
     },
     {
-      "_id": "58da95a4eb5ad40b00081e15",
+      "_id": "58e6448a1821340b007ca86b",
+      "name": "Vacuum",
+      "externalId": "01t61000001aJBNAA2",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 33,
+      "priority": 39,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca845",
       "name": "Declared Value",
-      "externalId": "01t61000001813EAAQ",
-      "product_family": "Fees",
+      "externalId": "01t4C000000kVbBQAU",
+      "product_family": "Storage",
       "show_to_driver": true,
       "price": 5,
+      "priority": 48,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca844",
+      "name": "Mattress Bag",
+      "externalId": "01t4C000000kVb6QAE",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 10,
+      "priority": 50,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca846",
+      "name": "Moving Blanket",
+      "externalId": "01t4C000000kVbGQAU",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 5,
+      "priority": 52,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca84f",
+      "name": "Overweight Box (70+ LBS)",
+      "externalId": "01t6100000181GVAAY",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 25,
+      "priority": 54,
+      "__v": 0
+    },
+    {
+      "_id": "58e6448a1821340b007ca843",
+      "name": "Room Service",
+      "externalId": "01t4C000000kVb1QAE",
+      "product_family": "Storage",
+      "show_to_driver": true,
+      "price": 15,
+      "priority": 56,
       "__v": 0
     }
   ]
