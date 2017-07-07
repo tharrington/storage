@@ -193,6 +193,10 @@ angular.module('fencesForBusiness', [
       } else if($localStorage.mover_token) {
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
+      if($localStorage.mover && $localStorage.mover._id) {
+        config.headers['mover_id'] = $localStorage.mover._id;
+        console.log("### add mover id: " + $localStorage.mover._id);
+      }
       return config;
     },
 
