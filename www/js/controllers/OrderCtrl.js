@@ -6,8 +6,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('OrderCtrl', function($scope, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
   $scope.user = $localStorage.user;
-
-  
+  $scope.invoice_items = [];
 
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
@@ -52,7 +51,13 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.order.notes = '';
     }
     if($scope.order.type == 'Delivery') {
-      $scope.orderUpdates({ status: 'Complete- Left Unattended' });
+      $scope.orderUpdates = [
+        { status : 'Ok' },
+        { status : 'Rescheduled' },
+        { status : 'No Answer' },
+        { status : 'Canceled' },
+        { status : 'Complete- Left Unattended' }
+      ] 
     }
     $scope.order_status = result.status;
 	});
@@ -63,6 +68,24 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
       $scope.order_status = result.status;
+
+      if($scope.order.warehouseStatus == 'Partially Loaded') {
+        fencesData.callWrapper('/invoices/bySSOrderId/' + $scope.order.ssOrderId, 'GET', null).then(function(result) {      
+
+          $scope.invoice = result.invoice;
+          if($scope.invoice && $scope.invoice.items) {
+            $scope.invoice_items = [];
+
+            $scope.invoice.items.forEach(function(entry) {
+              console.log('### entry: ' + JSON.stringify(entry));
+              if(entry.type == 'Storage Goods') {
+                $scope.invoice_items.push(entry);
+              }
+            });
+            console.log('### invoice items: ' + JSON.stringify($scope.invoice_items));
+          }
+        });
+      }
     });
   });
 

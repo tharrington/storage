@@ -42,6 +42,7 @@ angular.module('fencesForBusiness.auth_service', [])
           password: user.password
         }).
         success(function(data) {
+          console.log('### got data: ' + JSON.stringify(data));
           if(data.user.role == 'Mover') {
             $localStorage.mover = data.user;
             $localStorage.mover_token = data.token;

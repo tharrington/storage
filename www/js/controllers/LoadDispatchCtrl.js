@@ -6,6 +6,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.loadedOrders = [];
   $scope.missingOrders = [];
   $scope.pulledOrders = [];
+  $scope.loading = true;
 
   $scope.user = $localStorage.user;
   
@@ -27,16 +28,19 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.getDispatch();
     });
   }
-  
-  $scope.setDispatchStatus = function() {
+
+  $scope.setDispatchStatus = function(status) {
+    $scope.dispatch.warehouseStatus = status;
     fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
-      $scope.getDispatch();
     });
   }
 
   $scope.setOrderStatus = function(appointment) {
     fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
       $scope.getDispatch();
+      if(appointment.warehouseStatus == 'Partially Loaded') {
+        $state.go('app.missing-items', { id : appointment.ssOrderId });
+      }
     });
   }
 
@@ -50,6 +54,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.loadedOrders = [];
     $scope.missingOrders = [];
     $scope.pulledOrders = [];
+    $scope.loading = true;
 
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
       $scope.dispatch = result;
@@ -69,6 +74,11 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
         }
       });
 
+      $scope.loading = false;
+
+      if($scope.pulledOrders && $scope.pulledOrders.length == 0) {
+        $scope.setDispatchStatus('Loaded');
+      }
     });
   };
 
@@ -77,7 +87,14 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   });
 
   $scope.viewOrder = function(order) {
+    console.log('### viewing order....');
     fencesData.setOrder(order);
     $state.go('app.load_order');
+  };
+
+  $scope.editMissingOrder = function(order, event) {
+    $state.go('app.missing-items', { id : order.ssOrderId });
+    event.preventDefault();
+    event.stopPropagation();
   };
 });

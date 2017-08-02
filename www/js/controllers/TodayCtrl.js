@@ -41,7 +41,6 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.setOrderStatus = function(appointment) {
-    console.log('### scheduled: ' + appointment.status);
     if(appointment.status == 'Scheduled') {
       appointment.status = 'Appointment Scheduled';
     }
@@ -121,7 +120,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
               $scope.canceledOrders.push(entry);
             } else if(entry.status == 'Flagged') {
               $scope.flaggedOrders.push(entry);
-            } else {
+            } else if(entry.warehouseStatus != 'Missing') {
               $scope.orders.push(entry);
             }
           }

@@ -80,7 +80,7 @@
 			    {{orders.length}} Appointment<span ng-if="orders.length > 1">s</span> Remaining
 			  </div>
 
-			  <a class="item today-item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index">
+			  <a class="item today-item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index" ng-if="appointment.warehouseStatus != 'Missing'">
 		      <h2>
 			      
 
@@ -98,6 +98,7 @@
 				    </select>
 		      </h2>
 		      <p>
+		      	<span ng-if="appointment.warehouseStatus == 'Partially Loaded'" style='color: #f00;'>Partial Order - </span>
 		      	<span ng-if="appointment.type == 'Delivery'">DEL - </span>
 			      <span ng-if="appointment.type == 'Pickup'">PU - </span>
 

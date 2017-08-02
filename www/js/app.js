@@ -15,7 +15,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.order_invoice_service',
   'fencesForBusiness.order_summary_ctrl',
   'fencesForBusiness.supplies_ctrl',
-
+  'fencesForBusiness.missing_items_ctrl',
   'fencesForBusiness.warehouse_ctrl',
   'fencesForBusiness.load_dispatch_ctrl',
   'fencesForBusiness.load_order_ctrl',
@@ -28,14 +28,14 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
-// .constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
-.constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
+// .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '6.0.2';
+	$rootScope.version = '6.0.4';
 
   if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
     $rootScope.isTraining = true;
@@ -100,6 +100,15 @@ angular.module('fencesForBusiness', [
       views: {
         'menuContent': {
           templateUrl: 'templates/lookup.html'
+        }
+      }
+    })
+    .state('app.missing-items', {
+      url: '/missing-items/:id',
+      controller: 'MissingItemsCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/missing_items.html'
         }
       }
     })
@@ -195,7 +204,6 @@ angular.module('fencesForBusiness', [
       }
       if($localStorage.mover && $localStorage.mover._id) {
         config.headers['mover_id'] = $localStorage.mover._id;
-        console.log("### add mover id: " + $localStorage.mover._id);
       }
       return config;
     },

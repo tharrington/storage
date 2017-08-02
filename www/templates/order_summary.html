@@ -26,8 +26,12 @@
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
   	<div class="list">
-  		<div class="item item-divider">
+  		<div class="item item-divider" ng-if="pickup && pickup.warehouseLocation">
 		    {{pickup.name}} - {{pickup.customerId}} - {{pickup.warehouseLocation}}
+		  </div>
+
+		  <div class="item item-divider" ng-if="delivery && delivery.warehouseLocation">
+		    {{pickup.name}} - {{pickup.customerId}} - {{delivery.warehouseLocation}}
 		  </div>
 		  <div class="item item-text-wrap">
 		    {{pickup.school}} - {{pickup.pickupSeason}}
@@ -38,14 +42,19 @@
 		  </div>
 
 
-		  <label class="item item-input">
+		  <label class="item item-input" ng-if="pickup && pickup.warehouseLocation">
 		    <span class="input-label">WH Location </span>
 		    <input type="text" placeholder="Enter WH Location" ng-model="pickup.warehouseLocation">
 		  </label>
 
+		  <label class="item item-input" ng-if="pickup && !pickup.warehouseLocation">
+		    <span class="input-label">WH Location </span>
+		    <input type="text" placeholder="Enter WH Location" ng-model="delivery.warehouseLocation">
+		  </label>
+
 		  <label class="item item-input">
 		    <span class="input-label">WH Notes </span>
-		    <input type="text" placeholder="Enter WH Notes" ng-model="pickup.warehouse_notes">
+		    <input type="text" placeholder="Enter WH Notes" ng-model="delivery.warehouse_notes">
 		  </label>
 
 		  <button class="button button-full button-royal" ng-click="saveNotes();">

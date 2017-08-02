@@ -11,8 +11,6 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
   
   $scope.login = function(form) {
   	$scope.submitted = true;
-    console.log('### logging in');
-
     $rootScope.isStaging = false;
     $localStorage.isStaging = false;
     $scope.submitted = true;
@@ -47,17 +45,17 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
 
     if(form.$valid) {
       Auth.login($scope.user)
-      .then( function() {
-        fencesLocations.startLocation();
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('app.drivers');
-      })
-      .catch( function(err) {
-        $scope.hasErrors = true;
-        if(err) {
-          $scope.errorMessage = err.message;
-        }
-      });
+        .then( function() {
+          fencesLocations.startLocation();
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('app.drivers');
+        })
+        .catch( function(err) {
+          $scope.hasErrors = true;
+          if(err) {
+            $scope.errorMessage = err.message;
+          }
+        });
     }
   };
 });

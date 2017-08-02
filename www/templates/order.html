@@ -1,11 +1,31 @@
 <ion-view hide-nav-bar="false" view-title="Order" cache-view="false" ng-controller="OrderCtrl">
 	
 	<style>
-		/*a.item {
-			padding: 10px !important;
-		}*/
 		.item-select select {
 			color : #000 !important;
+		}
+	</style>
+
+	<style>
+		.invoicePic {
+		  height: 200px;
+		  width: auto;
+		  margin: 2px;
+		}
+
+		::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    	color:    #aaaaaa !important;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		   color:    #aaaaaa;
+		   opacity:  1;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+		   color:    #aaaaaa;
+		   opacity:  1;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		   color:    #aaaaaa;
 		}
 	</style>
 
@@ -44,6 +64,17 @@
 			</button>
 
 		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">Management Notes: {{order.management_notes}}</a>
+
+		  <div class="item item-divider" ng-if="order.type == 'Delivery' && order.warehouseStatus == 'Partially Loaded'">Partially Loaded Order - Item Statuses</div>
+	    <a class="item" ng-repeat="item in invoice_items">
+	    	<h2>{{item.product_display_name}} - {{item.quantity}}</h2>
+	    	<p>{{item.warehouseStatus}}</p>
+	    </a>
+
+	    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
+			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+			</ion-scroll>
+
 
 		  <div class="item item-divider">Contact: {{order.name}} ({{order.customerId}})</div>
 	    <a class="item item-icon-left" href="tel:{{order.phone}}" href="#">
