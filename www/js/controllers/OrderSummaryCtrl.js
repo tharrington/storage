@@ -1,11 +1,17 @@
 angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
 .controller('OrderSummaryCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
+  
+  $scope.invoice = { imageURLs : [] };
+
   $scope.$on( "$ionicView.enter", function( scopes ) {
+    console.log('### order summary...');
 
   	$scope.pickup = {};
   	$scope.delivery = {};
-  	$scope.invoice = {};
+  	$scope.invoice = { imageURLs : [] };
+
+
     $scope.shipping_invoice = {};
 
     $scope.total_invoice_items = 0;
@@ -14,11 +20,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
-        console.log('### got result: ' + JSON.stringify(result));
-
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
+        console.log('### results: ' + JSON.stringify(result));
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -34,7 +39,8 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
               });
 
               inv.imageURLs.forEach(function(item) {
-                images.push(item);
+                images.push({ src : item });
+                // images.push(item);
               });
 
               $scope.invoice = inv;
@@ -44,6 +50,8 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
               $scope.shipping_invoice = inv;
             }
           });
+
+          console.log('### images: ' + JSON.stringify($scope.invoice.imageURLs));
 
           if($scope.shipping_invoice && $scope.shipping_invoice._id) {
             var total_shipping_items = 0;
@@ -72,7 +80,13 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.saveNotes = function() {
     $ionicLoading.show({ template: 'Saving' });
+    $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
+    $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
+      .then(function(result) {
+        $ionicLoading.show({ template: 'Order Saved.', duration: 1000 });
+      });
+    fencesData.callWrapper('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery)
       .then(function(result) {
         $ionicLoading.show({ template: 'Order Saved.', duration: 1000 });
       });

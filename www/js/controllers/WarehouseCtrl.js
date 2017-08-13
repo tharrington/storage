@@ -6,7 +6,6 @@ angular.module('fencesForBusiness.warehouse_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.dispatches = [];
   $scope.user = {};
   $scope.driverName;
-  // $localStorage.user = null;
 
   $scope.getDispatches = function() {
     var myMoment = moment();
@@ -16,9 +15,24 @@ angular.module('fencesForBusiness.warehouse_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/dispatches/drivers/getAllDriverDispatches/' + myDate, 'GET', null).then(function(result) {
       $ionicLoading.hide();
       $scope.dispatches = result;
-      if($scope.dispatches && $scope.dispatches.length > 2) {
-        $scope.dispatches = $scope.dispatches.splice(0,3);
+
+
+      if($scope.dispatches && $scope.dispatches.length > 4) {
+        $scope.dispatches = $scope.dispatches.splice(0,5);
       }
+
+      $scope.dispatches.forEach(function(dispatch) {
+        var delivery_count = 0;
+        console.log('### dispatch order: ' + JSON.stringify(dispatch.orders));
+        dispatch.orders.forEach(function(order) {
+          console.log('### order type: ' + order.type);
+          if(order.type == 'Delivery') {
+            delivery_count++;
+          }
+        });
+        console.log('### delivery_count: ' + delivery_count);
+        dispatch.delivery_count = delivery_count;
+      });
     })
     .finally(function() {
     });
@@ -36,8 +50,9 @@ angular.module('fencesForBusiness.warehouse_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.$on('$ionicView.enter', function(e) {
     $scope.user = $localStorage.user;
-    $scope.driverName = $scope.user.name;
+    
     if($scope.user) {
+      $scope.driverName = $scope.user.name;
       $scope.getDispatches();
       $scope.findTrucks();
     } else {

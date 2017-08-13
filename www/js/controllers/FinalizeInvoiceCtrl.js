@@ -77,6 +77,12 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
     $ionicLoading.show({ template : 'Saving Invoice' });
     $scope.invoice.status = 'Ready for Review';
 
+    $scope.invoice.items.forEach(function(entry) {
+      if(!entry.warehouseStatus) {
+        entry.warehouseStatus = 'In Storage';
+      }
+    });
+
     fencesData.callWrapper('/invoices/' + $scope.invoice._id, 'PUT', $scope.invoice).then(function(result) {
       
       if($rootScope.isTraining) {

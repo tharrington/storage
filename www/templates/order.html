@@ -65,18 +65,28 @@
 
 		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">Management Notes: {{order.management_notes}}</a>
 
-		  <div class="item item-divider" ng-if="order.type == 'Delivery' && order.warehouseStatus == 'Partially Loaded'">Partially Loaded Order - Item Statuses</div>
-	    <a class="item" ng-repeat="item in invoice_items">
+		  <div class="item item-divider" ng-if="order.type == 'Delivery'">Items you're delivering...</div>
+	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus == 'Loaded' || item.warehouseStatus == 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
 	    	<h2>{{item.product_display_name}} - {{item.quantity}}</h2>
+	    	<!-- <p>{{item.warehouseStatus}}</p> -->
+	    </a>
+
+		  <div class="item item-divider" ng-if="order.type == 'Delivery' && order.warehouseStatus == 'Partially Loaded'">Items remaining in storage...</div>
+	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus != 'Loaded' && item.warehouseStatus != 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
+	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> - {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
 	    	<p>{{item.warehouseStatus}}</p>
 	    </a>
 
-	    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
-			</ion-scroll>
+	    <ion-gallery ion-gallery-items="images"></ion-gallery> 
+
 
 
 		  <div class="item item-divider">Contact: {{order.name}} ({{order.customerId}})</div>
+		  <a class="item item-icon-left" href="tel:{{order.friendPhone}}" ng-if="order.friendPhone" href="#">
+	    	<i class="icon ion-ios-telephone"></i>
+	    	Friend Phone: <strong>{{order.friendPhone}}</strong>
+	    </a>
+
 	    <a class="item item-icon-left" href="tel:{{order.phone}}" href="#">
 	    	<i class="icon ion-ios-telephone"></i>
 	    	Call: {{ formatNumber(order.phone)}}
@@ -89,10 +99,7 @@
 	    	<i class="icon ion-ios-telephone"></i>
 	    	Alt Phone: {{order.altPhone}}
 	    </a>
-	    <a class="item item-icon-left" href="tel:{{order.friendPhone}}" href="#">
-	    	<i class="icon ion-ios-telephone"></i>
-	    	Friend Phone: <strong>{{order.friendPhone}}</strong>
-	    </a>
+	    
 	    <a class="item item-icon-left" href="#">
 	    	<i class="icon ion-email"></i>
 	    	Email: {{order.email}}

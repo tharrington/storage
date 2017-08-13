@@ -8,6 +8,9 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.user = $localStorage.user;
   $scope.invoice_items = [];
 
+  $scope.images = [];
+
+
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
 			var lat = parseFloat($scope.order.position.coords.latitude);
@@ -50,6 +53,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
     if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
       $scope.order.notes = '';
     }
+    console.log('### got order: ' + JSON.stringify($scope.order));
     if($scope.order.type == 'Delivery') {
       $scope.orderUpdates = [
         { status : 'Ok' },
@@ -63,27 +67,32 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 	});
 
   $scope.$on('$ionicView.enter', function(e) {
+    $scope.invoice_items = [];
+    $scope.images = [];
+
     Auth.checkLastTruckLogin();
     $ionicNavBarDelegate.showBackButton(true);
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
       $scope.order_status = result.status;
 
-      if($scope.order.warehouseStatus == 'Partially Loaded') {
-        fencesData.callWrapper('/invoices/bySSOrderId/' + $scope.order.ssOrderId, 'GET', null).then(function(result) {      
+      if($scope.order.type == 'Delivery') {
+        fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $scope.order.ssOrderId, 'GET', null).then(function(result) {      
 
-          $scope.invoice = result.invoice;
-          if($scope.invoice && $scope.invoice.items) {
-            $scope.invoice_items = [];
+          console.log('### result: ' + JSON.stringify(result));
+          $scope.invoices = result.invoices;
 
-            $scope.invoice.items.forEach(function(entry) {
-              console.log('### entry: ' + JSON.stringify(entry));
+          $scope.invoices.forEach(function(inv) {
+            inv.imageURLs.forEach(function(img) {
+              $scope.images.push({ src : img });
+            });
+            inv.items.forEach(function(entry) {
               if(entry.type == 'Storage Goods') {
                 $scope.invoice_items.push(entry);
               }
             });
-            console.log('### invoice items: ' + JSON.stringify($scope.invoice_items));
-          }
+          });
+          console.log('### invoice items: ' + JSON.stringify($scope.invoice_items));
         });
       }
     });

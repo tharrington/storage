@@ -9,6 +9,8 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
 		$ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, 
 		$ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   
+  $scope.images = [];
+
   $scope.pickup = {};
 	$scope.delivery = {};
 	$scope.invoices = [];
@@ -33,6 +35,25 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.pickup = result.Pickup;
 	  	$scope.delivery = result.Delivery;
 	  	$scope.invoices = result.invoices;
+      $scope.invoices.forEach(function(inv) {
+        inv.imageURLs.forEach(function(img) {
+          $scope.images.push({ src : img });
+        });
+        inv.items.forEach(function(item) {
+          if(item.type == 'Storage Goods') {
+            if(!item.warehouseStatus) {
+              item.warehouseStatus = 'Pulled';
+            }
+            if(item.warehouseStatus == 'Missing') {
+              item.missing_count = item.quantity;
+            }
+            if(!item.missing_count) {
+              item.missing_count = 0;
+            }
+          }
+          
+        });
+      });
     }, function(err) {
     	$ionicLoading.show({ template: 'There was an error', duration: 1000 });
     });
@@ -50,6 +71,33 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
 		    });
     	}
     });
-    
   }
+
+  $scope.increment_count = function(item) {
+    if(item.missing_count == item.quantity) {
+      item.missing_count 
+      return;
+    }
+    item.missing_count++;
+
+    if(item.missing_count == item.quantity) {
+      item.warehouseStatus = 'Missing';
+    } else {
+      item.warehouseStatus = 'Partially Loaded';
+    }
+  }
+
+  $scope.decrement_count = function(item) {
+    if(item.missing_count == 0) {
+      return;
+    }
+    item.missing_count--;
+
+    if(item.missing_count == 0) {
+      item.warehouseStatus = 'Loaded';
+    } else {
+      item.warehouseStatus = 'Partially Loaded';
+    }
+  }
+
 });

@@ -16,11 +16,10 @@
 
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
-  	<!-- <ion-refresher ng-if="user" pulling-text="Pull to refresh your schedule..." on-refresh="getDispatches()"></ion-refresher> -->
 
   	<div class="list" ng-if="user && user._id">
 		  <a class="item" ng-click="viewDispatch(dispatch);" ng-repeat="dispatch in dispatches">
-	      <h2>{{ displayDate(dispatch) }} ({{dispatch.warehouseStatus}} - {{dispatch.orders.length}} orders)</h2>
+	      <h2>{{ displayDate(dispatch) }} ({{dispatch.warehouseStatus}} - {{dispatch.delivery_count}} orders)</h2>
 	    </a>
 		</div>
 	</ion-content>

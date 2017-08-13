@@ -23,19 +23,20 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.lookup_ctrl',
   'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.finalize_invoice_ctrl',
-  'ngStorage', 
+  'ngStorage',
+  'ion-gallery', 
   'ngCordova',
   'angularMoment'
 ])
 
 .constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
 // .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '6.0.4';
+	$rootScope.version = '6.0.6';
 
   if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
     $rootScope.isTraining = true;

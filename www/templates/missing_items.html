@@ -27,6 +27,10 @@
 	.item-note {
 		color : #000;
 	}
+
+	.item-icon-left .icon, .item-icon-right .icon {
+    font-size: 22px;
+	}
 	
 </style>
 
@@ -34,24 +38,33 @@
   </ion-nav-back-button>
 
   <ion-content class="has-header">
-  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">
+  		Training Mode
+  	</div>
  
-  	<div class="item item-divider" style="background-color: #f00; color: #fff; text-align: 'center'; height: 40px;">
-	    Missing Items
-	  </div>
+	  <div class="list" ng-repeat="invoice in invoices" ng-if="invoice.status == 'Paid'">
 
-	  <div class="list" ng-repeat="invoice in invoices">
+	  	<div class="item item-divider">Items In Storage</div>
 
-		  <a class="item today-item" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods'">
-	      <h2>{{item.product_display_name}} - {{item.quantity}}
-	      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="item.warehouseStatus">
+
+		  <a class="item today-item item-icon-right" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods' && item.warehouseStatus != 'Delivered'">
+	      <h2>{{item.product_display_name}} - {{item.quantity}} 
+	      	<!-- <select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="item.warehouseStatus">
 			    	<option ng-repeat="stage in itemUpdates" ng-selected="item.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
-			    </select>
+			    </select> -->
+
+			    <i class="icon ion-arrow-up-c" ng-click="increment_count(item);" style="right: 45px;">missing {{item.missing_count}} of {{item.quantity}}</i>
+		    	<i class="icon ion-arrow-down-c" ng-click="decrement_count(item);"></i>
 	      </h2>
 	    </a>
-		</div>
 
-  	
+	    <div class="item item-divider">Delivered Items</div>
+	    <a class="item today-item" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods' && item.warehouseStatus == 'Delivered'">
+	      <h2>{{item.product_display_name}} - {{item.quantity}}</h2>
+	    </a>
+		</div> 
+
+		<ion-gallery ion-gallery-items="images"></ion-gallery> 	
 	</ion-content>
 
 	<div class="bar bar-footer bar-balanced" ng-click="saveInvoice();">
