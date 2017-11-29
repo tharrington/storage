@@ -13,10 +13,17 @@ angular.module('fencesForBusiness.drivers_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.findTrucks = function() {
     $scope.title = "Select Truck";
+    var token = $localStorage.token;
+    $localStorage.token = null;
+
     fencesData.callWrapper('/users/driversByRegion' , 'GET', null)
       .then(function(results) {
         $scope.drivers = results;
         $scope.loading = false;
+
+        //reset token
+        console.log('### reseting token: ' + token);
+        $localStorage.token = token;
       }, function(err) {
         $ionicLoading.show({ template: 'There was an error', duration: 1000 });
       });

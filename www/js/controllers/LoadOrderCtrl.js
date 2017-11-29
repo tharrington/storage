@@ -7,6 +7,7 @@ angular.module('fencesForBusiness.load_order_ctrl', ['ngIOS9UIWebViewPatch'])
     { warehouseStatus : 'Not Loaded' },
 		{ warehouseStatus : 'Pulled' },
     { warehouseStatus : 'Pulled - Incomplete'},
+    { warehouseStatus : 'Servicing' },
     { warehouseStatus : 'Loaded' },
     { warehouseStatus : 'Loaded - Incomplete' },
     { warehouseStatus : 'Loaded - Last Order on Truck' },

@@ -36,7 +36,7 @@ angular.module('fencesForBusiness', [
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '6.0.6';
+	$rootScope.version = '7.0.0';
 
   if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
     $rootScope.isTraining = true;
@@ -203,6 +203,7 @@ angular.module('fencesForBusiness', [
       } else if($localStorage.mover_token) {
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
+
       if($localStorage.mover && $localStorage.mover._id) {
         config.headers['mover_id'] = $localStorage.mover._id;
       }

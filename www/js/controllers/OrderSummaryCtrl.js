@@ -4,6 +4,19 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   
   $scope.invoice = { imageURLs : [] };
 
+  $scope.$on( "$ionicView.leave", function( scopes ) {
+    console.log('### leaving summary');
+
+    $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
+    $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+    fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
+      .then(function(result) {
+      });
+    fencesData.callWrapper('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery)
+      .then(function(result) {
+      });
+  });
+
   $scope.$on( "$ionicView.enter", function( scopes ) {
     console.log('### order summary...');
 
@@ -23,7 +36,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
-        console.log('### results: ' + JSON.stringify(result));
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -51,7 +63,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
             }
           });
 
-          console.log('### images: ' + JSON.stringify($scope.invoice.imageURLs));
 
           if($scope.shipping_invoice && $scope.shipping_invoice._id) {
             var total_shipping_items = 0;
@@ -64,7 +75,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
-            total_items = total_items + item.quantity;
+            console.log('### item : ' + JSON.stringify(item));
+            if(item.type == 'Storage Goods') {
+              total_items = total_items + item.quantity;
+            }
           });
           $scope.total_invoice_items = total_items;
         }

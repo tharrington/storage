@@ -65,11 +65,20 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
     $ionicLoading.show({ template : 'Saving Invoice' });
 
     $scope.invoices.forEach(function(entry) {
-    	if(entry.invoice_type == 'Storage Goods') {
-    		fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
-		      $ionicLoading.show({template : 'Invoice Saved', duration: 500});
-		    });
-    	}
+      entry.items.forEach(function(item) {
+        if(item.missing_count == 0) {
+          item.warehouseStatus = 'Loaded';
+        } else if(item.missing_count > 0 && item.missing_count < item.quantity) {
+          item.warehouseStatus = 'Partially Loaded';
+        } else {
+          item.warehouseStatus = 'Missing';
+        }
+      });
+      if(entry.invoice_type == 'Storage Goods') {
+        fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
+          $ionicLoading.show({template : 'Invoice Saved', duration: 500});
+        });
+      }
     });
   }
 

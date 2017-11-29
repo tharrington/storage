@@ -42,8 +42,8 @@ angular.module('fencesForBusiness.auth_service', [])
           password: user.password
         }).
         success(function(data) {
-          console.log('### got data: ' + JSON.stringify(data));
-          if(data.user.role == 'Mover') {
+
+          if(data.user.role == 'Mover' || data.user.role == 'Business') {
             $localStorage.mover = data.user;
             $localStorage.mover_token = data.token;
           } else {
@@ -54,6 +54,7 @@ angular.module('fencesForBusiness.auth_service', [])
           return cb();
         }).
         error(function(err) {
+          console.log("### err: " + JSON.stringify(err));
           this.logout();
           deferred.reject(err);
           return cb(err);

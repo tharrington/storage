@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="false" view-title="Summary" cache-view="false" ng-controller="OrderSummaryCtrl">
+<ion-view hide-nav-bar="false" view-title="{{pickup.name}}" cache-view="false" ng-controller="OrderSummaryCtrl">
 	<style>
 		.invoicePic {
 		  height: 200px;
@@ -26,7 +26,7 @@
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
   	<div class="list">
-  		<div class="item item-divider" ng-if="pickup && pickup.warehouseLocation">
+  		<div class="item item-divider" ng-if="pickup && pickup.warehouseLocation && !delivery.warehouseLocation">
 		    {{pickup.name}} - {{pickup.customerId}} - {{pickup.warehouseLocation}}
 		  </div>
 
@@ -34,7 +34,7 @@
 		    {{pickup.name}} - {{pickup.customerId}} - {{delivery.warehouseLocation}}
 		  </div>
 		  <div class="item item-text-wrap">
-		    {{pickup.school}} - {{pickup.pickupSeason}}
+		    {{pickup.name}} - {{pickup.school}} - {{pickup.pickupSeason}}
 		  </div>
 
 		  <div class="item item-divider">
@@ -71,13 +71,7 @@
 
 		  <ion-gallery ion-gallery-items="invoice.imageURLs"></ion-gallery>
 
-		  <!-- <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-			  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
-			</ion-scroll> -->
-
-
-
-		  <button class="button button-full button-royal" ng-if="invoice && invoice.status == 'Ready for Review'" ng-click="editInvoice();">
+		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid'" ng-click="editInvoice();">
 			  Edit Storage Invoice
 			</button>
 
@@ -85,9 +79,6 @@
 				<div class="item item-divider">
 				  Shipping Invoice Details ({{pickup.shippingUnits}} item<span ng-if="pickup.shippingUnits > 1">s</span>)
 			  </div>
-				<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="pickup && pickup.shippingUnits > 0">
-				  <img ng-src="{{pickup.shippingImageURLs}}" class="invoicePic" >
-				</ion-scroll>
 			</div>
 
 

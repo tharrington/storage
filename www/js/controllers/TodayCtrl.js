@@ -99,6 +99,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   
   function organizeOrders() {
   	fencesData.getTodaysDispatch().then(function(result) {
+      console.log('### got result: ' + JSON.stringify(result));
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();

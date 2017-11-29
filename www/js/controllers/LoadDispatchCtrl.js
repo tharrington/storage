@@ -11,7 +11,9 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.user = $localStorage.user;
   
   $scope.orderUpdates = [
+    { warehouseStatus : '' },
     { warehouseStatus : 'Pulled' },
+    { warehouseStatus : 'Servicing' },
     { warehouseStatus : 'Partially Loaded' },
     { warehouseStatus : 'Missing' },
     { warehouseStatus : 'Loaded' },
@@ -41,7 +43,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     invoices.forEach(function(entry) {
       entry.warehouseStatus = status;
       entry.items.forEach(function(item) {
-        if(item.type == 'Storage Goods') {
+        if(item.type == 'Storage Goods' && item.warehouseStatus != 'Delivered') {
           item.warehouseStatus = status;
         }
       });
@@ -69,7 +71,6 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
       } else {
         fencesData.callWrapper('/invoices/getOrderAndInvoice/' + appointment.ssOrderId, 'GET', null)
           .then(function(result) {
-            console.log('### got result: ' + JSON.stringify(result));
             if(appointment.warehouseStatus == 'Loaded' || appointment.warehouseStatus == 'Loaded - last on truck') {
               $scope.saveInvoices(result.invoices, 'Loaded');
             } else if(appointment.warehouseStatus == 'Missing') {
@@ -102,9 +103,11 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.pulledOrders = [];
     $scope.loading = true;
 
+    console.log('### id: ' + $stateParams.id);
+
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
       $scope.dispatch = result;
-      console.log('### got dispatch: ' + JSON.stringify(result));
+
       result.orders.forEach(function(entry) {
         var dispatchDate = moment.utc($scope.dispatch.dispatchDate);
         var delDate = moment.utc(entry.deliveryDate);
