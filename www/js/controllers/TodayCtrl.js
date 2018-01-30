@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('TodayCtrl', function($scope, mockFencesData, ApiEndpoint, ApiEndpointStaging, $http, Auth, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
+.controller('TodayCtrl', function($scope, mockFencesData, $ionicActionSheet, ApiEndpoint, ApiEndpointStaging, $http, Auth, $rootScope, $ionicPopup, $ionicHistory, $interval, $localStorage, $log, fencesData, $ionicLoading, $state) {
   $scope.completedOrders = [];
   $scope.rescheduledOrders = [];
   $scope.canceledOrders = [];
@@ -99,7 +99,6 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   
   function organizeOrders() {
   	fencesData.getTodaysDispatch().then(function(result) {
-      console.log('### got result: ' + JSON.stringify(result));
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();
@@ -160,7 +159,6 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('app.drivers');
       }).error(function(data, status, header, config) {
-        console.log("### ERROR!");
       });
     } else{
       $ionicLoading.show({ template: validate_result.message, duration: 3000 });
@@ -187,6 +185,30 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.viewOrder = function(order) {
   	$ionicLoading.hide();
-	  $state.go('app.orders', { id : order._id });
+	  $state.go('app.order', { id : order._id });
   };
+
+  $scope.viewCompletedAppointment = function(appointment) {
+    $state.go('app.order', { id : appointment._id });
+    // var hideSheet = $ionicActionSheet.show({
+    //   buttons: [
+    //     { text: 'View / Edit Invoice' },
+    //     { text: 'Edit Warehouse Location' }
+    //   ],
+    //   cancelText: 'Cancel',
+    //   cancel: function() {
+    //       // add cancel code..
+    //   },
+    //   buttonClicked: function(index) {
+    //     console.log('### index: ' + index);
+    //     if(index == 0) {
+    //       console.log('### go to orders: ' + appointment._id);
+
+    //       $state.go('app.order', { id : appointment._id });
+    //     } else { 
+    //       $state.go('app.order_summary', { id : appointment.ssOrderId });
+    //     }
+    //   }
+    // });
+  }
 });

@@ -60,25 +60,25 @@
 			</button>
 
 			<button ng-click="completeInvoice()" ng-if="order.type == 'Pickup' && order.status != 'Canceled' && order.status != 'Rescheduled' && order.status != 'No Answer'" class="button button-full button-calm">
-			  View / Edit Invoice
+			  Build / Edit Invoice
 			</button>
 
 		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">Management Notes: {{order.management_notes}}</a>
 
 		  <div class="item item-divider" ng-if="order.type == 'Delivery'">Items you're delivering...</div>
 	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus == 'Loaded'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} - {{item.quantity}} </h2>
+	    	<h2>{{item.product_display_name}} • {{item.quantity}} </h2>
 	    </a>
 
 	    <div class="item item-divider" ng-if="order.type == 'Delivery'">Delivered Items</div>
 	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus == 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} - {{item.quantity}}</h2>
+	    	<h2>{{item.product_display_name}} • {{item.quantity}}</h2>
 	    </a>
 
 
 		  <div class="item item-divider" ng-if="order.type == 'Delivery' && order.warehouseStatus == 'Partially Loaded'">Items remaining in storage...</div>
 	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus != 'Loaded' && item.warehouseStatus != 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> - {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
+	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
 	    	<p>{{item.warehouseStatus}}</p>
 	    </a>
 

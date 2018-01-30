@@ -5,10 +5,11 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.invoice = { imageURLs : [] };
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
-    console.log('### leaving summary');
-
-    $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
-    $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+    if($scope.delivery && $scope.pickup && $scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
+      $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
+      $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+    }
+    
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
       .then(function(result) {
       });
@@ -18,7 +19,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   });
 
   $scope.$on( "$ionicView.enter", function( scopes ) {
-    console.log('### order summary...');
 
   	$scope.pickup = {};
   	$scope.delivery = {};
@@ -36,6 +36,11 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
+
+        if($scope.delivery && $scope.pickup && $scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
+          $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
+          $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+        }
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -94,8 +99,17 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.saveNotes = function() {
     $ionicLoading.show({ template: 'Saving' });
-    $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
-    $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+
+    if($scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
+      $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
+      $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
+    } else if($scope.pickup.warehouseLocation) {
+      $scope.delivery.warehouseNotes = $scope.pickup.warehouseNotes;
+      $scope.delivery.warehouseLocation = $scope.pickup.warehouseLocation;
+    }
+    
+
+
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
       .then(function(result) {
         $ionicLoading.show({ template: 'Order Saved.', duration: 1000 });

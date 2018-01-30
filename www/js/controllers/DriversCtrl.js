@@ -71,7 +71,7 @@ angular.module('fencesForBusiness.drivers_ctrl', ['ngIOS9UIWebViewPatch'])
     } else {
       Auth.login(user)
         .then( function() {
-          $ionicHistory.nextViewOptions({ disableBack: true });
+          // $ionicHistory.nextViewOptions({ disableBack: true });
           $localStorage.lastTruckLogin = moment();
           $state.go('app.orders');
         })

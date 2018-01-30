@@ -26,7 +26,7 @@
       <h1 class="title" ng-if="mover && !mover.tutorialCompleted">Complete Training</h1>
 
       <h1 class="title" ng-if="user && (mover && mover.tutorialCompleted)">Logged in as {{user.nickname}}</h1>
-      <h1 class="title" ng-if="!user && (mover && mover.tutorialCompleted)">Select Truck</h1>
+      <h1 class="title" ng-if="!user && (mover && mover.tutorialCompleted)">Storage Squad</h1>
 
     </ion-header-bar>
 
@@ -34,27 +34,40 @@
       <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 
       <ion-list>
-        <div class="item item-divider">
+        <!-- <div class="item item-divider">
           Driver
         </div>
         <ion-item menu-close ui-sref="app.orders">
           <i class="icon ion-map"></i> Today's Schedule
-        </ion-item>
-
+        </ion-item> -->
 
         <div class="item item-divider">
-          Warehouse
+          Truck
         </div>
 
-        <ion-item menu-close ui-sref="app.lookup">
-          <i class="icon ion-search"></i> Customer Lookup
+        <ion-item menu-close ui-sref="app.drivers">
+          <i class="icon ion-android-bus"></i> Start Driving
         </ion-item>
+
+        <ion-item menu-close ui-sref="app.supplies-lookup">
+          <i class="icon ion-ios-box-outline"></i> Supply Handouts
+        </ion-item>
+
+        <div class="item item-divider">
+          Warehouse Crew
+        </div>
+
+        
 
         <ion-item menu-close ui-sref="app.warehouse">
           <i class="icon ion-cube"></i> Load Truck
         </ion-item>
 
-        <div class="item item-divider">
+        <ion-item menu-close ui-sref="app.load_truck">
+          <i class="icon ion-briefcase"></i> Unload Truck
+        </ion-item>
+
+        <!-- <div class="item item-divider">
           Switch Truck
         </div>
 
@@ -62,12 +75,16 @@
         <ion-item menu-close ui-sref="app.drivers">
           <i class="icon ion-android-bus"></i> Switch Truck
         </ion-item>
+ -->
 
         <div class="item item-divider">
-          Supply Handouts
+          Customer Lookup
         </div>
-        <ion-item menu-close ui-sref="app.supplies-lookup">
-          <i class="icon ion-ios-box-outline"></i> Supply Handouts
+        
+
+
+        <ion-item menu-close ui-sref="app.lookup">
+          <i class="icon ion-search"></i> Search Customers
         </ion-item>
 
         

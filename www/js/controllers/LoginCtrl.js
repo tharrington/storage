@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, $ionicHistory, fencesLocations, $localStorage) {
+.controller('LoginCtrl', function($scope, $ionicSideMenuDelegate, $rootScope, $state, Auth, $ionicHistory, fencesLocations, $localStorage) {
   // TODO: Check this
   $scope.locationServicesDisabled = false; 
   $scope.hasErrors = false;
@@ -24,7 +24,7 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
       	fencesLocations.startLocation();
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('app.drivers');
-
+        $ionicSideMenuDelegate.toggleLeft();
       })
       .catch( function(err) {
         $scope.hasErrors = true;

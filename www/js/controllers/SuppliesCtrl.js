@@ -8,15 +8,13 @@ angular.module('fencesForBusiness.supplies_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('SuppliesCtrl', function($scope, $ionicLoading, OrderInvoiceService, $ionicPopup, $rootScope, $state, fencesData, $ionicModal, $ionicHistory) {
 	$scope.order = {};
 
-
-	$scope.saveSupplies = function() {
-		$ionicLoading.show({ template : 'Saving...' });
-		fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
-      $ionicLoading.show({template : 'Order Saved', duration: 500});
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('app.supplies-lookup');
+	$scope.$on( "$ionicView.leave", function( scopes ) {
+		console.log('### leaving...');
+    fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+    	console.log('### saved');
     });
-	};
+  });
+
 
 	$scope.$on('$ionicView.enter', function(e) {
 		$scope.order = OrderInvoiceService.getOrderInvoice();
@@ -26,6 +24,16 @@ angular.module('fencesForBusiness.supplies_ctrl', ['ngIOS9UIWebViewPatch'])
 			$state.go('app.supplies-lookup');
 		}
 	});
+
+	$scope.saveSupplies = function() {
+		$scope.order.supplies_delivered = true;
+		$ionicLoading.show({ template : 'Saving...' });
+		fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+      $ionicLoading.show({template : 'Order Saved', duration: 500});
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('app.supplies-lookup');
+    });
+	};
 
 	$scope.incrementField = function(field_name, value) {
   	if(value == 1) {

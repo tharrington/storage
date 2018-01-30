@@ -27,14 +27,14 @@
 
   	<div class="list">
   		<div class="item item-divider" ng-if="pickup && pickup.warehouseLocation && !delivery.warehouseLocation">
-		    {{pickup.name}} - {{pickup.customerId}} - {{pickup.warehouseLocation}}
+		    {{pickup.name}} • {{pickup.customerId}} • {{pickup.warehouseLocation}}
 		  </div>
 
 		  <div class="item item-divider" ng-if="delivery && delivery.warehouseLocation">
-		    {{pickup.name}} - {{pickup.customerId}} - {{delivery.warehouseLocation}}
+		    {{pickup.name}} • {{pickup.customerId}} • {{delivery.warehouseLocation}}
 		  </div>
 		  <div class="item item-text-wrap">
-		    {{pickup.name}} - {{pickup.school}} - {{pickup.pickupSeason}}
+		    {{pickup.name}} • {{pickup.school}} • {{pickup.pickupSeason}}
 		  </div>
 
 		  <div class="item item-divider">
@@ -42,14 +42,9 @@
 		  </div>
 
 
-		  <label class="item item-input" ng-if="pickup && pickup.warehouseLocation">
+		  <label class="item item-input" ng-if="pickup">
 		    <span class="input-label">WH Location </span>
 		    <input type="text" placeholder="Enter WH Location" ng-model="pickup.warehouseLocation">
-		  </label>
-
-		  <label class="item item-input" ng-if="pickup && !pickup.warehouseLocation">
-		    <span class="input-label">WH Location </span>
-		    <input type="text" placeholder="Enter WH Location" ng-model="delivery.warehouseLocation">
 		  </label>
 
 		  <label class="item item-input">
@@ -65,7 +60,7 @@
 		    Storage Invoice Details ({{total_invoice_items}} items)
 		  </div>
 		  <a class="item" href="#" ng-repeat="item in invoice.items">
-		    {{item.quantity}} - {{item.product_name}}
+		    {{item.quantity}} • {{item.product_name}}
 		  </a>
 
 

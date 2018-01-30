@@ -22,6 +22,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.invoice_ctrl',
   'fencesForBusiness.lookup_ctrl',
   'fencesForBusiness.drivers_ctrl',
+  'fencesForBusiness.warehouse_load_ctrl',
   'fencesForBusiness.finalize_invoice_ctrl',
   'ngStorage',
   'ion-gallery', 
@@ -167,6 +168,15 @@ angular.module('fencesForBusiness', [
       views: {
         'menuContent': {
           templateUrl: 'templates/today.html'
+        }
+      }
+    })
+
+    .state('app.load_truck', {
+      url: '/load_truck',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/warehouse_load.html'
         }
       }
     })

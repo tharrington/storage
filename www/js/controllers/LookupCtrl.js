@@ -8,12 +8,25 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('LookupCtrl', function($scope, $location, OrderInvoiceService, $timeout, $sce, $ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.results = [];
 
-  
+  $scope.vm = {};
+  $scope.title = 'Customer Lookup';
   
   $scope.$on('$ionicView.enter', function(e) {
   	$scope.user = $localStorage.user;
   	$scope.mover = $localStorage.mover;
+
+  	console.log('### query: ' + $scope.vm.query);
+  	if($scope.vm && $scope.vm.query) {
+  		$scope.inputChanged($scope.vm.query);
+  	}
+
+  	var currentState = $state.current.name;
+  	$scope.title = 'Customer Lookup';
+  	if(currentState == 'app.supplies-lookup') {
+			$scope.title = 'Supply Handout'
+		} 
   });
+
 
 	$scope.inputChanged = function(val){
 
@@ -21,23 +34,18 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 
 		var token = $localStorage.token;
     $localStorage.token = null;
+    console.log('### mover token: ' + $localStorage.mover_token);
 
     fencesData.callWrapper('/invoices/search/' + val, 'GET', null)
 	    .then(function(results) {
 	      $ionicLoading.hide();
 
-	      
-	      if(!$scope.user) {
-	      	$scope.user = $localStorage.user;
-  				$scope.mover = $localStorage.mover;
-	      }
-
-	      console.log('### user : ' + JSON.stringify($scope.user));
-	      console.log('### mover : ' + JSON.stringify($scope.mover));
+	      $scope.user = $localStorage.user;
+  			$scope.mover = $localStorage.mover;
 
 	      if($scope.mover && $scope.mover.region == 'all') {
 	      	$scope.results = results;
-	      } else if($scope.user) {
+	      } else if($scope.mover) {
 	      	$scope.results = [];
 	      	results.forEach(function(entry) {
 	      		if(entry.region == $scope.mover.region) {

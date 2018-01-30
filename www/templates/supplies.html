@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="false" view-title="Supplies for {{order.name}}" ng-controller="SuppliesCtrl">
+<ion-view hide-nav-bar="false" view-title="{{order.name}}" ng-controller="SuppliesCtrl">
 	<style>
 		input[type="search"] {
 			background-color: transparent !important; 
@@ -44,13 +44,13 @@
 		  </a>
 
 		  <a class="item item-icon-right" href="#">
-		    Declared Value ($100 per sticker)
+		    Declared Value ($5 per sticker)
 		    <i class="icon ion-arrow-up-c" ng-click="incrementField('insuranceUnits', 1);" style="right: 45px;">{{order.insuranceUnits}}</i>
 		    <i class="icon ion-arrow-down-c" ng-click="incrementField('insuranceUnits', -1);"></i>
 		  </a>
 		</div>
 
-		<ul class="list">
+		<!-- <ul class="list">
 
 		  <li class="item item-toggle">
 		     Supplies Delivered?
@@ -62,11 +62,11 @@
 		     </label>
 		  </li>
 		</ul>
-
+ -->
 
   </ion-content>
 
-  <div class="bar bar-footer bar-assertive" ng-click="saveSupplies();">
-	  <div class="title">Save Supplies</div>
+  <div class="bar bar-footer bar-balanced " color="secondary" ng-click="saveSupplies();">
+	  <div class="title">Finalize Supply Handout <i class="icon ion-ios-box"></i></div>
 	</div>
 </ion-view>
