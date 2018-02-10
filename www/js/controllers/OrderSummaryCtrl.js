@@ -123,4 +123,8 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.editInvoice = function(invoice) {
   	$state.go('app.invoice', { id : $stateParams.id });
   }
+
+  $scope.printShippingLabels = function() {
+  	$state.go('app.shipping_labels', { id : $stateParams.id });
+  }
 });

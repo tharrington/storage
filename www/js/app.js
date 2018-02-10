@@ -197,6 +197,15 @@ angular.module('fencesForBusiness', [
           templateUrl: 'templates/order.html'
         }
       }
+    })
+
+    .state('app.shipping_labels', {
+      url: '/shipping_labels/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/shipping_labels.html'
+        }
+      }
     });
     $urlRouterProvider.otherwise('/app/drivers');
 })
