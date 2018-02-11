@@ -125,6 +125,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.createLabels = function() {
-  	$state.go('app.shipping_labels', { id : $stateParams.id });
+    if (_.isEmpty($scope.invoice.shipping_labels)) {
+      $state.go('app.create_shipping_labels', { id : $stateParams.id });
+    } else {
+      $state.go('app.existing_shipping_labels', { id : $stateParams.id });
+    }
   }
 });

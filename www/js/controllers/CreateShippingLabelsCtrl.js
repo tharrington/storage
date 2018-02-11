@@ -1,6 +1,6 @@
-angular.module('fencesForBusiness.shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
+angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('ShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
+.controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
   
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
@@ -13,6 +13,7 @@ angular.module('fencesForBusiness.shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'
     $scope.total_shipping_items = 0;
 
     $scope.dimensions = [];
+    $scope.labelsEmail = null;
 
   	$ionicLoading.show({ template: 'Loading Order...' });
 
@@ -44,6 +45,7 @@ angular.module('fencesForBusiness.shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'
               $scope.invoice.items = items;
             } else if(inv.invoice_type == 'Shipping') {
               $scope.shipping_invoice = inv;
+              console.log('shipping_invoice', inv);
             }
           });
 

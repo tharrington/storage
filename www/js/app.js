@@ -199,11 +199,20 @@ angular.module('fencesForBusiness', [
       }
     })
 
-    .state('app.shipping_labels', {
-      url: '/shipping_labels/:id',
+    .state('app.create_shipping_labels', {
+      url: '/create_shipping_labels/:id',
       views: {
         'menuContent': {
-          templateUrl: 'templates/shipping_labels.html'
+          templateUrl: 'templates/create_shipping_labels.html'
+        }
+      }
+    })
+
+    .state('app.existing_shipping_labels', {
+      url: '/existing_shipping_labels/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/existing_shipping_labels.html'
         }
       }
     });
