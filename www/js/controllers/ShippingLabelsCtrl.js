@@ -84,6 +84,10 @@ angular.module('fencesForBusiness.shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'
     $scope.dimensions.push({});
   }
 
+  $scope.deleteItem = function(index) {
+    $scope.dimensions.splice(index, 1);
+  }
+
   $scope.processLabels = function() {
     $ionicLoading.show({ template: 'Saving' });
     console.log('$scope.ship_item_dimension.length', $scope.ship_item_dimension.length);
