@@ -57,23 +57,40 @@
         </div>
       </div>
 
-      <div class="form-group row" ng-repeat="dim in dimensions">
-        <label class="item item-input" style="padding:6px">
-            <button class="icon ion-trash-b" style="font-size:20px" on-tap="deleteItem($index);"></button>
-        </label>
-        <label class="item item-input">
+      <div class="row" ng-repeat="dim in dimensions">
+        <div class="col col-20 col-input">
           <input type="text" placeholder="L" ng-model="dim.length">
-        </label>
-        <label class="item item-input">
+        </div>
+        <div class="col col-20 col-input">
           <input type="text" placeholder="W" ng-model="dim.width">
-        </label>
-        <label class="item item-input">
+        </div>
+        <div class="col col-20 col-input">
           <input type="text" placeholder="H" ng-model="dim.height">
-        </label>
-        <label class="item item-input">
+        </div>
+        <div class="col col-20 col-input">
           <input type="text" placeholder="LBS" ng-model="dim.weight">
-        </label>
+        </div>
+        <div class="col col-20 trash-input">
+            <button class="icon ion-trash-b" style="font-size:20px" on-tap="deleteItem($index);"></button>
+        </div>
       </div>
+
+      <style>
+        .col-input {
+          padding: 6px;
+          border: 1px solid #eee;
+          border-radius: 2px;
+        }
+
+        .trash-input {
+          padding: 6px;
+        }
+
+        .trash-input button {
+          width: 100%;
+          margin: auto;
+        }
+      </style>
 
 		  <a class="item" href="#">
         Total Shipping Items: {{dimensions.length}}
@@ -81,7 +98,7 @@
       
       <label class="item item-input">
         <span class="input-label">Warehouseman Email</span>
-        <input type="text" placeholder="email@example.com" ng-model="email">
+        <input type="text" placeholder="abc@example.com" ng-model="email">
       </label>
       
       <button class="button button-full button-royal" ng-click="processLabels();">
