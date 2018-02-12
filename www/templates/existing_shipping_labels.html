@@ -68,32 +68,42 @@
 		  </div>
 
       <div class="row" ng-if="dimensions.length > 0">
-        <div class="col col-25 col-header">
+        <div class="col col-20 col-header">
           <div>Length (in)</div>
         </div>
-        <div class="col col-25 col-header">
+        <div class="col col-20 col-header">
           <div>Width (in)</div>
         </div>
-        <div class="col col-25 col-header">
+        <div class="col col-20 col-header">
           <div>Height (in)</div>
         </div>
-        <div class="col col-25 col-header">
+        <div class="col col-20 col-header">
           <div>Weight (lbs)</div>
+        </div>
+        <div class="col col-20 col-header">
+          <div>Rate</div>
         </div>
       </div>
 
       <div class="row" ng-repeat="dim in dimensions">
-        <div class="col col-25 col-input-readonly">
+        <div class="col col-20 col-input-readonly">
           <div>{{dim.length}}</div>
         </div>
-        <div class="col col-25 col-input-readonly">
+        <div class="col col-20 col-input-readonly">
           <div>{{dim.width}}</div>
         </div>
-        <div class="col col-25 col-input-readonly">
+        <div class="col col-20 col-input-readonly">
           <div>{{dim.height}}</div>
         </div>
-        <div class="col col-25 col-input-readonly">
+        <div class="col col-20 col-input-readonly">
           <div>{{dim.weight}}</div>
+        </div>
+        <div class="col col-20 col-input-readonly">
+          <div>
+            <a ng-href={{shipment['postage_label']['label_url']}} target="_blank">
+              {{shipment['selected_rate']['rate']}}
+            </a>
+          </div>
         </div>
       </div>
 

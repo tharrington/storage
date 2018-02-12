@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('ExistingShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
+.controller('ExistingShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope) {
   
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
@@ -11,6 +11,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.shipping_invoice = {};
     $scope.total_invoice_items = 0;
     $scope.total_shipping_items = 0;
+    $scope.rates = $rootScope.rates;
 
     // TODO remove this once real data is setup
     $scope.dimensions = [
@@ -84,7 +85,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
 
   $scope.voidLabels = function() {
     console.log('voidLabels called');
-    // TODO what happens here?
+    // TODO void shipping label (with UPS) otherwise still get billed
   }
 
 });

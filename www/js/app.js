@@ -24,6 +24,8 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.warehouse_load_ctrl',
   'fencesForBusiness.finalize_invoice_ctrl',
+  'fencesForBusiness.create_shipping_labels_ctrl',
+  'fencesForBusiness.existing_shipping_labels_ctrl',
   'ngStorage',
   'ion-gallery', 
   'ngCordova',

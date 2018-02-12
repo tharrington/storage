@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
+.controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope) {
   
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
@@ -92,13 +92,23 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
   $scope.processLabels = function() {
     $ionicLoading.show({ template: 'Saving' });
-    console.log('$scope.ship_item_dimension.length', $scope.ship_item_dimension.length);
 
-    // TODO: call EasyPost and get parameterized url for shipping label
-    // TODO: save EasyPost url to invoice
-    // fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
-    //   .then(function(result) {
-    //     $ionicLoading.show({ template: 'Order Saved.', duration: 1000 });
-    //   });
+    const paylaod = {
+      parcel: $scope.dimensions,
+      toAddress: null,
+      fromAddress: null,
+    }
+
+    fencesData
+      .postInfo('/orders/purchaseShipment', 'POST', $scope.parcel)
+      .then(function(result) {
+        $ionicLoading.show({template : 'Order Saved', duration: 500});
+        $rootScope.shipment = result;
+        $state.go('app.existing_shipping_labels', {
+          id : $stateParams.id,
+        });
+    });
+
+    // TODO: save EasyPost url to order/invoice
   }
 });
