@@ -12,6 +12,8 @@ angular.module('fencesForBusiness.order_invoice_service', [])
     service.setOrderInvoice = setOrderInvoice;
     service.getSSOrderId = getSSOrderId;
     service.setSSOrderId = setSSOrderId;
+    service.getShipment = getShipment;
+    service.setShipment = setShipment;
     
 
     return service;
@@ -30,5 +32,13 @@ angular.module('fencesForBusiness.order_invoice_service', [])
 
     function setSSOrderId(ssOrderId) {
       service.ssOrderId = ssOrderId;
+    }
+
+    function getShipment() {
+      return service.shipment;
+    }
+
+    function setShipment(shipment) {
+      service.shipment = shipment;
     }
   }]);

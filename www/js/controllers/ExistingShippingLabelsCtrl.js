@@ -11,7 +11,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.shipping_invoice = {};
     $scope.total_invoice_items = 0;
     $scope.total_shipping_items = 0;
-    $scope.rates = $rootScope.rates;
+    $scope.shipment = OrderInvoiceService.shipment;
 
     // TODO remove this once real data is setup
     $scope.dimensions = [

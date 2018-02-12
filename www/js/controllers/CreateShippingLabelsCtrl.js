@@ -101,12 +101,10 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
     fencesData
       .postInfo('/orders/purchaseShipment', 'POST', $scope.parcel)
-      .then(function(result) {
+      .then(function(shipment) {
         $ionicLoading.show({template : 'Order Saved', duration: 500});
-        $rootScope.shipment = result;
-        $state.go('app.existing_shipping_labels', {
-          id : $stateParams.id,
-        });
+        OrderInvoiceService.setShipment(shipment);
+        $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     });
 
     // TODO: save EasyPost url to order/invoice
