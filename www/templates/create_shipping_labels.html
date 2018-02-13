@@ -49,15 +49,15 @@
 		  </div>
 
 		  <a class="item" href="#">
-        Desired Shipping Date: <!-- Items_Shipment_Date-in_Future__c -->
+        Desired Shipping Date: {{formatDate(shippingDate)}}
 		  </a>
 
 		  <a class="item" href="#">
-        Shipping Address: <!-- Shipping_Street_Address__c -->
+        Shipping Address: {{shippingAddressPretty}}
 		  </a>
 
 		  <a class="item" href="#">
-        Shipping Description: <!-- Shipping_Description__c -->
+        Shipping Description: {{shippingDescription}}
 		  </a>
       
       <div class="item item-divider">
@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <div class="row" ng-if="dimensions.length > 0">
+      <div class="row" ng-if="shippingInputs.dimensions.length > 0">
         <div class="col col-20 col-header">
           <div>Length (in)</div>
         </div>
@@ -94,7 +94,7 @@
         </div>
       </div>
 
-      <div class="row" ng-repeat="dim in dimensions">
+      <div class="row" ng-repeat="dim in shippingInputs.dimensions">
         <div class="col col-20 col-input">
           <input type="number" placeholder="0" ng-model="dim.length" min=0>
         </div>
@@ -117,12 +117,12 @@
 		  </div>
 
 		  <a class="item" href="#">
-        Total Shipping Items: {{dimensions.length}}
+        Total Shipping Items: {{shippingInputs.dimensions.length}}
 		  </a>
       
       <label class="item item-input">
         <span class="input-label">Warehouseman Email:</span>
-        <input type="text" style="padding-left: 40px" placeholder="abc@example.com" ng-model="labelsEmail">
+        <input type="text" style="padding-left: 40px" placeholder="abc@example.com" ng-model="shippingInputs.labelsEmail">
       </label>
       
       <button class="button button-full button-royal" ng-click="processLabels();">

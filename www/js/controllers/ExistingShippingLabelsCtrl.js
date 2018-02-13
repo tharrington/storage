@@ -22,10 +22,32 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
 
   	$ionicLoading.show({ template: 'Loading Order...' });
 
+    var formatAddress = function(name, street1, street2, city, state, zip) {
+      return `${name}, ${street1}, ${street2 ? street2 + ',' : ''} ${city}, ${state} ${zip}`
+    };
+
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
+        $scope.shippingDescription = result.Delivery.shippingDescription;
+        $scope.shippingAddress = {
+          name:    result.Delivery.shippingAddressName,
+          street1: result.Delivery.shippingAddressStreet1,
+          street2: result.Delivery.shippingAddressStreet2,
+          city:    result.Delivery.shippingAddressCity,
+          state:   result.Delivery.shippingAddressState,
+          zip:     result.Delivery.shippingAddressZip,
+        }
+        $scope.shippingAddressPretty = formatAddress(
+          result.Delivery.shippingAddressName,
+          result.Delivery.shippingAddressStreet1,
+          result.Delivery.shippingAddressStreet2,
+          result.Delivery.shippingAddressCity,
+          result.Delivery.shippingAddressState,
+          result.Delivery.shippingAddressZip,
+        );
+        $scope.shippingTrackingNumber = result.Delivery.shippingTrackingNumber;
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -88,4 +110,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     // TODO void shipping label (with UPS) otherwise still get billed
   }
 
+  $scope.formatDate = function(date) {
+  	return moment(date).format('dddd, MMMM Do, YYYY');
+  }
 });

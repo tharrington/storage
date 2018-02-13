@@ -3,8 +3,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 .controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope) {
   
 
-  $scope.$on( "$ionicView.leave", function( scopes ) {
-  });
+  $scope.$on( "$ionicView.leave", function( scopes ) { });
 
   $scope.$on( "$ionicView.enter", function( scopes ) {
   	$scope.pickup = {};
@@ -12,15 +11,39 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.total_invoice_items = 0;
     $scope.total_shipping_items = 0;
 
-    $scope.dimensions = [];
-    $scope.labelsEmail = null;
+    $scope.shippingInputs = {
+      dimensions: [],
+      labelsEmail: null,
+    };
 
   	$ionicLoading.show({ template: 'Loading Order...' });
+
+    var formatAddress = function(name, street1, street2, city, state, zip) {
+      return `${name}, ${street1}, ${street2 ? street2 + ',' : ''} ${city}, ${state} ${zip}`
+    };
 
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
+        $scope.shippingDate = result.Delivery.shippingDate;
+        $scope.shippingDescription = result.Delivery.shippingDescription;
+        $scope.shippingAddress = {
+          name:    result.Delivery.shippingAddressName,
+          street1: result.Delivery.shippingAddressStreet1,
+          street2: result.Delivery.shippingAddressStreet2,
+          city:    result.Delivery.shippingAddressCity,
+          state:   result.Delivery.shippingAddressState,
+          zip:     result.Delivery.shippingAddressZip,
+        }
+        $scope.shippingAddressPretty = formatAddress(
+          result.Delivery.shippingAddressName,
+          result.Delivery.shippingAddressStreet1,
+          result.Delivery.shippingAddressStreet2,
+          result.Delivery.shippingAddressCity,
+          result.Delivery.shippingAddressState,
+          result.Delivery.shippingAddressZip,
+        );
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -45,7 +68,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
               $scope.invoice.items = items;
             } else if(inv.invoice_type == 'Shipping') {
               $scope.shipping_invoice = inv;
-              console.log('shipping_invoice', inv);
             }
           });
 
@@ -74,7 +96,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   });
 
   $scope.addMegaBox = function() {
-    $scope.dimensions.push({
+    $scope.shippingInputs.dimensions.push({
       length: 24,
       width: 18,
       height: 16,
@@ -83,30 +105,36 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   }
 
   $scope.addOtherItem = function() {
-    $scope.dimensions.push({});
+    $scope.shippingInputs.dimensions.push({});
   }
 
   $scope.deleteItem = function(index) {
-    $scope.dimensions.splice(index, 1);
+    $scope.shippingInputs.dimensions.splice(index, 1);
   }
 
   $scope.processLabels = function() {
-    $ionicLoading.show({ template: 'Saving' });
+    $ionicLoading.show({ template: 'Generating labels' });
 
-    const paylaod = {
-      parcel: $scope.dimensions,
-      toAddress: null,
-      fromAddress: null,
+    const payload = {
+      email:       $scope.shippingInputs.labelsEmail,
+      fromAddress: null, // TODO
+      parcel:      $scope.shippingInputs.dimensions,
+      toAddress:   $scope.shippingAddress,
     }
 
-    fencesData
-      .postInfo('/orders/purchaseShipment', 'POST', $scope.parcel)
-      .then(function(shipment) {
-        $ionicLoading.show({template : 'Order Saved', duration: 500});
-        OrderInvoiceService.setShipment(shipment);
-        $state.go('app.existing_shipping_labels', { id: $stateParams.id });
-    });
+    fencesData.postInfo('/orders/purchaseShipment', 'POST', payload)
+    .then(function(shipment) {
+      $ionicLoading.show({template : 'Order Saved', duration: 500});
+      OrderInvoiceService.setShipment(shipment);
+      $state.go('app.existing_shipping_labels', { id: $stateParams.id });
 
-    // TODO: save EasyPost url to order/invoice
+      // TODO: save Shipping Label url to order
+      // TODO: save Tracking Number to order
+    });
   }
+
+  $scope.formatDate = function(date) {
+  	return moment(date).format('dddd, MMMM Do, YYYY');
+  }
+
 });

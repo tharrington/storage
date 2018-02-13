@@ -48,19 +48,18 @@
 		  </div>
 
 		  <a class="item" href="#">
-        Desired Shipping Date: <!-- Items_Shipment_Date-in_Future__c -->
+        Desired Shipping Date: {{formatDate(shippingDate)}}
 		  </a>
 
 		  <a class="item" href="#">
-        Shipping Address: <!-- Shipping_Street_Address__c -->
+        Shipping Address: {{shippingAddressPretty}}
 		  </a>
 
 		  <a class="item" href="#">
-        Shipping Description: <!-- Shipping_Description__c -->
+        Shipping Description: {{shippingDescription}}
 		  </a>
-
 		  <a class="item" href="#">
-        Tracking Number: <!-- Tracking Number-->
+        Tracking Number: {{shippingTrackingNumber}}
 		  </a>
       
       <div class="item item-divider">
