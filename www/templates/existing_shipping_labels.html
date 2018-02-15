@@ -65,7 +65,7 @@
 
       <div class="row" ng-if="order.shippingParcels.length > 0">
         <div class="col col-20 col-header">
-          <div>L/W/H (in)</div>
+          <div>L x W x H (in)</div>
         </div>
         <div class="col col-20 col-header">
           <div>Weight (lbs)</div>
@@ -73,26 +73,30 @@
         <div class="col col-20 col-header">
           <div>Rate</div>
         </div>
-        <div class="col col-40 col-header">
+        <div class="col col-30 col-header">
           <div>Tracking Number</div>
+        </div>
+        <div class="col col-10 col-header">
         </div>
       </div>
 
       <div class="row" ng-repeat="p in order.shippingParcels">
         <div class="col col-20 col-input-readonly">
-          <div>{{p.length}}/{{p.width}}/{{p.height}}</div>
+          <div>{{p.length}} x {{p.width}} x {{p.height}}</div>
         </div>
         <div class="col col-20 col-input-readonly">
           <div>{{p.weight}}</div>
         </div>
         <div class="col col-20 col-input-readonly">
           <div>{{p['rate'] | number | currency}}</div>
-          <!-- <div>{{p['rate'] | currency:'USD':true:'1.2-2'}}</div> -->
         </div>
-        <div class="col col-40 col-input-readonly">
+        <div class="col col-30 col-input-readonly">
+          <div>{{p['trackingNumber']}}</div>
+        </div>
+        <div class="col col-10 col-input-readonly">
           <div>
             <a ng-href={{p['labelUrl']}} target="_blank">
-              {{p['trackingNumber']}}
+              Label
             </a>
           </div>
         </div>
