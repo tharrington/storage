@@ -19,6 +19,9 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   	$ionicLoading.show({ template: 'Loading Order...' });
 
     var formatAddress = function(name, street1, street2, city, state, zip) {
+      if (!name || !street1 || !city || !state || !zip) {
+        return '';
+      }
       return `${name}, ${street1}, ${street2 ? street2 + ',' : ''} ${city}, ${state} ${zip}`
     };
 
@@ -83,7 +86,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
-            console.log('### item : ' + JSON.stringify(item));
             if(item.type == 'Storage Goods') {
               total_items = total_items + item.quantity;
             }
@@ -124,7 +126,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
     .then(function(response) {
       console.log('resolved');
-      $ionicLoading.show({template : 'Order Saved', duration: 500});
+      $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     });
   }
