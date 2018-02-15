@@ -63,6 +63,7 @@ angular.module('fencesForBusiness', [
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
+  $httpProvider.interceptors.push('timeoutHttpIntercept');
 
   $stateProvider
     .state('app', {
@@ -252,6 +253,15 @@ angular.module('fencesForBusiness', [
       }
     }
   };
+})
+
+.factory('timeoutHttpIntercept', function ($rootScope, $q) {
+  return {
+    'request': function(config) {
+      config.timeout = 30000;
+      return config;
+    }
+  }
 })
 
 .run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations, $state, $localStorage) {

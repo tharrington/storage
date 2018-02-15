@@ -11,13 +11,8 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.shipping_invoice = {};
     $scope.total_invoice_items = 0;
     $scope.total_shipping_items = 0;
-    $scope.shipment = OrderInvoiceService.shipment;
 
     // TODO remove this once real data is setup
-    $scope.dimensions = [
-      { length: 10, width: 20, height: 30, weight: 100, },
-      { length: 42, width: 35, height: 8, weight: 9, },
-    ];
     $scope.labelsEmail = null;
 
   	$ionicLoading.show({ template: 'Loading Order...' });
@@ -30,15 +25,8 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
 	    .then(function(result) {
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
-        $scope.shippingDescription = result.Delivery.shippingDescription;
-        $scope.shippingAddress = {
-          name:    result.Delivery.shippingAddressName,
-          street1: result.Delivery.shippingAddressStreet1,
-          street2: result.Delivery.shippingAddressStreet2,
-          city:    result.Delivery.shippingAddressCity,
-          state:   result.Delivery.shippingAddressState,
-          zip:     result.Delivery.shippingAddressZip,
-        }
+        console.log('result.Delivery', result.Delivery);
+        $scope.order = result.Delivery;
         $scope.shippingAddressPretty = formatAddress(
           result.Delivery.shippingAddressName,
           result.Delivery.shippingAddressStreet1,
@@ -47,7 +35,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
           result.Delivery.shippingAddressState,
           result.Delivery.shippingAddressZip,
         );
-        $scope.shippingTrackingNumber = result.Delivery.shippingTrackingNumber;
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -111,6 +98,9 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
   }
 
   $scope.formatDate = function(date) {
+    if (!date) {
+      return null;
+    }
   	return moment(date).format('dddd, MMMM Do, YYYY');
   }
 });

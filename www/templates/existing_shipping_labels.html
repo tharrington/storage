@@ -48,7 +48,7 @@
 		  </div>
 
 		  <a class="item" href="#">
-        Desired Shipping Date: {{formatDate(shippingDate)}}
+        Desired Shipping Date: {{formatDate(order.shippingDate)}}
 		  </a>
 
 		  <a class="item" href="#">
@@ -56,25 +56,16 @@
 		  </a>
 
 		  <a class="item" href="#">
-        Shipping Description: {{shippingDescription}}
-		  </a>
-		  <a class="item" href="#">
-        Tracking Number: {{shippingTrackingNumber}}
+        Shipping Description: {{order.shippingDescription}}
 		  </a>
       
       <div class="item item-divider">
         Item Dimensions
 		  </div>
 
-      <div class="row" ng-if="dimensions.length > 0">
+      <div class="row" ng-if="order.shippingParcels.length > 0">
         <div class="col col-20 col-header">
-          <div>Length (in)</div>
-        </div>
-        <div class="col col-20 col-header">
-          <div>Width (in)</div>
-        </div>
-        <div class="col col-20 col-header">
-          <div>Height (in)</div>
+          <div>L/W/H (in)</div>
         </div>
         <div class="col col-20 col-header">
           <div>Weight (lbs)</div>
@@ -82,37 +73,38 @@
         <div class="col col-20 col-header">
           <div>Rate</div>
         </div>
+        <div class="col col-40 col-header">
+          <div>Tracking Number</div>
+        </div>
       </div>
 
-      <div class="row" ng-repeat="dim in dimensions">
+      <div class="row" ng-repeat="p in order.shippingParcels">
         <div class="col col-20 col-input-readonly">
-          <div>{{dim.length}}</div>
+          <div>{{p.length}}/{{p.width}}/{{p.height}}</div>
         </div>
         <div class="col col-20 col-input-readonly">
-          <div>{{dim.width}}</div>
+          <div>{{p.weight}}</div>
         </div>
         <div class="col col-20 col-input-readonly">
-          <div>{{dim.height}}</div>
+          <div>{{p['rate'] | number | currency}}</div>
+          <!-- <div>{{p['rate'] | currency:'USD':true:'1.2-2'}}</div> -->
         </div>
-        <div class="col col-20 col-input-readonly">
-          <div>{{dim.weight}}</div>
-        </div>
-        <div class="col col-20 col-input-readonly">
+        <div class="col col-40 col-input-readonly">
           <div>
-            <a ng-href={{shipment['postage_label']['label_url']}} target="_blank">
-              {{shipment['selected_rate']['rate']}}
+            <a ng-href={{p['labelUrl']}} target="_blank">
+              {{p['trackingNumber']}}
             </a>
           </div>
         </div>
       </div>
 
 		  <a class="item" href="#">
-        Total Shipping Items: {{dimensions.length}}
+        Total Shipping Items: {{order.shippingParcels.length}}
 		  </a>
       
       <label class="item item-input">
         <span class="input-label">Warehouseman Email:</span>
-        <input type="text" style="padding-left: 40px" placeholder="abc@example.com" ng-model="labelsEmail">
+        <input type="text" style="padding-left: 40px" placeholder="{{order.shippingLabelsEmail}}" ng-model="labelsEmail">
       </label>
       
       <button class="button button-full button-royal" ng-click="resendLabels();">

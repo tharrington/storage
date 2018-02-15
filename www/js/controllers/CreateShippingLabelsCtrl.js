@@ -117,23 +117,22 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
     const payload = {
       email:       $scope.shippingInputs.labelsEmail,
-      fromAddress: null, // TODO
-      parcel:      $scope.shippingInputs.dimensions,
+      parcels:     $scope.shippingInputs.dimensions,
       toAddress:   $scope.shippingAddress,
     }
 
-    fencesData.postInfo('/orders/purchaseShipment', 'POST', payload)
-    .then(function(shipment) {
+    fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
+    .then(function(response) {
+      console.log('resolved');
       $ionicLoading.show({template : 'Order Saved', duration: 500});
-      OrderInvoiceService.setShipment(shipment);
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
-
-      // TODO: save Shipping Label url to order
-      // TODO: save Tracking Number to order
     });
   }
 
   $scope.formatDate = function(date) {
+    if (!date) {
+      return null;
+    }
   	return moment(date).format('dddd, MMMM Do, YYYY');
   }
 
