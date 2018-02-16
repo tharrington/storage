@@ -14,30 +14,26 @@
 		:-ms-input-placeholder { /* Internet Explorer 10-11 */
 		   color:    #aaaaaa;
 		}
+    .row-table .row {
+      padding: 0;
+    }
+
     .col-input-readonly {
       padding: 6px;
       border: none;
       line-height: 34px;
+      text-align: center;
     }
 
     .col-header {
       padding: 6px;
       border: 1px solid #eee;
-      border-radius: 2px;
       background-color: #f5f5f5;
+      text-align: center;
     }
 
     .col-header div {
       line-height: 34px;
-    }
-
-    .trash-input {
-      padding: 6px;
-    }
-
-    .trash-input button {
-      width: 100%;
-      margin: auto;
     }
 	</style>
 
@@ -60,45 +56,36 @@
 		  </a>
       
       <div class="item item-divider">
-        Item Dimensions
+        Items
 		  </div>
 
       <div class="row" ng-if="order.shippingParcels.length > 0">
-        <div class="col col-20 col-header">
-          <div>L x W x H (in)</div>
+        <div class="col col-25 col-header">
+          <div>Length</div>
         </div>
-        <div class="col col-20 col-header">
-          <div>Weight (lbs)</div>
+        <div class="col col-25 col-header">
+          <div>Width</div>
         </div>
-        <div class="col col-20 col-header">
-          <div>Rate</div>
+        <div class="col col-25 col-header">
+          <div>Height</div>
         </div>
-        <div class="col col-30 col-header">
-          <div>Tracking Number</div>
-        </div>
-        <div class="col col-10 col-header">
+        <div class="col col-25 col-header">
+          <div>Weight</div>
         </div>
       </div>
 
       <div class="row" ng-repeat="p in order.shippingParcels">
-        <div class="col col-20 col-input-readonly">
-          <div>{{p.length}} x {{p.width}} x {{p.height}}</div>
+        <div class="col col-25 col-input-readonly">
+          {{p.length}}
         </div>
-        <div class="col col-20 col-input-readonly">
-          <div>{{p.weight}}</div>
+        <div class="col col-25 col-input-readonly">
+          {{p.width}}
         </div>
-        <div class="col col-20 col-input-readonly">
-          <div>{{p['rate'] | number | currency}}</div>
+        <div class="col col-25 col-input-readonly">
+          {{p.height}}
         </div>
-        <div class="col col-30 col-input-readonly">
-          <div>{{p['trackingNumber']}}</div>
-        </div>
-        <div class="col col-10 col-input-readonly">
-          <div>
-            <a ng-href={{p['labelUrl']}} target="_blank">
-              Label
-            </a>
-          </div>
+        <div class="col col-25 col-input-readonly">
+          {{p.weight}}
         </div>
       </div>
 
