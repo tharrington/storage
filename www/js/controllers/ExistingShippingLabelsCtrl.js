@@ -8,6 +8,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
   	$ionicLoading.show({ template: 'Loading Order...' });
 
     $scope.errorMessage         = '';
+    $scope.individualErrors     = [];
     $scope.hasErrors            = false;
     $scope.pickup               = {};
     $scope.shippingInputs       = { labelsEmail: null }
@@ -87,11 +88,11 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
       $scope.hasErrors = true;
       $scope.errorMessage = 'Email required';
       return
-    } else {
-      $scope.hasErrors = false;
-      $scope.errorMessage = '';
     }
 
+    $scope.hasErrors = false;
+    $scope.errorMessage = '';
+    $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Resending labels email' });
 
     const payload = { email: $scope.shippingInputs.labelsEmail }
@@ -99,18 +100,26 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     fencesData.postInfo(`/orders/${$stateParams.id}/resendShippingLabelsEmail`, 'POST', payload)
     .then(function(response) {
       $ionicLoading.show({template : 'Labels sent', duration: 500});
+      $scope.hasErrors = false;
       $scope.errorMessage = '';
+      $scope.individualErrors = [];
     })
     .catch(function(err) {
       $scope.hasErrors = true;
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
         $scope.errorMessage = err.message;
+        if (err.errors) {
+          $scope.individualErrors = err.errors;
+        }
       }
     });
   }
 
   $scope.voidLabels = function() {
+    $scope.hasErrors = false;
+    $scope.errorMessage = '';
+    $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Voiding labels' });
 
     const payload = {}
@@ -118,7 +127,9 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     fencesData.postInfo(`/orders/${$stateParams.id}/voidShipment`, 'POST', payload)
     .then(function(response) {
       $ionicLoading.show({template : 'Labels voided', duration: 500});
+      $scope.hasErrors = false;
       $scope.errorMessage = '';
+      $scope.individualErrors = [];
       $state.go('app.create_shipping_labels', { id: $stateParams.id });
     })
     .catch(function(err) {
@@ -126,6 +137,9 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
         $scope.errorMessage = err.message;
+        if (err.errors) {
+          $scope.individualErrors = err.errors;
+        }
       }
     });
   }

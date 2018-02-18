@@ -9,6 +9,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   	$ionicLoading.show({ template: 'Loading Order...' });
 
     $scope.errorMessage         = '';
+    $scope.individualErrors     = [];
     $scope.hasErrors            = false;
     $scope.pickup               = {};
     $scope.shippingInputs       = { dimensions: [], labelsEmail: null };
@@ -117,11 +118,17 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = true;
       $scope.errorMessage = 'Email required';
       return
-    } else {
-      $scope.hasErrors = false;
-      $scope.errorMessage = '';
     }
 
+    if ($scope.shippingInputs.dimensions.length === 0) {
+      $scope.hasErrors = true;
+      $scope.errorMessage = 'At least one item required';
+      return
+    }
+
+    $scope.hasErrors = false;
+    $scope.errorMessage = '';
+    $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Generating labels' });
 
     const payload = {
@@ -133,7 +140,9 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
     .then(function(response) {
       $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
+      $scope.hasErrors = false;
       $scope.errorMessage = '';
+      $scope.individualErrors = [];
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     })
     .catch(function(err) {
@@ -141,6 +150,9 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
         $scope.errorMessage = err.message;
+        if (err.errors) {
+          $scope.individualErrors = err.errors;
+        }
       }
     });
   }

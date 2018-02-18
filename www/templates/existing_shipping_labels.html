@@ -35,6 +35,13 @@
     .col-header div {
       line-height: 34px;
     }
+
+    .error-wrapper {
+	    width: 100%;
+      color: red;
+      padding-top: 20px;
+      text-align: center;
+    }
 	</style>
 
   <ion-content class="has-header">
@@ -54,7 +61,7 @@
 		  <a class="item" href="#">
         Shipping Description: {{order.shippingDescription}}
 		  </a>
-      
+
       <div class="item item-divider">
         Items
 		  </div>
@@ -92,16 +99,33 @@
 		  <a class="item" href="#">
         Total Shipping Items: {{order.shippingParcels.length}}
 		  </a>
-      
+
       <label class="item item-input">
         <span class="input-label">Email:</span>
         <input type="text" placeholder="{{order.shippingLabelsEmail}}" ng-model="shippingInputs.labelsEmail">
       </label>
 
-	    <div class="" ng-if="hasErrors" style="width: 100%; padding-top: 20px; text-align: center;" >
-	      <p style="color:red;">{{errorMessage}}<p>
+      <!-- Errors -->
+      <div class="error-wrapper" ng-if="hasErrors">
+	      <p>{{errorMessage}}<p>
+        <div class="row" ng-if="individualErrors.length > 0">
+          <div class="col col-30 col-header">
+            <div>Field</div>
+          </div>
+          <div class="col col-70 col-header">
+            <div>Message</div>
+          </div>
+        </div>
+        <div class="row" ng-repeat="error in individualErrors">
+          <div class="col col-30 col-input">
+            {{error.field}}
+          </div>
+          <div class="col col-70 col-input">
+            {{error.message}}
+          </div>
+        </div>
 	    </div>
-      
+
       <button class="button button-full button-royal" ng-click="resendLabels();">
         Resend Labels
       </button>
@@ -112,5 +136,5 @@
 
   </ion-content>
 
-	
+
 </ion-view>
