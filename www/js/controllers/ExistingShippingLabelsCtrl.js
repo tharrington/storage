@@ -11,9 +11,11 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.shipping_invoice = {};
     $scope.total_invoice_items = 0;
     $scope.total_shipping_items = 0;
+    $scope.hasErrors = false;
+    $scope.errorMessage = '';
 
     // TODO remove this once real data is setup
-    $scope.labelsEmail = null;
+    $scope.shippingInputs = { labelsEmail: null }
 
   	$ionicLoading.show({ template: 'Loading Order...' });
 
@@ -25,7 +27,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
 	    .then(function(result) {
 	      $ionicLoading.hide();
 	      $scope.pickup = result.Pickup;
-        console.log('result.Delivery', result.Delivery);
         $scope.order = result.Delivery;
         $scope.shippingAddressPretty = formatAddress(
           result.Delivery.shippingAddressName,
@@ -86,8 +87,14 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
   });
 
   $scope.resendLabels = function() {
-    console.log('resendLabels called');
-    // TODO resend labels to warehouseman email
+    $ionicLoading.show({ template: 'Resending labels email' });
+
+    const payload = { email: $scope.shippingInputs.labelsEmail }
+
+    fencesData.postInfo(`/orders/${$stateParams.id}/resendShippingLabelsEmail`, 'POST', payload)
+    .then(function(response) {
+      $ionicLoading.show({template : 'Labels sent', duration: 500});
+    });
   }
 
   $scope.voidLabels = function() {
@@ -99,6 +106,12 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     .then(function(response) {
       $ionicLoading.show({template : 'Labels voided', duration: 500});
       $state.go('app.create_shipping_labels', { id: $stateParams.id });
+    })
+    .catch(function(err) {
+      $scope.hasErrors = true;
+      if(err) {
+        $scope.errorMessage = err.message;
+      }
     });
   }
 
