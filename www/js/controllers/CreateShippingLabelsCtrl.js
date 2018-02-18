@@ -1,7 +1,6 @@
 angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope) {
-  
+.controller('CreateShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope, $ionicHistory) {
 
   $scope.$on( "$ionicView.leave", function( scopes ) { });
 
@@ -27,6 +26,12 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
 	      $ionicLoading.hide();
+
+        if (result.Delivery.shippingEasyPostIds) {
+          $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('app.existing_shipping_labels', { id: $stateParams.id });
+        }
+
 	      $scope.pickup = result.Pickup;
         $scope.shippingDate = result.Delivery.shippingDate;
         $scope.shippingDescription = result.Delivery.shippingDescription;
@@ -81,7 +86,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
             });
             $scope.total_shipping_items = total_shipping_items;
           }
-          
+
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
@@ -143,6 +148,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
+      $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     })
     .catch(function(err) {
