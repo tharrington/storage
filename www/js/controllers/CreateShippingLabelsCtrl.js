@@ -6,17 +6,15 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   $scope.$on( "$ionicView.leave", function( scopes ) { });
 
   $scope.$on( "$ionicView.enter", function( scopes ) {
-  	$scope.pickup = {};
-    $scope.shipping_invoice = {};
-    $scope.total_invoice_items = 0;
-    $scope.total_shipping_items = 0;
-
-    $scope.shippingInputs = {
-      dimensions: [],
-      labelsEmail: null,
-    };
-
   	$ionicLoading.show({ template: 'Loading Order...' });
+
+    $scope.errorMessage         = '';
+    $scope.hasErrors            = false;
+    $scope.pickup               = {};
+    $scope.shippingInputs       = { dimensions: [], labelsEmail: null };
+    $scope.shipping_invoice     = {};
+    $scope.total_invoice_items  = 0;
+    $scope.total_shipping_items = 0;
 
     var formatAddress = function(name, street1, street2, city, state, zip) {
       if (!name || !street1 || !city || !state || !zip) {
@@ -126,7 +124,15 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
     .then(function(response) {
       $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
+      $scope.errorMessage = '';
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
+    })
+    .catch(function(err) {
+      $scope.hasErrors = true;
+      $ionicLoading.show({template : 'Call failed', duration: 500});
+      if(err) {
+        $scope.errorMessage = err.message;
+      }
     });
   }
 

@@ -99,7 +99,7 @@ angular.module('fencesForBusiness.data_service', [])
           deferred.resolve(data);
         }).error(function(data, status, header, config) {
           
-          deferred.reject();
+          deferred.reject(data);
         });
       } else {
         mockFencesData.postInfo(endpoint, method, post);

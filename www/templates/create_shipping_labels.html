@@ -142,10 +142,18 @@
 		  </a>
       
       <label class="item item-input">
-        <span class="input-label">Warehouseman Email:</span>
+        <span class="input-label">Email:</span>
         <input type="text" placeholder="abc@example.com" ng-model="shippingInputs.labelsEmail">
       </label>
       
+	    <div class="" ng-if="hasErrors" style="width: 100%; padding-top: 20px; text-align: center;" >
+	      <p style="color:red;">{{errorMessage}}<p>
+	    </div>
+      
+      <button class="button button-full button-royal" ng-click="resendLabels();">
+        Resend Labels
+      </button>
+
       <button class="button button-full button-royal" ng-click="processLabels();">
         Process Labels
       </button>
