@@ -83,6 +83,15 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
   });
 
   $scope.resendLabels = function() {
+    if (!$scope.shippingInputs.labelsEmail) {
+      $scope.hasErrors = true;
+      $scope.errorMessage = 'Email required';
+      return
+    } else {
+      $scope.hasErrors = false;
+      $scope.errorMessage = '';
+    }
+
     $ionicLoading.show({ template: 'Resending labels email' });
 
     const payload = { email: $scope.shippingInputs.labelsEmail }

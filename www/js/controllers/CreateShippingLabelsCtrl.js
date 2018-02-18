@@ -113,6 +113,15 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   }
 
   $scope.processLabels = function() {
+    if (!$scope.shippingInputs.labelsEmail) {
+      $scope.hasErrors = true;
+      $scope.errorMessage = 'Email required';
+      return
+    } else {
+      $scope.hasErrors = false;
+      $scope.errorMessage = '';
+    }
+
     $ionicLoading.show({ template: 'Generating labels' });
 
     const payload = {
