@@ -97,6 +97,10 @@
         <span class="input-label">Warehouseman Email:</span>
         <input type="text" 40px" placeholder="{{order.shippingLabelsEmail}}" ng-model="shippingInputs.labelsEmail">
       </label>
+
+	    <div class="" ng-if="hasErrors" style="width: 100%; padding-top: 20px; text-align: center;" >
+	      <p style="color:red;">{{errorMessage}}<p>
+	    </div>
       
       <button class="button button-full button-royal" ng-click="resendLabels();">
         Resend Labels
