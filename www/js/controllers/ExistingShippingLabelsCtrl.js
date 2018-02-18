@@ -63,7 +63,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
             }
           });
 
-
           if($scope.shipping_invoice && $scope.shipping_invoice._id) {
             var total_shipping_items = 0;
             $scope.shipping_invoice.items.forEach(function(item) {
@@ -71,7 +70,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
             });
             $scope.total_shipping_items = total_shipping_items;
           }
-          
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
@@ -93,8 +91,15 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
   }
 
   $scope.voidLabels = function() {
-    console.log('voidLabels called');
-    // TODO void shipping label (with UPS) otherwise still get billed
+    $ionicLoading.show({ template: 'Voiding labels' });
+
+    const payload = {}
+
+    fencesData.postInfo(`/orders/${$stateParams.id}/voidShipment`, 'POST', payload)
+    .then(function(response) {
+      $ionicLoading.show({template : 'Labels voided', duration: 500});
+      $state.go('app.create_shipping_labels', { id: $stateParams.id });
+    });
   }
 
   $scope.formatDate = function(date) {

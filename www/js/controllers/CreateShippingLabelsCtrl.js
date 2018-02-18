@@ -125,7 +125,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
     fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
     .then(function(response) {
-      console.log('resolved');
       $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     });
