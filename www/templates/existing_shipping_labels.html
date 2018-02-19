@@ -1,0 +1,140 @@
+<ion-view hide-nav-bar="false" view-title="{{pickup.name}}" cache-view="false" ng-controller="ExistingShippingLabelsCtrl">
+	<style>
+		::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    	color:    #aaaaaa !important;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		   color:    #aaaaaa;
+		   opacity:  1;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+		   color:    #aaaaaa;
+		   opacity:  1;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		   color:    #aaaaaa;
+		}
+    .row-table .row {
+      padding: 0;
+    }
+
+    .col-input-readonly {
+      padding: 6px;
+      border: none;
+      line-height: 34px;
+      text-align: center;
+    }
+
+    .col-header {
+      padding: 6px;
+      border: 1px solid #eee;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    .col-header div {
+      line-height: 34px;
+    }
+
+    .error-wrapper {
+	    width: 100%;
+      color: red;
+      padding-top: 20px;
+      text-align: center;
+    }
+	</style>
+
+  <ion-content class="has-header">
+  	<div class="list">
+		  <div class="item item-divider">
+		    Shipping Details
+		  </div>
+
+		  <a class="item" href="#">
+        Date: {{formatDate(order.shippingDate)}}
+		  </a>
+
+		  <a class="item" href="#">
+        Address: {{shippingAddressPretty}}
+		  </a>
+
+		  <a class="item" href="#">
+        Description: {{order.shippingDescription}}
+		  </a>
+
+      <div class="item item-divider">
+        Items
+		  </div>
+
+      <div class="row" ng-if="order.shippingParcels.length > 0">
+        <div class="col col-25 col-header">
+          <div>Length</div>
+        </div>
+        <div class="col col-25 col-header">
+          <div>Width</div>
+        </div>
+        <div class="col col-25 col-header">
+          <div>Height</div>
+        </div>
+        <div class="col col-25 col-header">
+          <div>Weight</div>
+        </div>
+      </div>
+
+      <div class="row" ng-repeat="p in order.shippingParcels">
+        <div class="col col-25 col-input-readonly">
+          {{p.length}}
+        </div>
+        <div class="col col-25 col-input-readonly">
+          {{p.width}}
+        </div>
+        <div class="col col-25 col-input-readonly">
+          {{p.height}}
+        </div>
+        <div class="col col-25 col-input-readonly">
+          {{p.weight}}
+        </div>
+      </div>
+
+		  <a class="item" href="#">
+        Total Shipping Items: {{order.shippingParcels.length}}
+		  </a>
+
+      <label class="item item-input">
+        <span class="input-label">Email:</span>
+        <input type="text" placeholder="{{order.shippingLabelsEmail}}" ng-model="shippingInputs.labelsEmail">
+      </label>
+
+      <!-- Errors -->
+      <div class="error-wrapper" ng-if="hasErrors">
+	      <p>{{errorMessage}}<p>
+        <div class="row" ng-if="individualErrors.length > 0">
+          <div class="col col-30 col-header">
+            <div>Field</div>
+          </div>
+          <div class="col col-70 col-header">
+            <div>Message</div>
+          </div>
+        </div>
+        <div class="row" ng-repeat="error in individualErrors">
+          <div class="col col-30 col-input">
+            {{error.field}}
+          </div>
+          <div class="col col-70 col-input">
+            {{error.message}}
+          </div>
+        </div>
+	    </div>
+
+      <button class="button button-full button-royal" ng-click="resendLabels();">
+        Resend Labels
+      </button>
+
+      <button class="button button-full button-assertive" ng-click="voidLabels();">
+        Void Labels
+      </button>
+
+  </ion-content>
+
+
+</ion-view>

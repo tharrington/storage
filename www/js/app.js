@@ -24,6 +24,8 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.warehouse_load_ctrl',
   'fencesForBusiness.finalize_invoice_ctrl',
+  'fencesForBusiness.create_shipping_labels_ctrl',
+  'fencesForBusiness.existing_shipping_labels_ctrl',
   'ngStorage',
   'ion-gallery', 
   'ngCordova',
@@ -61,6 +63,7 @@ angular.module('fencesForBusiness', [
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
+  $httpProvider.interceptors.push('timeoutHttpIntercept');
 
   $stateProvider
     .state('app', {
@@ -197,6 +200,24 @@ angular.module('fencesForBusiness', [
           templateUrl: 'templates/order.html'
         }
       }
+    })
+
+    .state('app.create_shipping_labels', {
+      url: '/create_shipping_labels/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/create_shipping_labels.html'
+        }
+      }
+    })
+
+    .state('app.existing_shipping_labels', {
+      url: '/existing_shipping_labels/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/existing_shipping_labels.html'
+        }
+      }
     });
     $urlRouterProvider.otherwise('/app/drivers');
 })
@@ -232,6 +253,15 @@ angular.module('fencesForBusiness', [
       }
     }
   };
+})
+
+.factory('timeoutHttpIntercept', function ($rootScope, $q) {
+  return {
+    'request': function(config) {
+      config.timeout = 30000;
+      return config;
+    }
+  }
 })
 
 .run(function ($rootScope, $state, Auth, $ionicPlatform, fencesLocations, $state, $localStorage) {

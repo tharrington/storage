@@ -1,7 +1,7 @@
 angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
 .controller('OrderSummaryCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
-  
+
   $scope.invoice = { imageURLs : [] };
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
@@ -9,7 +9,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
       $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
     }
-    
+
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
       .then(function(result) {
       });
@@ -76,7 +76,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
             });
             $scope.total_shipping_items = total_shipping_items;
           }
-          
+
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
@@ -90,7 +90,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 	    }, function(err) {
 	    	$ionicLoading.show({ template: 'There was an error', duration: 1000 });
 	    });
-	
+
   });
 
   $scope.formatDate = function(date) {
@@ -107,8 +107,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.delivery.warehouseNotes = $scope.pickup.warehouseNotes;
       $scope.delivery.warehouseLocation = $scope.pickup.warehouseLocation;
     }
-    
-
 
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
       .then(function(result) {
@@ -122,5 +120,13 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.editInvoice = function(invoice) {
   	$state.go('app.invoice', { id : $stateParams.id });
+  }
+
+  $scope.createLabels = function() {
+    if ($scope.delivery.shippingEasyPostIds) {
+      $state.go('app.existing_shipping_labels', { id : $stateParams.id });
+    } else {
+      $state.go('app.create_shipping_labels', { id : $stateParams.id });
+    }
   }
 });
