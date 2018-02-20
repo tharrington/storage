@@ -1,5 +1,5 @@
 <ion-view hide-nav-bar="false" view-title="Order" cache-view="false" ng-controller="OrderCtrl">
-	
+
 	<style>
 		.item-select select {
 			color : #000 !important;
@@ -31,7 +31,7 @@
 
 	<ion-nav-back-button>
   </ion-nav-back-button>
-  
+
   <ion-nav-title>
     <div class="browse-nav-title">{{order.name}}</div>
   </ion-nav-title>
@@ -82,7 +82,7 @@
 	    	<p>{{item.warehouseStatus}}</p>
 	    </a>
 
-	    <ion-gallery ion-gallery-items="images"></ion-gallery> 
+	    <ion-gallery ion-gallery-items="images"></ion-gallery>
 
 
 
@@ -96,7 +96,7 @@
 	    	<i class="icon ion-ios-telephone"></i>
 	    	Call: {{ formatNumber(order.phone)}}
 	    </a>
-	    <a class="item item-icon-left" href="sms:{{order.phone}}" href="#">
+	    <a class="item item-icon-left" href="sms:{{order.proxyPhone}}" href="#">
 	    <i class="icon ion-chatbubbles"></i>
 	    	Text: {{ formatNumber(order.phone)}}
 	    </a>
@@ -104,7 +104,7 @@
 	    	<i class="icon ion-ios-telephone"></i>
 	    	Alt Phone: {{order.altPhone}}
 	    </a>
-	    
+
 	    <a class="item item-icon-left" href="#">
 	    	<i class="icon ion-email"></i>
 	    	Email: {{order.email}}
@@ -120,9 +120,9 @@
 	    <a class="item item-text-wrap" href="#">Room Number: {{order.roomNumber}}</a>
 	    <a class="item item-text-wrap" href="#">Building: {{order.building}}</a>
 
-	    
+
 	    <div class="item item-divider">Order Details</div>
-	    
+
 
 	    <a class="item item-text-wrap" href="#">Appointment Time: {{order.deliveryTime}}</a>
 
