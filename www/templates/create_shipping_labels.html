@@ -15,6 +15,10 @@
 		   color:    #aaaaaa;
 		}
 
+    .item-info {
+      padding: 6px;
+    }
+
     .row-table .row {
       padding: 0;
     }
@@ -72,34 +76,21 @@
 		    Shipping Details
 		  </div>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Date: {{formatDate(shippingDate)}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Address: {{shippingAddressPretty}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Description: {{shippingDescription}}
 		  </a>
 
       <div class="item item-divider">
         Item Dimensions
 		  </div>
-
-      <div class="item row">
-        <div class="col">
-          <button class="button button-full button-positive" ng-click="addMegaBox();">
-            + Add Mega Box
-          </button>
-        </div>
-        <div class="col">
-          <button class="button button-full button-positive" ng-click="addOtherItem();">
-            + Add Other Item
-          </button>
-        </div>
-      </div>
 
       <div class="row-table">
         <div class="row" ng-if="shippingInputs.dimensions.length > 0">
@@ -140,11 +131,24 @@
         </div>
       </div>
 
+      <div class="item row">
+        <div class="col">
+          <button class="button button-full button-positive" ng-click="addMegaBox();">
+            + Add Mega Box
+          </button>
+        </div>
+        <div class="col">
+          <button class="button button-full button-positive" ng-click="addOtherItem();">
+            + Add Other Item
+          </button>
+        </div>
+      </div>
+
 		  <div class="item item-divider">
 		    Summary
 		  </div>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Total Shipping Items: {{shippingInputs.dimensions.length}}
 		  </a>
 

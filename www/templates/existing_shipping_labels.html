@@ -14,6 +14,11 @@
 		:-ms-input-placeholder { /* Internet Explorer 10-11 */
 		   color:    #aaaaaa;
 		}
+
+    .item-info {
+      padding: 6px;
+    }
+
     .row-table .row {
       padding: 0;
     }
@@ -50,15 +55,15 @@
 		    Shipping Details
 		  </div>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Date: {{formatDate(order.shippingDate)}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Address: {{shippingAddressPretty}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Description: {{order.shippingDescription}}
 		  </a>
 
@@ -96,7 +101,7 @@
         </div>
       </div>
 
-		  <a class="item" href="#">
+		  <a class="item item-info" href="#">
         Total Shipping Items: {{order.shippingParcels.length}}
 		  </a>
 
