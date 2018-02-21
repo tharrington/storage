@@ -50,6 +50,13 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
+
+    if ($scope.order.status == "Complete") {
+      $scope.messagePhone = $scope.order.phone;
+    } else {
+      $scope.messagePhone = $scope.order.proxyPhone;
+    }
+
     if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
       $scope.order.notes = '';
     }
@@ -61,7 +68,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
         { status : 'No Answer' },
         { status : 'Canceled' },
         { status : 'Complete- Left Unattended' }
-      ] 
+      ]
     }
     $scope.order_status = result.status;
 	});
@@ -74,10 +81,17 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
     $ionicNavBarDelegate.showBackButton(true);
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
+
+      if ($scope.order.status == "Complete") {
+        $scope.messagePhone = $scope.order.phone;
+      } else {
+        $scope.messagePhone = $scope.order.proxyPhone;
+      }
+
       $scope.order_status = result.status;
 
       if($scope.order.type == 'Delivery') {
-        fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $scope.order.ssOrderId, 'GET', null).then(function(result) {      
+        fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $scope.order.ssOrderId, 'GET', null).then(function(result) {
 
           console.log('### result: ' + JSON.stringify(result));
           $scope.invoices = result.invoices;
@@ -118,9 +132,9 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
   /**
    * Sends a status update, depending on current status of the order
-   */ 
+   */
   $scope.sendUpdate = function() {
-    if(($scope.order.status == 'No Answer' || $scope.order.status == 'Rescheduled' || $scope.order.status == 'Canceled') && 
+    if(($scope.order.status == 'No Answer' || $scope.order.status == 'Rescheduled' || $scope.order.status == 'Canceled') &&
       (!$scope.order.notes || $scope.order.notes.trim().length == 0)) {
       var alertPopup = $ionicPopup.alert({
         title: 'NOT SAVED',

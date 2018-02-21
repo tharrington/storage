@@ -47,7 +47,7 @@ angular.module('fencesForBusiness', [
 
   $ionicPlatform.ready(function() {
     // fencesLocations.startLocation();
-    
+
     if(hockeyapp) {
       if(device.platform != 'Android') {
         hockeyapp.start(null, null, "ff5782db811a44a79fb5eb47a37cec95");
@@ -56,8 +56,8 @@ angular.module('fencesForBusiness', [
         hockeyapp.start(null, null, "7a6c56a424724895bcb2da0564d04935");
         hockeyapp.checkForUpdate(function() {}, function(err) {});
       }
-      
-    }    
+
+    }
   });
 })
 
