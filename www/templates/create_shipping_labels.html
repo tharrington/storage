@@ -17,6 +17,8 @@
 
     .item-info {
       padding: 6px;
+      font-size: 16px;
+      border-bottom: 1px solid #ddd;
     }
 
     .row-table .row {
@@ -76,17 +78,17 @@
 		    Shipping Details
 		  </div>
 
-		  <a class="item item-info" href="#">
+		  <div class="item-info" href="#">
         Date: {{formatDate(shippingDate)}}
-		  </a>
+		  </div>
 
-		  <a class="item item-info" href="#">
+		  <div class="item-info" href="#">
         Address: {{shippingAddressPretty}}
-		  </a>
+		  </div>
 
-		  <a class="item item-info" href="#">
+		  <div class="item-info" href="#">
         Description: {{shippingDescription}}
-		  </a>
+		  </div>
 
       <div class="item item-divider">
         Item Dimensions
