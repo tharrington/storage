@@ -28,7 +28,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 	      $ionicLoading.hide();
 
         if (result.Delivery.shippingEasyPostIds) {
-          $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('app.existing_shipping_labels', { id: $stateParams.id });
         }
 
@@ -148,7 +147,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
-      $ionicHistory.nextViewOptions({ disableBack: true });
       $state.go('app.existing_shipping_labels', { id: $stateParams.id });
     })
     .catch(function(err) {

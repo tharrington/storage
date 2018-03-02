@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('ExistingShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope) {
+.controller('ExistingShippingLabelsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope, $ionicHistory) {
 
   $scope.$on( "$ionicView.leave", function( scopes ) { });
 
@@ -57,7 +57,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
               $scope.invoice.items = items;
             } else if(inv.invoice_type == 'Shipping') {
               $scope.shipping_invoice = inv;
-              console.log('shipping_invoice', inv);
             }
           });
 
@@ -71,7 +70,6 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
-            console.log('### item : ' + JSON.stringify(item));
             if(item.type == 'Storage Goods') {
               total_items = total_items + item.quantity;
             }
@@ -130,7 +128,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
-      $state.go('app.create_shipping_labels', { id: $stateParams.id });
+      $state.go('app.lookup');
     })
     .catch(function(err) {
       $scope.hasErrors = true;
@@ -150,4 +148,11 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     }
   	return moment(date).format('dddd, MMMM Do, YYYY');
   }
+
+  var oldSoftBack = $rootScope.$ionicGoBack;
+  $rootScope.$ionicGoBack = function() {
+    if ($ionicHistory.backView() && $ionicHistory.backView().stateName === 'app.create_shipping_labels') {
+      $state.go('app.lookup');
+    }
+  };
 });
