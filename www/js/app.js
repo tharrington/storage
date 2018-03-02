@@ -56,7 +56,9 @@ angular.module('fencesForBusiness', [
         hockeyapp.start(null, null, "7a6c56a424724895bcb2da0564d04935");
         hockeyapp.checkForUpdate(function() {}, function(err) {});
       }
-
+      if (window.cordova && window.cordova.plugins.Keyboard){
+          cordova.plugins.Keyboard.disableScroll(true); // This will prevent the view to bounce when inputs are on focus
+      }
     }
   });
 })
