@@ -175,12 +175,13 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           fencesData.postInfo(`/orders/${$stateParams.id}/purchaseBatchShipment`, 'POST', TODO)
           .then(function(purchaseResponse) {
             // TODO
+            $ionicLoading.show({ template: 'Batch shipment purchased.', duration: 1000 });
           })
           .catch(function(err) {
-            $ionicLoading.show({ template: 'There was an purchasing the batch shipment', duration: 1000 });
+            $ionicLoading.show({ template: 'There was an error purchasing the batch shipment', duration: 1000 });
           });
         } else {
-          // TODO repeat
+          $ionicLoading.show({ template: 'Batch shipment not yet purchased.', duration: 1000 });
         }
       }, function(err) {
         $ionicLoading.show({ template: 'There was an error loading the order', duration: 1000 });
