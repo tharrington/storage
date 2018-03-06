@@ -141,52 +141,9 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       toAddress:   $scope.shippingAddress,
     }
 
-    // fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
-    // .then(function(response) {
-    //   $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
-    //   $scope.hasErrors = false;
-    //   $scope.errorMessage = '';
-    //   $scope.individualErrors = [];
-    //   $ionicHistory.nextViewOptions({ disableBack: true });
-    //   $state.go('app.existing_shipping_labels', { id: $stateParams.id });
-    // })
-    // .catch(function(err) {
-    //   $scope.hasErrors = true;
-    //   $ionicLoading.show({template : 'Call failed', duration: 500});
-    //   if(err) {
-    //     $scope.errorMessage = err.message;
-    //     if (err.errors) {
-    //       $scope.individualErrors = err.errors;
-    //     }
-    //   }
-    // });
-  // }
-
-    /*
-     * Create batch shipments
-     */
-    fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', TODO)
-    .then(function(createResponse) {
-      $ionicLoading.show({template : 'Purchasing batch shipment'});
-
-      fencesData.callWrapper('/orders/getOrder/' + $stateParams.id, 'GET', null)
-      .then(function(orderResponse) {
-        if (order.shippingBatchCreatedAt) {
-          fencesData.postInfo(`/orders/${$stateParams.id}/purchaseBatchShipment`, 'POST', TODO)
-          .then(function(purchaseResponse) {
-            // TODO
-            $ionicLoading.show({ template: 'Batch shipment purchased.', duration: 1000 });
-          })
-          .catch(function(err) {
-            $ionicLoading.show({ template: 'There was an error purchasing the batch shipment', duration: 1000 });
-          });
-        } else {
-          $ionicLoading.show({ template: 'Batch shipment not yet purchased.', duration: 1000 });
-        }
-      }, function(err) {
-        $ionicLoading.show({ template: 'There was an error loading the order', duration: 1000 });
-      });
-
+    fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', payload)
+    .then(function(response) {
+      $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
