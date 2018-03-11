@@ -53,7 +53,7 @@ angular.module('fencesForBusiness.data_service', [])
 
       var myMoment = moment();
       myMoment.hours(0).minutes(0).seconds(0);
-      console.log('### myMoment: ' + myMoment.format());
+
       var myDate = new Date(myMoment);
 
       if(!$rootScope.isTraining) {
