@@ -141,7 +141,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       toAddress:   $scope.shippingAddress,
     }
 
-    fencesData.postInfo(`/orders/${$stateParams.id}/purchaseShipment`, 'POST', payload)
+    fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', payload)
     .then(function(response) {
       $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
       $scope.hasErrors = false;
