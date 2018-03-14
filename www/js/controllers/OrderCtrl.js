@@ -82,6 +82,10 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
       });
     } else {
 
+      if ($scope.order.status == "Complete" || !$scope.order.proxyPhone) {
+        $scope.messagePhone = $scope.order.phone;
+      }
+
       if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
         $scope.order.notes = '';
       }
@@ -113,6 +117,8 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
         } else {
           $scope.messagePhone = $scope.order.proxyPhone;
         }
+      } else {
+        $scope.messagePhone = $scope.order.phone;
       }
 
       $scope.order_status = result.status;
