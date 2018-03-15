@@ -130,6 +130,19 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       return
     }
 
+    for (let d of $scope.shippingInputs.dimensions) {
+      if (isNil(d['length']) || isNil(d['width']) || isNil(d['height']) || isNil(d['weight'])) {
+        $scope.hasErrors = true;
+        $scope.errorMessage = 'All item dimensions must have a value.';
+        return
+      }
+      if ((d['length'] <= 0) || (d['width'] <= 0) || (d['height'] <= 0) || (d['weight'] <= 0)) {
+        $scope.hasErrors = true;
+        $scope.errorMessage = 'All item dimensions must be greater than zero.';
+        return
+      }
+    }
+
     $scope.hasErrors = false;
     $scope.errorMessage = '';
     $scope.individualErrors = [];
@@ -181,4 +194,8 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 function roundVal(val, dec) {
   var lb = Math.round(val*Math.pow(10, dec))/ Math.pow(10, dec);
   return lb;
+}
+
+function isNil(val) {
+  return val === null;
 }
