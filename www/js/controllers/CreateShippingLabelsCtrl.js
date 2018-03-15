@@ -134,10 +134,18 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.errorMessage = '';
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Generating labels' });
+    const parcels = $scope.shippingInputs.dimensions.map(d => {
+      return {
+        length: d['length'],
+        width:  d['width'],
+        height: d['height'],
+        weight: roundVal(16*d['weight'], 2),
+      }
+    });
 
     const payload = {
       email:       $scope.shippingInputs.labelsEmail,
-      parcels:     $scope.shippingInputs.dimensions,
+      parcels:     parcels,
       toAddress:   $scope.shippingAddress,
     }
 
@@ -153,7 +161,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = true;
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
-        $scope.errorMessage = err.message;
+        $scope.errorMessage = err.message || 'Unknown error';
         if (err.errors) {
           $scope.individualErrors = err.errors;
         }
@@ -169,3 +177,8 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   }
 
 });
+
+function roundVal(val, dec) {
+  var lb = Math.round(val*Math.pow(10, dec))/ Math.pow(10, dec);
+  return lb;
+}
