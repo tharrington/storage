@@ -155,4 +155,9 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
       $state.go('app.lookup');
     }
   };
+
+  $scope.roundVal = function(val, dec) {
+    var lb = Math.round(val*Math.pow(10, dec))/ Math.pow(10, dec);
+    return lb;
+  }
 });
