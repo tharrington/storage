@@ -15,6 +15,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.shipping_invoice     = {};
     $scope.total_invoice_items  = 0;
     $scope.total_shipping_items = 0;
+    $scope.createAttempts       = 0;
 
     var formatAddress = function(name, street1, street2, city, state, zip) {
       if (!name || !street1 || !city || !state || !zip) {
@@ -143,10 +144,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       }
     }
 
-    $scope.hasErrors = false;
-    $scope.errorMessage = '';
-    $scope.individualErrors = [];
-    $ionicLoading.show({ template: 'Generating labels' });
     const parcels = $scope.shippingInputs.dimensions.map(d => {
       return {
         length: d['length'],
@@ -156,10 +153,18 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       }
     });
 
+    $scope.hasErrors = false;
+    $scope.errorMessage = '';
+    $scope.individualErrors = [];
+    $ionicLoading.show({ template: 'Generating labels' });
+    const timeoutMultiplier = ($scope.createAttempts > 0) ? 2 : 1;
+    $scope.createAttempts += 1;
+
     const payload = {
-      email:       $scope.shippingInputs.labelsEmail,
-      parcels:     parcels,
-      toAddress:   $scope.shippingAddress,
+      email:             $scope.shippingInputs.labelsEmail,
+      parcels:           parcels,
+      toAddress:         $scope.shippingAddress,
+      timeoutMultiplier: timeoutMultiplier
     }
 
     fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', payload)
