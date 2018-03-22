@@ -12,8 +12,21 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.loading = true;
   $scope.training_complete = false;
 
+
+  $scope.changeLocation = function() {
+    var mover = $localStorage.mover;
+    $scope.dispatch.mover = mover._id;
+    $scope.dispatch.set_mover = true;
+
+    fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
+      $scope.getOrders();
+    });
+  }
+
+  /**
+   * Set's the dispatch status
+   */ 
   $scope.setDispatchStatus = function() {
-    
   	fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
 	    if($scope.dispatch.status == 'Start') {
         $scope.dispatch.status = 'On Time';
@@ -99,6 +112,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   
   function organizeOrders() {
   	fencesData.getTodaysDispatch().then(function(result) {
+      console.log('### got dispatch: ' + JSON.stringify(result));
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
   		$ionicLoading.hide();
@@ -190,25 +204,5 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.viewCompletedAppointment = function(appointment) {
     $state.go('app.order', { id : appointment._id });
-    // var hideSheet = $ionicActionSheet.show({
-    //   buttons: [
-    //     { text: 'View / Edit Invoice' },
-    //     { text: 'Edit Warehouse Location' }
-    //   ],
-    //   cancelText: 'Cancel',
-    //   cancel: function() {
-    //       // add cancel code..
-    //   },
-    //   buttonClicked: function(index) {
-    //     console.log('### index: ' + index);
-    //     if(index == 0) {
-    //       console.log('### go to orders: ' + appointment._id);
-
-    //       $state.go('app.order', { id : appointment._id });
-    //     } else { 
-    //       $state.go('app.order_summary', { id : appointment.ssOrderId });
-    //     }
-    //   }
-    // });
   }
 });

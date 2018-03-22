@@ -46,6 +46,8 @@
 
 	  <ion-content class="has-header" ng-class="{ 'has-subheader' : (dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'), 'has-footer' : isTraining }">
 			<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover">Currently tracking location for {{dispatch.mover.name}}</div>
+			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover" ng-click="changeLocation();">Tap to change location provider.</div>
 
 			<button class="button button-block button-balanced" ng-if="training_complete && isTraining" style="margin-top:10px;" ng-click="completeTraining();">
 	      Complete Training

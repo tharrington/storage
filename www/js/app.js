@@ -46,7 +46,7 @@ angular.module('fencesForBusiness', [
   }
 
   $ionicPlatform.ready(function() {
-    // fencesLocations.startLocation();
+    fencesLocations.startLocation();
 
     if(hockeyapp) {
       if(device.platform != 'Android') {
@@ -237,9 +237,16 @@ angular.module('fencesForBusiness', [
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
 
+      // if this is a location update
+      if($localStorage.mover_token && config.url.indexOf('updateLocation') > -1) {
+        console.log('### UPDATE LOCATION!');
+        config.headers['x-access-token'] = $localStorage.mover_token;
+      }
+
       if($localStorage.mover && $localStorage.mover._id) {
         config.headers['mover_id'] = $localStorage.mover._id;
       }
+
       return config;
     },
 
@@ -276,7 +283,7 @@ angular.module('fencesForBusiness', [
   });
 
   $ionicPlatform.on('resume', function(){
-    // fencesLocations.sendUpdate();
+    fencesLocations.sendUpdate();
   });
 
 });
