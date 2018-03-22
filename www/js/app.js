@@ -267,7 +267,7 @@ angular.module('fencesForBusiness', [
 .factory('timeoutHttpIntercept', function ($rootScope, $q) {
   return {
     'request': function(config) {
-      config.timeout = 30000;
+      config.timeout = 60000;
       return config;
     }
   }

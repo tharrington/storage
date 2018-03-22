@@ -114,16 +114,16 @@
 
         <div class="row" ng-repeat="dim in shippingInputs.dimensions">
           <div class="col col-20 col-input">
-            <input type="number" placeholder="0" ng-model="dim.length" min=0>
+            <input type="number" placeholder="0" ng-model="dim.length">
           </div>
           <div class="col col-20 col-input">
-            <input type="number" placeholder="0" ng-model="dim.width" min=0>
+            <input type="number" placeholder="0" ng-model="dim.width">
           </div>
           <div class="col col-20 col-input">
-            <input type="number" placeholder="0" ng-model="dim.height" min=0>
+            <input type="number" placeholder="0" ng-model="dim.height">
           </div>
           <div class="col col-20 col-input">
-            <input type="number" placeholder="0" ng-model="dim.weight" min=0>
+            <input type="number" placeholder="0" ng-model="dim.weight">
           </div>
           <div class="col col-20 col-input trash-input">
             <button class="button button-trash" on-tap="deleteItem($index);">

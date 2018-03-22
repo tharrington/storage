@@ -15,6 +15,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.shipping_invoice     = {};
     $scope.total_invoice_items  = 0;
     $scope.total_shipping_items = 0;
+    $scope.createAttempts       = 0;
 
     var formatAddress = function(name, street1, street2, city, state, zip) {
       if (!name || !street1 || !city || !state || !zip) {
@@ -130,15 +131,40 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       return
     }
 
+    for (let d of $scope.shippingInputs.dimensions) {
+      if (isNil(d['length']) || isNil(d['width']) || isNil(d['height']) || isNil(d['weight'])) {
+        $scope.hasErrors = true;
+        $scope.errorMessage = 'All item dimensions must have a value.';
+        return
+      }
+      if ((d['length'] <= 0) || (d['width'] <= 0) || (d['height'] <= 0) || (d['weight'] <= 0)) {
+        $scope.hasErrors = true;
+        $scope.errorMessage = 'All item dimensions must be greater than zero.';
+        return
+      }
+    }
+
+    const parcels = $scope.shippingInputs.dimensions.map(d => {
+      return {
+        length: d['length'],
+        width:  d['width'],
+        height: d['height'],
+        weight: roundVal(16*d['weight'], 2),
+      }
+    });
+
     $scope.hasErrors = false;
     $scope.errorMessage = '';
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Generating labels' });
+    const timeoutMultiplier = ($scope.createAttempts > 0) ? 2 : 1;
+    $scope.createAttempts += 1;
 
     const payload = {
-      email:       $scope.shippingInputs.labelsEmail,
-      parcels:     $scope.shippingInputs.dimensions,
-      toAddress:   $scope.shippingAddress,
+      email:             $scope.shippingInputs.labelsEmail,
+      parcels:           parcels,
+      toAddress:         $scope.shippingAddress,
+      timeoutMultiplier: timeoutMultiplier
     }
 
     fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', payload)
@@ -153,7 +179,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = true;
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
-        $scope.errorMessage = err.message;
+        $scope.errorMessage = err.message || 'Unknown error';
         if (err.errors) {
           $scope.individualErrors = err.errors;
         }
@@ -169,3 +195,12 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
   }
 
 });
+
+function roundVal(val, dec) {
+  var lb = Math.round(val*Math.pow(10, dec))/ Math.pow(10, dec);
+  return lb;
+}
+
+function isNil(val) {
+  return val === null;
+}
