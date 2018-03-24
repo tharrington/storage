@@ -22,7 +22,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     .then(punch => {
       $ionicLoading.hide();
       $scope.punch = punch;
-      $scope.isPunchedIn = $scope.punch && !$scope.punch.timeOut;
+      $scope.isPunchedIn = $scope.punch && $scope.punch.isPunchIn;
     })
     .catch(err => {
       $scope.isPunchedIn = false;
@@ -35,17 +35,22 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
 
   });
 
-  $scope.punchIn = () => {
-    $ionicLoading.show({ template: 'Punching in...' });
-    fencesData.postInfo('/punches/punchIn', 'POST', { userId: $scope.userId })
+  $scope.createPunch = (isPunchIn) => {
+    $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });
+    const payload = {
+      userId:      $scope.userId,
+      time:        (new Date()).getTime(),
+      isPunchIn: isPunchIn,
+    };
+    fencesData.postInfo('/punches', 'POST', payload)
     .then(punch => {
-      $ionicLoading.show({ template: 'Successfully punched in', duration: 500});
+      $ionicLoading.show({ template: `Successfully punched ${isPunchIn ? 'in' : 'out'}...`, duration: 500});
       $scope.punch = punch;
-      $scope.isPunchedIn = true;
+      $scope.isPunchedIn = isPunchIn;
     })
     .catch(err => {
       $scope.hasErrors = true;
-      $ionicLoading.show({template : 'Error punching in.', duration: 500});
+      $ionicLoading.show({template : `Error punching ${isPunchIn ? 'in' : 'out'}.`, duration: 500});
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
       }

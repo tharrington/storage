@@ -107,10 +107,10 @@
           Logout
         </ion-item>
 
-        <ion-item id="punchIn" ng-if="!isPunchedIn" href="#" ng-click="punchIn();">
+        <ion-item id="punchIn" ng-if="!isPunchedIn" href="#" ng-click="createPunch(true);">
           <span>Punch In</span>
         </ion-item>
-        <ion-item id="punchOut" ng-if="isPunchedIn" href="#" ng-click="punchOut()">
+        <ion-item id="punchOut" ng-if="isPunchedIn" href="#" ng-click="createPunch(false)">
           <span>Punch Out</span>
         </ion-item>
       </ion-list>
