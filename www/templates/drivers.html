@@ -3,9 +3,10 @@
   <ion-nav-title>
     <div class="browse-nav-title">{{title}}</div>
   </ion-nav-title>
-  
+
   <ion-content>
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
 
   	<div ng-if="!loading">
 	  	<div ng-if="!currentUser.tutorialCompleted && !isTraining">

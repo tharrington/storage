@@ -11,17 +11,18 @@
   <ion-nav-title>
     <div class="browse-nav-title">Invoice {{invoice.name}}</div>
   </ion-nav-title>
-  
+
   <ion-content class="has-header has-footer">
 	  <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
-	
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+
 	  <div class="list">
 	  	<div class="item item-divider">
 		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
 		  </div>
 			<a class="item item-icon-right" href="#">
 		    Shipping
-		    
+
 		    <i class="icon ion-arrow-up-c" ng-click="incrementShipping(1);" style="right: 45px;">{{shipping_count}}</i>
 		    <i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1);"></i>
 		  </a>
@@ -41,9 +42,9 @@
 
 			<a class="item item-icon-right" ng-repeat="product in products track by $index" href="#">
 		    {{product.name}}
-		    
+
 		    <i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
-		    
+
 		    <i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);"></i>
 		    <label ng-if='(product.name == "Miscellaneous" || product.name == "Furniture") && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top:8px;">
 		  		<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
@@ -60,13 +61,13 @@
 
 			<a class="item item-icon-right" ng-repeat="product in added_services track by $index" href="#">
 		    {{product.name}}
-		    
+
 		    <i class="icon ion-arrow-up-c" ng-click="increment_added_services($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
 		    <i class="icon ion-arrow-down-c" ng-click="increment_added_services($index, -1);"></i>
 		  </a>
 
 
-		</div>		
+		</div>
   </ion-content>
 
   <div class="bar bar-footer bar-balanced" ng-click="takeImages();">

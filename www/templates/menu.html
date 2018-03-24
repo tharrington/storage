@@ -5,13 +5,6 @@
       font-size: 14px !important;
       height: 26px !important;
     }
-
-    #punchIn a {
-      background: #b12 !important;
-    }
-
-    #punchOut a {
-    }
   </style>
 
   <ion-side-menu-content>
@@ -108,9 +101,11 @@
         </ion-item>
 
         <ion-item id="punchIn" ng-if="!isPunchedIn" href="#" ng-click="createPunch(true);">
+          <i class="icon ion-clock"></i>
           <span>Punch In</span>
         </ion-item>
         <ion-item id="punchOut" ng-if="isPunchedIn" href="#" ng-click="createPunch(false)">
+          <i class="icon ion-clock"></i>
           <span>Punch Out</span>
         </ion-item>
       </ion-list>

@@ -31,24 +31,23 @@
 	.item-icon-left .icon, .item-icon-right .icon {
     font-size: 22px;
 	}
-	
+
 </style>
 
 	<ion-nav-back-button>
   </ion-nav-back-button>
 
   <ion-content class="has-header">
-  	<div class="item item-divider tutorial-alert" ng-if="isTraining">
-  		Training Mode
-  	</div>
- 
+  	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+
 	  <div class="list" ng-repeat="invoice in invoices" ng-if="invoice.status == 'Paid'">
 
 	  	<div class="item item-divider">Items In Storage</div>
 
 
 		  <a class="item today-item item-icon-right" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods' && item.warehouseStatus != 'Delivered'">
-	      <h2>{{item.product_display_name}} • {{item.quantity}} 
+	      <h2>{{item.product_display_name}} • {{item.quantity}}
 	      	<!-- <select ng-click="$event.preventDefault();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="item.warehouseStatus">
 			    	<option ng-repeat="stage in itemUpdates" ng-selected="item.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
 			    </select> -->
@@ -62,9 +61,9 @@
 	    <a class="item today-item" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods' && item.warehouseStatus == 'Delivered'">
 	      <h2>{{item.product_display_name}} • {{item.quantity}}</h2>
 	    </a>
-		</div> 
+		</div>
 
-		<ion-gallery ion-gallery-items="images"></ion-gallery> 	
+		<ion-gallery ion-gallery-items="images"></ion-gallery>
 	</ion-content>
 
 	<div class="bar bar-footer bar-balanced" ng-click="saveInvoice();">

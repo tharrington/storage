@@ -2,7 +2,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
 /**
  * This is the main app controller.
  */
-.controller('AppCtrl', function($scope, $localStorage, fencesData, $ionicHistory, $state, $ionicLoading) {
+.controller('AppCtrl', function($scope, $localStorage, fencesData, $ionicHistory, $state, $ionicLoading, $rootScope) {
   $scope.isSandbox = false;
 
   $scope.$on('$ionicView.enter', function(e) {
@@ -22,10 +22,10 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     .then(punch => {
       $ionicLoading.hide();
       $scope.punch = punch;
-      $scope.isPunchedIn = $scope.punch && $scope.punch.isPunchIn;
+      $rootScope.isPunchedIn =$scope.punch && $scope.punch.isPunchIn;
     })
     .catch(err => {
-      $scope.isPunchedIn = false;
+      $rootScope.isPunchedIn = false;
       $scope.hasErrors = true;
       $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
       if(err) {
@@ -46,7 +46,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     .then(punch => {
       $ionicLoading.show({ template: `Successfully punched ${isPunchIn ? 'in' : 'out'}...`, duration: 500});
       $scope.punch = punch;
-      $scope.isPunchedIn = isPunchIn;
+      $rootScope.isPunchedIn = isPunchIn;
     })
     .catch(err => {
       $scope.hasErrors = true;
@@ -62,7 +62,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.postInfo(`/punches/${$scope.punch._id}/punchOut`, 'POST', {})
     .then(punch => {
       $ionicLoading.show({ template: 'Successfully punched out', duration: 500});
-      $scope.isPunchedIn = false;
+      $rootScope.isPunchedIn = false;
     })
     .catch(err => {
       $scope.hasErrors = true;
