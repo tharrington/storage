@@ -2,13 +2,13 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
 
 .controller('LoginCtrl', function($scope, $ionicSideMenuDelegate, $rootScope, $state, Auth, $ionicHistory, fencesLocations, $localStorage) {
   // TODO: Check this
-  $scope.locationServicesDisabled = false; 
+  $scope.locationServicesDisabled = false;
   $scope.hasErrors = false;
   $scope.errorMessage = '';
   $scope.user = {};
 
   $scope.user.password = "Storage1";
-  
+
   $scope.login = function(form) {
   	$scope.submitted = true;
     $rootScope.isStaging = false;
@@ -17,6 +17,8 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
 
     $rootScope.isTraining = false;
     $localStorage.isTraining = false;
+
+    $rootScope.punchCheckDelay = 0;
 
   	if(form.$valid) {
   		Auth.login($scope.user)

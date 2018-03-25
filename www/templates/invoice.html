@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="false" view-title="Invoice {{invoice.name}}" ng-controller="InvoiceCtrl">
+<ion-view hide-nav-bar="false" ng-controller="InvoiceCtrl">
 	<style>
 		.invoicePic {
 		  height: 200px;
@@ -9,7 +9,10 @@
 	</style>
 
   <ion-nav-title>
-    <div class="browse-nav-title">Invoice {{invoice.name}}</div>
+    <div class="browse-nav-title">
+      Invoice {{invoice.name}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
   </ion-nav-title>
 
   <ion-content class="has-header has-footer">

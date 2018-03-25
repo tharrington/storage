@@ -1,5 +1,12 @@
 <ion-view view-title="Unload Truck" ng-controller="WarehouseLoadCtrl">
 
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Unload Truck
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
+
 	<div class="bar bar-subheader bar-calm">
 
 	  <label class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" >

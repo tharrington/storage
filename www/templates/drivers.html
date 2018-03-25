@@ -1,7 +1,10 @@
 <ion-view hide-nav-bar="false" view-title="{{title}}" ng-controller="DriversCtrl">
 
   <ion-nav-title>
-    <div class="browse-nav-title">{{title}}</div>
+    <div class="browse-nav-title">
+      {{title}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
   </ion-nav-title>
 
   <ion-content>

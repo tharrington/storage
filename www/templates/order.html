@@ -33,7 +33,10 @@
   </ion-nav-back-button>
 
   <ion-nav-title>
-    <div class="browse-nav-title">{{order.name}}</div>
+    <div class="browse-nav-title">
+      {{order.name}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
   </ion-nav-title>
 
   <ion-content class="has-header">

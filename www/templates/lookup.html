@@ -18,6 +18,13 @@
 		}
 	</style>
 
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      {{title}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }" style="position: fixed; right: 0;"></i>
+    </div>
+  </ion-nav-title>
+
 	<div class="bar bar-subheader bar-calm">
   	<label class="item-input-wrapper textbox-search" style="background-color: white !important; border: 1px solid #CDCFD2; border-radius: 15px; width: 30%; height: 95%; width: 100% !important;">
       <i class="icon ion-search placeholder-icon" style='font-size: 32px;'></i>

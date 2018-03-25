@@ -17,7 +17,7 @@
     list-style-type: circle;
 	}
 	li {
-		padding-left: 10px;"
+		padding-left: 10px;
 	}
 	a.today-item {
 		padding: 10px !important;
@@ -30,6 +30,13 @@
 	}
 
 </style>
+
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      {{user.nickname}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
 
 	<div ng-if="!loading">
 		<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }" ng-if="dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'">

@@ -17,25 +17,50 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
 
     $scope.moverId = $localStorage.mover ? $localStorage.mover._id : null;
 
-    $ionicLoading.show({ template: 'Loading Punch...' });
+    if (!$rootScope.startedPunchChecks) {
+      $ionicLoading.show({ template: 'Loading Punch...' });
+      checkIfPunchedIn();
+    }
+  });
+
+  const checkIfPunchedIn = () => {
+    if (!$scope.moverId) {
+      if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 5000);
+      $ionicLoading.hide();
+      return
+    }
     fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
     .then(stratusTimePunch => {
+      const oldDelay = $rootScope.punchCheckDelay || 0;
+      console.log('oldDelay', oldDelay);
       $ionicLoading.hide();
       $scope.stratusTimePunch = stratusTimePunch;
       $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
+      // Perioodically check if user is punched in
+      $rootScope.punchCheckDelay = 2*(oldDelay + 1000);
+      if ($rootScope.punchCheckDelay > 60000) $rootScope.punchCheckDelay = 60000;
+      if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, $rootScope.punchCheckDelay);
+      $rootScope.startedPunchChecks = true;
     })
     .catch(err => {
       $rootScope.isPunchedIn = false;
       $scope.hasErrors = true;
+      $rootScope.startedPunchChecks = false
+      if (!$rootScope.startedPunchChecks) {
+        clearTimeout($rootScope.checkPunchinTimeout);
+        $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 5000);
+      }
       $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
       }
     });
-
-  });
+  };
 
   $scope.createPunch = (isPunchIn) => {
+    $rootScope.punchCheckDelay = 0;
     $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });
     const payload = {
       userId:      $scope.moverId,
@@ -47,6 +72,8 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $ionicLoading.show({ template: `Successfully punched ${isPunchIn ? 'in' : 'out'}...`, duration: 500});
       $scope.punch = punch;
       $rootScope.isPunchedIn = isPunchIn;
+      if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 3000);
     })
     .catch(err => {
       $scope.hasErrors = true;
@@ -54,10 +81,14 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
       }
+      if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 3000);
     })
   }
 
   $scope.logout = function() {
+    $rootScope.punchCheckDelay = 0;
+    $rootScope.startedPunchChecks = false;
   	$localStorage.token = null;
     $localStorage.user = null;
     $localStorage.token = null;

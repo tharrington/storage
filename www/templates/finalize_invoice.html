@@ -12,7 +12,10 @@
 
 	</style>
   <ion-nav-title>
-    <div class="browse-nav-title">Finalize Invoice</div>
+    <div class="browse-nav-title">
+      Finalize Invoice
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
   </ion-nav-title>
 
   <ion-content class="has-header has-footer has-subfooter">
