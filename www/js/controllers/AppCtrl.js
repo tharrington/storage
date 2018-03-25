@@ -15,14 +15,14 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.user = $localStorage.user;
     $scope.mover = $localStorage.mover;
 
-    $scope.userId = $localStorage.user ? $localStorage.user._id : $localStorage.mover._id;
+    $scope.moverId = $localStorage.mover ? $localStorage.mover._id : null;
 
     $ionicLoading.show({ template: 'Loading Punch...' });
-    fencesData.callWrapper('/punches/getLastPunch/' + $scope.userId, 'GET', null)
-    .then(punch => {
+    fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
+    .then(stratusTimePunch => {
       $ionicLoading.hide();
-      $scope.punch = punch;
-      $rootScope.isPunchedIn =$scope.punch && $scope.punch.isPunchIn;
+      $scope.stratusTimePunch = stratusTimePunch;
+      $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
     })
     .catch(err => {
       $rootScope.isPunchedIn = false;
@@ -38,7 +38,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.createPunch = (isPunchIn) => {
     $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });
     const payload = {
-      userId:      $scope.userId,
+      userId:      $scope.moverId,
       time:        (new Date()).getTime(),
       isPunchIn: isPunchIn,
     };
@@ -51,22 +51,6 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     .catch(err => {
       $scope.hasErrors = true;
       $ionicLoading.show({template : `Error punching ${isPunchIn ? 'in' : 'out'}.`, duration: 500});
-      if(err) {
-        $scope.errorMessage = err.message || 'Unknown error';
-      }
-    })
-  }
-
-  $scope.punchOut = () => {
-    $ionicLoading.show({ template: 'Punching out...' });
-    fencesData.postInfo(`/punches/${$scope.punch._id}/punchOut`, 'POST', {})
-    .then(punch => {
-      $ionicLoading.show({ template: 'Successfully punched out', duration: 500});
-      $rootScope.isPunchedIn = false;
-    })
-    .catch(err => {
-      $scope.hasErrors = true;
-      $ionicLoading.show({template : 'Error punching out.', duration: 500});
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
       }
