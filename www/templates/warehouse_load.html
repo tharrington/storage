@@ -1,5 +1,12 @@
 <ion-view view-title="Unload Truck" ng-controller="WarehouseLoadCtrl">
 
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Unload Truck
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
+
 	<div class="bar bar-subheader bar-calm">
 
 	  <label class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" >
@@ -13,8 +20,8 @@
 	</div>
 
   <ion-content class="has-header has-subheader">
-
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
 
   	<div class="item item-body" ng-if="dispatch._id && completedOrders.length == 0">
   		<h1 style="text-align: center;"><i class="icon ion-thumbsup"></i></h1>
@@ -31,19 +38,19 @@
 		    {{completedOrders.length}} Order<span ng-if="completedOrders.length > 1">s</span> to unload.
 		  </div>
 
-		  
+
 		  <ion-item ng-click="viewCompletedAppointment(appointment);" ng-repeat="appointment in completedOrders track by $index">
 		    {{appointment.name}} <span ng-if="appointment.warehouseLocation">• {{appointment.warehouseLocation}}</span>
-		  </ion-item> 
+		  </ion-item>
 		</div>
 
 		<div class="list" ng-if="dispatch._id && warehousedOrders.length > 0 && dispatch.status != 'New'">
 			<div class="item item-divider" ng-if="warehousedOrders.length > 0">
-		    {{warehousedOrders.length}} Warehoused Order<span ng-if="warehousedOrders.length > 1">s</span> 
+		    {{warehousedOrders.length}} Warehoused Order<span ng-if="warehousedOrders.length > 1">s</span>
 		  </div>
 		  <ion-item ng-click="viewCompletedAppointment(appointment);" ng-repeat="appointment in warehousedOrders track by $index">
 		    {{appointment.name}} <span ng-if="appointment.warehouseLocation">• {{appointment.warehouseLocation}}</span>
-		  </ion-item> 
+		  </ion-item>
 		</div>
 	</ion-content>
 </ion-view>

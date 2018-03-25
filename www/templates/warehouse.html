@@ -1,5 +1,13 @@
 <ion-view view-title="Load Truck" ng-controller="WarehouseCtrl">
 
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Load Truck
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
+
+
 	<div class="bar bar-subheader bar-calm">
 
 	  <label class="item item-input item-select track-status" style="background-color: transparent !important; border: none; padding: 0px !important; margin-left: 10px; color: #fff;" >
@@ -13,8 +21,8 @@
 	</div>
 
   <ion-content class="has-header has-subheader">
-
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
 
 
   	<div class="list" ng-if="user && user._id">
