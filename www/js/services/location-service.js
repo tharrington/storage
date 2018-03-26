@@ -14,10 +14,14 @@ angular.module('fencesForBusiness.location_service', [])
     pushLocation = function(position, taskId) {
       $rootScope.locationServicesDisabled = false;
       $rootScope.position = position;
+
+      
       if(!$rootScope.isTraining) {
-        fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
-          bgGeo.finish(taskId);
-        });
+        if ($localStorage.token || $localStorage.mover_token) {
+          fencesData.postInfo('/users/updateLocation', 'POST', position).then(function(result) {
+            bgGeo.finish(taskId);
+          });
+        }
       }
     }
 

@@ -39,7 +39,7 @@ angular.module('fencesForBusiness', [
   
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
-	$rootScope.version = '7.0.0';
+	$rootScope.version = '8.0.3';
 
   if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
     $rootScope.isTraining = true;
@@ -239,7 +239,6 @@ angular.module('fencesForBusiness', [
 
       // if this is a location update
       if($localStorage.mover_token && config.url.indexOf('updateLocation') > -1) {
-        console.log('### UPDATE LOCATION!');
         config.headers['x-access-token'] = $localStorage.mover_token;
       }
 
