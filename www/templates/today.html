@@ -17,7 +17,7 @@
     list-style-type: circle;
 	}
 	li {
-		padding-left: 10px;"
+		padding-left: 10px;
 	}
 	a.today-item {
 		padding: 10px !important;
@@ -28,8 +28,15 @@
 	.item-note {
 		color : #000;
 	}
-	
+
 </style>
+
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      {{user.nickname}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
 
 	<div ng-if="!loading">
 		<div class="bar bar-subheader" ng-class="{ 'bar-calm' : dispatch.status == 'On Time', 'bar-assertive' : dispatch.status.includes('behind'), 'bar-balanced' : dispatch.status.includes('ahead') }" ng-if="dispatch && dispatch.status != 'New' && dispatch.status != 'Complete'">
@@ -48,6 +55,7 @@
 			<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
 			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover">Currently tracking location for {{dispatch.mover.name}}</div>
 			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover" ng-click="changeLocation();">Tap to change location provider.</div>
+      <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
 
 			<button class="button button-block button-balanced" ng-if="training_complete && isTraining" style="margin-top:10px;" ng-click="completeTraining();">
 	      Complete Training
@@ -63,7 +71,7 @@
 			  <div class="item item-body">
 					<p>There are no orders today.</p>
 				</div>
-			</div>			
+			</div>
 
 
 
@@ -84,7 +92,7 @@
 
 			  <a class="item today-item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in orders track by $index" ng-if="appointment.warehouseStatus != 'Missing'">
 		      <h2>
-			      
+
 
 			      <span style="max-width: 240px; width: 240px; overflow: ellipsis;">
 		      		{{appointment.name}} ({{appointment.deliveryTime}})
@@ -106,7 +114,7 @@
 
 			      <span ng-if="substringField(appointment.serviceType) == 'Room Servi'">RS - </span>
 			      <span ng-if="substringField(appointment.serviceType) != 'Room Servi'">ME - </span>
-		      	
+
 			      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
 			      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
 			    </p>
@@ -125,17 +133,17 @@
 			  </ion-item>
 			</div>
 
-			
+
 
 			<div class="list" ng-if="dispatch._id && completedOrders.length > 0 && dispatch.status != 'New'">
 				<div class="item item-divider" ng-if="completedOrders.length > 0">
-			    {{completedOrders.length}} Completed Appointment<span ng-if="completedOrders.length > 1">s</span> 
+			    {{completedOrders.length}} Completed Appointment<span ng-if="completedOrders.length > 1">s</span>
 			  </div>
 
-			  
+
 			  <ion-item ng-click="viewCompletedAppointment(appointment);" ng-repeat="appointment in completedOrders track by $index">
 			    {{appointment.name}} <span ng-if="appointment.warehouseLocation">• {{appointment.warehouseLocation}}</span>
-			  </ion-item> 
+			  </ion-item>
 			  <!-- <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in completedOrders track by $index">
 			    {{appointment.name}}
 			  </ion-item> -->
@@ -143,7 +151,7 @@
 
 			<div class="list" ng-if="dispatch._id && rescheduledOrders.length > 0 && dispatch.status != 'New'">
 				<div class="item item-divider" ng-if="rescheduledOrders.length > 0">
-			    {{rescheduledOrders.length}} Rescheduled Appointment<span ng-if="rescheduledOrders.length > 1">s</span> 
+			    {{rescheduledOrders.length}} Rescheduled Appointment<span ng-if="rescheduledOrders.length > 1">s</span>
 			  </div>
 			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in rescheduledOrders track by $index">
 			    {{appointment.name}}
@@ -152,7 +160,7 @@
 
 			<div class="list" ng-if="dispatch._id && canceledOrders.length > 0 && dispatch.status != 'New'">
 				<div class="item item-divider" ng-if="canceledOrders.length > 0">
-			    {{canceledOrders.length}} Canceled Appointment<span ng-if="canceledOrders.length > 1">s</span> 
+			    {{canceledOrders.length}} Canceled Appointment<span ng-if="canceledOrders.length > 1">s</span>
 			  </div>
 			  <ion-item href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in canceledOrders track by $index">
 			    {{appointment.name}}

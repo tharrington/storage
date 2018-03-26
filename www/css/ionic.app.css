@@ -6,11 +6,25 @@ in ionic's _variables.scss file.
 For example, you might change some of the default colors:
 */
 
+.punch-clock {
+  position: fixed;
+  right: 18px;
+  font-size: 20px;
+  display: none;
+}
+
+.punched-in {
+  color: lime;
+}
+.punched-out {
+  color: #f00;
+}
+
 .tutorial-alert {
-  background-color: #f00 !important; 
-  color: #fff !important; 
-  text-align: center !important; 
-  height: 40px !important; 
+  background-color: #f00 !important;
+  color: #fff !important;
+  text-align: center !important;
+  height: 40px !important;
 }
 
 .pin {

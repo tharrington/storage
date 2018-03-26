@@ -33,11 +33,15 @@
   </ion-nav-back-button>
 
   <ion-nav-title>
-    <div class="browse-nav-title">{{order.name}}</div>
+    <div class="browse-nav-title">
+      {{order.name}}
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
   </ion-nav-title>
 
   <ion-content class="has-header">
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
 
   	<div class="list">
 

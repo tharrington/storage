@@ -231,7 +231,9 @@ angular.module('fencesForBusiness', [
     request: function (config) {
       config.headers = config.headers || {};
 
-      if ($localStorage.token) {
+      if (config.url.includes('punches')) {
+        config.headers['x-access-token'] = $localStorage.mover_token;
+      } else if ($localStorage.token) {
         config.headers['x-access-token'] = $localStorage.token;
       } else if($localStorage.mover_token) {
         config.headers['x-access-token'] = $localStorage.mover_token;
