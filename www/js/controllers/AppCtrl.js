@@ -26,20 +26,17 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
   const checkIfPunchedIn = () => {
     if (!$scope.moverId) {
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
-      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 5000);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
       $ionicLoading.hide();
       return
     }
     fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
     .then(stratusTimePunch => {
-      const oldDelay = $rootScope.punchCheckDelay || 0;
-      console.log('oldDelay', oldDelay);
       $ionicLoading.hide();
       $scope.stratusTimePunch = stratusTimePunch;
       $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
       // Perioodically check if user is punched in
-      $rootScope.punchCheckDelay = 2*(oldDelay + 1000);
-      if ($rootScope.punchCheckDelay > 60000) $rootScope.punchCheckDelay = 60000;
+      $rootScope.punchCheckDelay = 180000;
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, $rootScope.punchCheckDelay);
       $rootScope.startedPunchChecks = true;
@@ -49,7 +46,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $rootScope.startedPunchChecks = false
       if (!$rootScope.startedPunchChecks) {
         clearTimeout($rootScope.checkPunchinTimeout);
-        $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 5000);
+        $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
       }
       $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
       if(err) {
@@ -72,7 +69,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.punch = punch;
       $rootScope.isPunchedIn = isPunchIn;
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
-      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 60000);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
     })
     .catch(err => {
       $scope.hasErrors = true;
@@ -81,7 +78,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
         $scope.errorMessage = err.message || 'Unknown error';
       }
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
-      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 60000);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
     })
   }
 
