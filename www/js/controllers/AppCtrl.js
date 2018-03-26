@@ -72,7 +72,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.punch = punch;
       $rootScope.isPunchedIn = isPunchIn;
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
-      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 6000);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 15000);
     })
     .catch(err => {
       $scope.hasErrors = true;
@@ -81,7 +81,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
         $scope.errorMessage = err.message || 'Unknown error';
       }
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
-      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 6000);
+      $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 15000);
     })
   }
 
