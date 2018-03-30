@@ -56,7 +56,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
       .then(result => {
         $scope.order = result;
 
-        if ($scope.order.status == "Complete") {
+        if (['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
           $scope.messagePhone = $scope.order.phone;
         } else {
           $scope.messagePhone = $scope.order.proxyPhone;
