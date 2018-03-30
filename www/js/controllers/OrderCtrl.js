@@ -51,7 +51,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
 
-    if ($scope.order.proxyPhone && !['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+    if ($scope.order.proxyPhone && $scope.order.moverPhone && !['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
       $scope.messagePhone = $scope.order.proxyPhone;
     }
 
@@ -84,7 +84,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
         .then(result => {
           $scope.order = result;
 
-          if (['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+          if (!$scope.order.proxyPhone || !$scope.order.moverPhone || ['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
             $scope.messagePhone = $scope.order.phone;
           } else {
             $scope.messagePhone = $scope.order.proxyPhone;
@@ -98,10 +98,14 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
       } else {
 
-        if (['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
-          $scope.messagePhone = $scope.order.phone;
+        if ($scope.order.moverPhone) {
+          if (['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+            $scope.messagePhone = $scope.order.phone;
+          } else {
+            $scope.messagePhone = $scope.order.proxyPhone;
+          }
         } else {
-          $scope.messagePhone = $scope.order.proxyPhone;
+          $scope.messagePhone = $scope.order.phone;
         }
 
       }
