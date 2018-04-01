@@ -56,6 +56,7 @@
 			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover">Currently tracking location for {{dispatch.mover.name}}</div>
 			<div class="item item-divider tutorial-alert" ng-if="dispatch && dispatch.mover" ng-click="changeLocation();">Tap to change location provider.</div>
       <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+      <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
 			<button class="button button-block button-balanced" ng-if="training_complete && isTraining" style="margin-top:10px;" ng-click="completeTraining();">
 	      Complete Training

@@ -33,6 +33,7 @@
 
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
   	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
   	<div class="list">
   		<div class="item item-divider" ng-if="pickup && pickup.warehouseLocation && !delivery.warehouseLocation">
