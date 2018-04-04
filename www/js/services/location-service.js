@@ -33,14 +33,14 @@ angular.module('fencesForBusiness.location_service', [])
       bgGeo = window.BackgroundGeolocation;      
       if(bgGeo) {
         var locationConfig = {
-          desiredAccuracy: 100,
-          stationaryRadius: 50,
-          distanceFilter: 50,
+          desiredAccuracy: 10,
+          stationaryRadius: 25,
+          distanceFilter: 10,
           disableElasticity: false, 
           locationUpdateInterval: 5000,
           minimumActivityRecognitionConfidence: 70, 
           fastestLocationUpdateInterval: 4000,
-          activityType: 'Other',
+          activityType: BackgroundGeolocation.ACTIVITY_TYPE_OTHER,
           debug: false, 
           stopOnTerminate: false 
         }

@@ -51,55 +51,23 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
 
-    if (!$scope.order.moverPhone) {
-      return fencesData.postInfo('/orders/' + $stateParams.id, 'PUT', $scope.order)
-      .then(result => {
-        $scope.order = result;
-
-        if ($scope.order.status == "Complete") {
-          $scope.messagePhone = $scope.order.phone;
-        } else {
-          $scope.messagePhone = $scope.order.proxyPhone;
-        }
-
-        if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
-          $scope.order.notes = '';
-        }
-        if($scope.order.type == 'Delivery') {
-          $scope.orderUpdates = [
-            { status : 'Ok' },
-            { status : 'Rescheduled' },
-            { status : 'No Answer' },
-            { status : 'Canceled' },
-            { status : 'Complete- Left Unattended' }
-          ]
-        }
-        $scope.order_status = result.status;
-      })
-      .catch(err => {
-        $scope.hasErrors = true;
-        $scope.errorMessage = err.message;
-      });
-    } else {
-
-      if ($scope.order.status == "Complete" || !$scope.order.proxyPhone) {
-        $scope.messagePhone = $scope.order.phone;
-      }
-
-      if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
-        $scope.order.notes = '';
-      }
-      if($scope.order.type == 'Delivery') {
-        $scope.orderUpdates = [
-          { status : 'Ok' },
-          { status : 'Rescheduled' },
-          { status : 'No Answer' },
-          { status : 'Canceled' },
-          { status : 'Complete- Left Unattended' }
-        ]
-      }
-      $scope.order_status = result.status;
+    if ($scope.order.proxyPhone && $scope.order.moverPhone && !['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+      $scope.messagePhone = $scope.order.proxyPhone;
     }
+
+    if($scope.order.status == 'En Route' || $scope.order.status == 'Arrived' || $scope.order.status == 'Completed'){
+      $scope.order.notes = '';
+    }
+    if($scope.order.type == 'Delivery') {
+      $scope.orderUpdates = [
+        { status : 'Ok' },
+        { status : 'Rescheduled' },
+        { status : 'No Answer' },
+        { status : 'Canceled' },
+        { status : 'Complete- Left Unattended' }
+      ]
+    }
+    $scope.order_status = result.status;
 	});
 
   $scope.$on('$ionicView.enter', function(e) {
@@ -111,14 +79,35 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
 
-      if ($scope.order.proxyPhone) {
-        if ($scope.order.status == "Complete") {
-          $scope.messagePhone = $scope.order.phone;
-        } else {
-          $scope.messagePhone = $scope.order.proxyPhone;
-        }
+      if (!$scope.order.proxyPhone) {
+        return fencesData.postInfo('/orders/' + $stateParams.id, 'PUT', $scope.order)
+        .then(result => {
+          $scope.order = result;
+
+          if (!$scope.order.proxyPhone || !$scope.order.moverPhone || ['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+            $scope.messagePhone = $scope.order.phone;
+          } else {
+            $scope.messagePhone = $scope.order.proxyPhone;
+          }
+
+        })
+        .catch(err => {
+          $scope.hasErrors = true;
+          $scope.errorMessage = err.message;
+        });
+
       } else {
-        $scope.messagePhone = $scope.order.phone;
+
+        if ($scope.order.moverPhone) {
+          if (['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
+            $scope.messagePhone = $scope.order.phone;
+          } else {
+            $scope.messagePhone = $scope.order.proxyPhone;
+          }
+        } else {
+          $scope.messagePhone = $scope.order.phone;
+        }
+
       }
 
       $scope.order_status = result.status;
@@ -138,7 +127,6 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
               }
             });
           });
-          console.log('### invoice items: ' + JSON.stringify($scope.invoice_items));
         });
       }
     });
