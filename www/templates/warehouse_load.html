@@ -22,6 +22,7 @@
   <ion-content class="has-header has-subheader">
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
   	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
   	<div class="item item-body" ng-if="dispatch._id && completedOrders.length == 0">
   		<h1 style="text-align: center;"><i class="icon ion-thumbsup"></i></h1>

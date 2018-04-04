@@ -42,6 +42,7 @@
   <ion-content class="has-header">
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
   	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
   	<div class="list">
 
@@ -102,7 +103,7 @@
 	    </a>
 	    <a class="item item-icon-left" href="sms:{{messagePhone}}" href="#">
 	    <i class="icon ion-chatbubbles"></i>
-	    	Text: {{ formatNumber(messagePhone)}}
+	    	Text: {{ formatNumber(order.phone)}}
 	    </a>
 	    <a class="item item-icon-left" href="tel:{{order.altPhone}}" href="#">
 	    	<i class="icon ion-ios-telephone"></i>

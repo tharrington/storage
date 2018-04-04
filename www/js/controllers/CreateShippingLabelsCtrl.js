@@ -28,7 +28,8 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 	    .then(function(result) {
 	      $ionicLoading.hide();
 
-        if (result.Delivery.shippingEasyPostIds) {
+        if (result.Delivery.shippingEasyPostIds && result.Delivery.shippingEasyPostIds != null) {
+          console.log('result.Delivery.shippingEasyPostIds', result.Delivery.shippingEasyPostIds);
           $state.go('app.existing_shipping_labels', { id: $stateParams.id });
         }
 

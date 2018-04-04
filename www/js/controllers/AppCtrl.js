@@ -51,6 +51,9 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
+        if ($scope.errorMessage === 'User does not have TWS Employee ID') {
+          $rootScope.isMissingTWSEmployeeId = true;
+        }
       }
     });
   };
