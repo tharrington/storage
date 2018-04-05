@@ -168,13 +168,37 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       timeoutMultiplier: timeoutMultiplier
     }
 
-    fencesData.postInfo(`/orders/${$stateParams.id}/createBatchShipment`, 'POST', payload)
+    fencesData.postInfo(`/orders/${$stateParams.id}/createBatch`, 'POST', payload)
     .then(function(response) {
-      $ionicLoading.show({template : 'Labels generated and emailed', duration: 500});
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
-      $state.go('app.existing_shipping_labels', { id: $stateParams.id });
+      $ionicLoading.show({template : 'Generating labels...'});
+
+      function checkLabelsGenerated() {
+        fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
+        .then(result => {
+          var order = result.Delivery;
+          if (order.batch && order.batch.state === 'label_generated') {
+            $ionicLoading.hide();
+            $state.go('app.existing_shipping_labels', { id: $stateParams.id });
+          } else {
+            if (order.batch) {
+              $ionicLoading.show({template : `${_.capitalize(order.batch.state).replace('_', ' ')}...`});
+            }
+            setTimeout(checkLabelsGenerated, 1000);
+          }
+        })
+        .catch(e => {
+          $scope.hasErrors = true;
+          $ionicLoading.show({template : 'Call failed', duration: 500});
+          if(err) {
+            $scope.errorMessage = err.message || 'Unknown error';
+          }
+        });
+      }
+
+      checkLabelsGenerated();
     })
     .catch(function(err) {
       $scope.hasErrors = true;
