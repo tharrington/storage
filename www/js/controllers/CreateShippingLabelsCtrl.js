@@ -15,7 +15,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.shipping_invoice     = {};
     $scope.total_invoice_items  = 0;
     $scope.total_shipping_items = 0;
-    $scope.createAttempts       = 0;
+    $scope.batchFetchAttempts   = 0;
 
     var formatAddress = function(name, street1, street2, city, state, zip) {
       if (!name || !street1 || !city || !state || !zip) {
@@ -158,14 +158,11 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.errorMessage = '';
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Generating labels' });
-    const timeoutMultiplier = ($scope.createAttempts > 0) ? 2 : 1;
-    $scope.createAttempts += 1;
 
     const payload = {
       email:             $scope.shippingInputs.labelsEmail,
       parcels:           parcels,
       toAddress:         $scope.shippingAddress,
-      timeoutMultiplier: timeoutMultiplier
     }
 
     fencesData.postInfo(`/orders/${$stateParams.id}/createBatch`, 'POST', payload)
@@ -175,13 +172,20 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.individualErrors = [];
       $ionicLoading.show({template : 'Generating labels...'});
 
+      $scope.batchFetchAttempts = 0;
+
       function checkLabelsGenerated() {
         fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
         .then(result => {
+          $scope.batchFetchAttempts += 1;
           var order = result.Delivery;
           if (order.batch && order.batch.state === 'label_generated') {
             $ionicLoading.hide();
             $state.go('app.existing_shipping_labels', { id: $stateParams.id });
+          } else if($scope.batchFetchAttempts > 20) {
+            $ionicLoading.hide();
+            $scope.hasErrors = true;
+            $scope.errorMessage = 'Labels failed to create';
           } else {
             if (order.batch) {
               $ionicLoading.show({template : `${_.capitalize(order.batch.state).replace('_', ' ')}...`});
