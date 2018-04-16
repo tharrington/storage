@@ -1,11 +1,11 @@
 // Fences For Business Mobile App
 angular.module('fencesForBusiness', [
-  'ionic', 
+  'ionic',
   'ngIOS9UIWebViewPatch',
   'fencesForBusiness.app_ctrl',
   'fencesForBusiness.today_ctrl',
-  'fencesForBusiness.login_ctrl', 
-  'fencesForBusiness.order_ctrl', 
+  'fencesForBusiness.login_ctrl',
+  'fencesForBusiness.order_ctrl',
   'fencesForBusiness.data_service',
   'fencesForBusiness.mock_data_service',
   'fencesForBusiness.image_service',
@@ -220,7 +220,17 @@ angular.module('fencesForBusiness', [
           templateUrl: 'templates/existing_shipping_labels.html'
         }
       }
+    })
+
+    .state('app.time_cards', {
+      url: '/time_cards/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/time_cards.html'
+        }
+      }
     });
+
     $urlRouterProvider.otherwise('/app/drivers');
 })
 

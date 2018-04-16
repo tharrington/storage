@@ -93,8 +93,6 @@
           Account
         </div>
 
-
-
         <ion-item menu-close href="#" ng-click="logout();">
           <i class="icon ion-reply"></i>
           Logout
@@ -107,6 +105,10 @@
         <ion-item id="punchOut" ng-if="isPunchedIn && !isMissingTWSEmployeeId" href="#" ng-click="createPunch(false)">
           <i class="icon ion-clock"></i>
           <span>Punch Out</span>
+        </ion-item>
+
+        <ion-item menu-close ui-sref="app.time_cards" ng-if="!isMissingTWSEmployeeId">
+          <i class="icon ion-calendar"></i> Time Cards
         </ion-item>
       </ion-list>
     </ion-content>
