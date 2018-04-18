@@ -26,6 +26,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.finalize_invoice_ctrl',
   'fencesForBusiness.create_shipping_labels_ctrl',
   'fencesForBusiness.existing_shipping_labels_ctrl',
+  'fencesForBusiness.time_cards_ctrl',
   'ngStorage',
   'ion-gallery', 
   'ngCordova',
