@@ -220,7 +220,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     if (!date) {
       return null;
     }
-  	return moment(date).format('dddd, MMMM Do, YYYY');
+    return moment.utc(date).format('dddd, MMMM Do, YYYY');
   }
 
 });
