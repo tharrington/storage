@@ -21,6 +21,8 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $ionicLoading.show({ template: 'Loading Punch...' });
       checkIfPunchedIn();
     }
+
+    $rootScope.isMissingTWSEmployeeId = false;
   });
 
   const checkIfPunchedIn = () => {
