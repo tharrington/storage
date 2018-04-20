@@ -31,7 +31,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
           result.Delivery.shippingAddressStreet2,
           result.Delivery.shippingAddressCity,
           result.Delivery.shippingAddressState,
-          result.Delivery.shippingAddressZip,
+          result.Delivery.shippingAddressZip
         );
 
         if(result.invoices && result.invoices.length > 0) {

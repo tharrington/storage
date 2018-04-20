@@ -25,7 +25,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     $rootScope.isMissingTWSEmployeeId = false;
   });
 
-  const checkIfPunchedIn = () => {
+  var checkIfPunchedIn = function() {
     if (!$scope.moverId) {
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
@@ -33,7 +33,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       return
     }
     fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
-    .then(stratusTimePunch => {
+    .then(function(stratusTimePunch) {
       $ionicLoading.hide();
       $scope.stratusTimePunch = stratusTimePunch;
       $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
@@ -43,7 +43,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, $rootScope.punchCheckDelay);
       $rootScope.startedPunchChecks = true;
     })
-    .catch(err => {
+    .catch(function(err) {
       $scope.hasErrors = true;
       $rootScope.startedPunchChecks = false
       if (!$rootScope.startedPunchChecks) {
@@ -60,23 +60,23 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     });
   };
 
-  $scope.createPunch = (isPunchIn) => {
+  $scope.createPunch = function(isPunchIn) {
     $rootScope.punchCheckDelay = 0;
     $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });
-    const payload = {
+    var payload = {
       userId:      $scope.moverId,
       time:        (new Date()).getTime(),
       isPunchIn: isPunchIn,
     };
     fencesData.postInfo('/punches', 'POST', payload)
-    .then(punch => {
+    .then(function(punch) {
       $ionicLoading.show({ template: `Successfully punched ${isPunchIn ? 'in' : 'out'}...`, duration: 500});
       $scope.punch = punch;
       $rootScope.isPunchedIn = isPunchIn;
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
     })
-    .catch(err => {
+    .catch(function(err) {
       $scope.hasErrors = true;
       $ionicLoading.show({template : `Error punching ${isPunchIn ? 'in' : 'out'}.`, duration: 500});
       if(err) {

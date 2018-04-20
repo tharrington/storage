@@ -7,7 +7,7 @@
     "cordova-background-geolocation-lt": "^2.10.1",
     "cordova-ios": "4.5.4",
     "cordova-plugin-background-fetch": "^5.2.1",
-    "cordova-plugin-camera": "^2.3.1",
+    "cordova-plugin-camera": "git+https://github.com/apache/cordova-plugin-camera.git",
     "cordova-plugin-cocoalumberjack": "0.0.4",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "git+https://github.com/apache/cordova-plugin-device.git",
@@ -42,10 +42,7 @@
   ],
   "cordova": {
     "plugins": {
-      "cordova-plugin-camera": {
-        "CAMERA_USAGE_DESCRIPTION": " ",
-        "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
-      },
+      "cordova-plugin-camera": {},
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {},
       "ionic-plugin-keyboard": {},

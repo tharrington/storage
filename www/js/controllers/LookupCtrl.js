@@ -39,6 +39,7 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/invoices/search/' + val, 'GET', null)
 	    .then(function(results) {
 	      $ionicLoading.hide();
+        console.log('### results: ' + JSON.stringify(results));
 
 	      $scope.user = $localStorage.user;
   			$scope.mover = $localStorage.mover;

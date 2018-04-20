@@ -10,7 +10,7 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.loadPunches();
   });
 
-  $scope.loadPunches = () => {
+  $scope.loadPunches = function() {
     $ionicLoading.show({ template: 'Loading Time Cards...' });
     fencesData.callWrapper('/users/punches', 'GET', null)
     .then(function(punches) {

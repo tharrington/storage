@@ -81,7 +81,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
       if (!$scope.order.proxyPhone) {
         return fencesData.postInfo('/orders/' + $stateParams.id, 'PUT', $scope.order)
-        .then(result => {
+        .then(function(result) {
           $scope.order = result;
 
           if (!$scope.order.proxyPhone || !$scope.order.moverPhone || ['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
@@ -91,7 +91,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
           }
 
         })
-        .catch(err => {
+        .catch(function(err) {
           $scope.hasErrors = true;
           $scope.errorMessage = err.message;
         });

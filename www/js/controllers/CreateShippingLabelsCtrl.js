@@ -42,7 +42,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           street2: result.Delivery.shippingAddressStreet2,
           city:    result.Delivery.shippingAddressCity,
           state:   result.Delivery.shippingAddressState,
-          zip:     result.Delivery.shippingAddressZip,
+          zip:     result.Delivery.shippingAddressZip
         }
         $scope.shippingAddressPretty = formatAddress(
           result.Delivery.shippingAddressName,
@@ -50,7 +50,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           result.Delivery.shippingAddressStreet2,
           result.Delivery.shippingAddressCity,
           result.Delivery.shippingAddressState,
-          result.Delivery.shippingAddressZip,
+          result.Delivery.shippingAddressZip
         );
 
         if(result.invoices && result.invoices.length > 0) {
@@ -132,7 +132,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       return
     }
 
-    for (let d of $scope.shippingInputs.dimensions) {
+    $scope.shippingInputs.dimensions.forEach(function(d) {
       if (isNil(d['length']) || isNil(d['width']) || isNil(d['height']) || isNil(d['weight'])) {
         $scope.hasErrors = true;
         $scope.errorMessage = 'All item dimensions must have a value.';
@@ -143,23 +143,35 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
         $scope.errorMessage = 'All item dimensions must be greater than zero.';
         return
       }
-    }
+    });
 
-    const parcels = $scope.shippingInputs.dimensions.map(d => {
-      return {
+    // var parcels = $scope.shippingInputs.dimensions.map(d => {
+    //   return {
+    //     length: d['length'],
+    //     width:  d['width'],
+    //     height: d['height'],
+    //     weight: roundVal(16*d['weight'], 2),
+    //   }
+    // });
+
+    var parcels = [];
+    $scope.shippingInputs.dimensions.forEach(function(d) {
+      parcels.push( {
         length: d['length'],
         width:  d['width'],
         height: d['height'],
         weight: roundVal(16*d['weight'], 2),
-      }
+      });
     });
+
+
 
     $scope.hasErrors = false;
     $scope.errorMessage = '';
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Generating labels' });
 
-    const payload = {
+    var payload = {
       email:             $scope.shippingInputs.labelsEmail,
       parcels:           parcels,
       toAddress:         $scope.shippingAddress,
@@ -176,7 +188,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
 
       function checkLabelsGenerated() {
         fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
-        .then(result => {
+        .then(function(result) {
           $scope.batchFetchAttempts += 1;
           var order = result.Delivery;
           if (order.batch && order.batch.state === 'label_generated') {
@@ -193,7 +205,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
             setTimeout(checkLabelsGenerated, 1000);
           }
         })
-        .catch(e => {
+        .catch(function(e){
           $scope.hasErrors = true;
           $ionicLoading.show({template : 'Call failed', duration: 500});
           if(err) {

@@ -36,6 +36,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   
 
   $scope.uploadImage = function() {
+    console.log('### upload image...');
     var options = {
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
@@ -54,6 +55,12 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
     		});
     }, function(err) {
         // error
+        var alertPopup = $ionicPopup.alert({
+           title: 'There was an error opening the camera: ' + err,
+           template: JSON.stringify(err)
+        });
+
+        alertPopup.then(function(res) {});
         console.log(err);
     });
   }
