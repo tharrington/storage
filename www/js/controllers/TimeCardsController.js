@@ -30,8 +30,8 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
 
   var getPayPeriodNumberFromDate = function(date) {
     var formattedDate = $scope.formatDate(date);
-    var weekNumber = moment(formattedDate).week();
-    return Math.ceil(weekNumber / 2);
+    var weekNumber = moment(formattedDate).subtract({ hours: 5 }).week();
+    return Math.ceil(weekNumber / 2) - 1;
   }
 
   var groupPunches = function(punches) {
