@@ -5,13 +5,13 @@ angular.module('fencesForBusiness.data_service', [])
     function($http, $ionicLoading, $q, ApiEndpoint, $localStorage, $rootScope, $timeout, $cordovaPush, $state, mockFencesData, $ionicHistory, ApiEndpointStaging) {
     var dispatch = {}, order = {};
 
-    function buildRequestConfig(method, endpoint, body) {
+    function buildRequestConfig(method, endpoint, body, queryParams) {
       var config;
 
       if(!$localStorage.isStaging) {
-        config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method };
+        config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method, params: queryParams };
       } else {
-        config = { url: ApiEndpointStaging.url + endpoint, timeout: 6000, method: method };
+        config = { url: ApiEndpointStaging.url + endpoint, timeout: 6000, method: method, params: queryParams};
       }
 
       if(method === 'POST' || method === 'PUT' || method === 'PATCH') {
@@ -109,13 +109,13 @@ angular.module('fencesForBusiness.data_service', [])
     };
 
 
-    function callWrapper(endpoint, method, body) {
+    function callWrapper(endpoint, method, body, queryParams) {
     	var deferred = $q.defer();
     	var myMethod = 'GET';
     	if(method) {
     		myMethod = method;
     	}
-      var config = buildRequestConfig(myMethod, endpoint, body);
+      var config = buildRequestConfig(myMethod, endpoint, body, queryParams);
       var deferred = $q.defer();
 
       if(!$rootScope.isTraining) {
