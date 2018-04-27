@@ -2,15 +2,20 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 
 
 /**
- * LookupCtrl - A User will type in a text string, most likely customer name and the server will find 
+ * LookupCtrl - A User will type in a text string, most likely customer name and the server will find
  * results. Display all relevant Orders.
  */
 .controller('LookupCtrl', function($scope, $location, OrderInvoiceService, $timeout, $sce, $ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+  $scope.searchTerm = null;
   $scope.results = [];
+  $scope.order = {
+    pickupSeason: 'Spring 2018',
+  }
+  $scope.pickupSeasons = ['Spring 2018', 'ALL'];
 
   $scope.vm = {};
   $scope.title = 'Customer Lookup';
-  
+
   $scope.$on('$ionicView.enter', function(e) {
   	$scope.user = $localStorage.user;
   	$scope.mover = $localStorage.mover;
@@ -24,22 +29,31 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
   	$scope.title = 'Customer Lookup';
   	if(currentState == 'app.supplies-lookup') {
 			$scope.title = 'Supply Handout'
-		} 
+		}
   });
 
 
+  $scope.changePickupSeason = function() {
+    $scope.inputChanged($scope.searchTerm);
+  }
+
 	$scope.inputChanged = function(val){
+    $scope.searchTerm = val;
 
 		$ionicLoading.show({ template: 'Searching Orders...' });
 
 		var token = $localStorage.token;
     $localStorage.token = null;
-    console.log('### mover token: ' + $localStorage.mover_token);
 
-    fencesData.callWrapper('/invoices/search/' + val, 'GET', null)
+    var queryParams = { pickupSeason: $scope.order.pickupSeason };
+
+    if ($scope.order.pickupSeason == 'ALL') {
+      queryParams = null;
+    }
+
+    fencesData.callWrapper('/invoices/search/' + val, 'GET', null, queryParams)
 	    .then(function(results) {
 	      $ionicLoading.hide();
-        console.log('### results: ' + JSON.stringify(results));
 
 	      $scope.user = $localStorage.user;
   			$scope.mover = $localStorage.mover;

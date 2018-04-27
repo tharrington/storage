@@ -16,6 +16,10 @@
 		input:-ms-input-placeholder { /* IE10+ */
 		  color: black ;
 		}
+
+		.item-select select {
+			color : #000 !important;
+		}
 	</style>
 
   <ion-nav-title>
@@ -36,6 +40,15 @@
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
   	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
   	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
+
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Pickup Season
+      </div>
+      <select ng-model="order.pickupSeason" ng-change="changePickupSeason();">
+        <option style='color: black !important;' ng-repeat="season in pickupSeasons" ng-selected="order.pickupSeason == season">{{ season }}</option>
+      </select>
+    </label>
 
   	<div class="card" ng-if="results.length == 0">
 		  <div class="item item-text-wrap">
