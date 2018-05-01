@@ -35,7 +35,7 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   var groupPunches = function(punches) {
-    var formattedPunches = punches.map(p => {
+    var formattedPunches = punches.map(function(p) {
       var unformattedDate = p.InTime || p.OutTime;
       p.payPeriodNumber   = getPayPeriodNumberFromDate(unformattedDate);
       return p;
