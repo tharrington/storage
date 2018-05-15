@@ -1,8 +1,10 @@
 angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('OrderSummaryCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams) {
+.controller('OrderSummaryCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $ionicModal) {
 
   $scope.invoice = { imageURLs : [] };
+  $scope.modal = null;
+  $scope.selectedImageURL = null;
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
     if($scope.delivery && $scope.pickup && $scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
@@ -80,7 +82,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
           var total_items = 0;
           $scope.invoice.items.forEach(function(item) {
-            console.log('### item : ' + JSON.stringify(item));
             if(item.type == 'Storage Goods') {
               total_items = total_items + item.quantity;
             }
@@ -124,10 +125,68 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.createLabels = function() {
     if ($scope.delivery.shippingEasyPostIds && $scope.delivery.shippingEasyPostIds != null) {
-      console.log('$scope.delivery.shippingEasyPostIds', $scope.delivery.shippingEasyPostIds);
       $state.go('app.existing_shipping_labels', { id : $stateParams.id });
     } else {
       $state.go('app.create_shipping_labels', { id : $stateParams.id });
     }
   }
+
+  $scope.imageClicked = function(imageURL) {
+    $scope.selectedImageURL = imageURL;
+    $scope.openModal();
+  }
+
+  $scope.deleteImage = function() {
+    console.log('$scope', $scope);
+    var externalInvoiceId = $scope.invoice.externalId;
+    var newImageURLs = $scope.invoice.imageURLs.filter(function(url) {
+      return url.src !== $scope.selectedImageURL;
+    }).map(function(obj) {
+      return obj.src;
+    });
+    var payload = { imageURLs: newImageURLs };
+
+    fencesData.callWrapper(`/invoices/${externalInvoiceId}`, 'PATCH', payload)
+      .then(function(updatedInvoice) {
+        $scope.invoice.imageURLs = updatedInvoice.imageURLs.map(function(url) {
+          return { src: url };
+        });
+        $scope.selectedImageURL = null;
+        $scope.closeModal();
+      });
+  }
+
+  $ionicModal.fromTemplateUrl('templates/delete_image_modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+     $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+     $scope.modal.hide();
+    $scope.selectedImageURL = null;
+  };
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+     $scope.modal.remove();
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
 });
