@@ -34,28 +34,48 @@
     <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
   	<div class="list">
-  		<a class="item item-icon-right" href="#">
-		    Megaboxes
-		    <i class="icon ion-arrow-up-c" ng-click="incrementField('megabox_count', 1);" style="right: 45px;">{{order.megabox_count}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="incrementField('megabox_count', -1);"></i>
+  		<a class="item" href="#">
+				<div style="float: left;">
+					Megaboxes
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementField('megabox_count', 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.megabox_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementField('megabox_count', -1);" style="padding: 10px; font-size: 32px;"></i>
+				</div>
 		  </a>
 
-		  <a class="item item-icon-right" href="#">
-		    Mattress Bags
-		    <i class="icon ion-arrow-up-c" ng-click="incrementField('mattress_bag_count', 1);" style="right: 45px;">{{order.mattress_bag_count}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="incrementField('mattress_bag_count', -1);"></i>
+		  <a class="item" href="#">
+				<div style="float: left;">
+					Mattress Bags
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementField('mattress_bag_count', 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.mattress_bag_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementField('mattress_bag_count', -1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 
-		  <a class="item item-icon-right" href="#">
-		    Moving Blankets
-		    <i class="icon ion-arrow-up-c" ng-click="incrementField('moving_blanket_count', 1);" style="right: 45px;">{{order.moving_blanket_count}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="incrementField('moving_blanket_count', -1);"></i>
+		  <a class="item" href="#">
+				<div style="float: left;">
+					Moving Blankets
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementField('moving_blanket_count', 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.moving_blanket_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementField('moving_blanket_count', -1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 
-		  <a class="item item-icon-right" href="#">
-		    Declared Value ($5 per sticker)
-		    <i class="icon ion-arrow-up-c" ng-click="incrementField('insuranceUnits', 1);" style="right: 45px;">{{order.insuranceUnits}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="incrementField('insuranceUnits', -1);"></i>
+		  <a class="item" href="#">
+				<div style="float: left;">
+					Declared Value ($5 per sticker)
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementField('insuranceUnits', 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.insuranceUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementField('insuranceUnits', -1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 		</div>
 
