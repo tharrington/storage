@@ -20,6 +20,30 @@
 		:-ms-input-placeholder { /* Internet Explorer 10-11 */
 		   color:    #aaaaaa;
 		}
+    .invoice-image-wrapper {
+      padding: 5px;
+    }
+
+    .invoice-image {
+      padding: 1px;
+      display: inline;
+    }
+
+    .invoice-image img {
+      width: 30%;
+    }
+    .close:before {
+      content: '✕';
+    }
+    .close {
+      position: relative;
+      bottom: 5px;
+      left: 27%;
+      cursor: pointer;
+      color: white;
+      display: inline-block;
+      width: 0;
+    }
 	</style>
 
   <ion-nav-title>
@@ -74,7 +98,12 @@
 		  </a>
 
 
-		  <ion-gallery ion-gallery-items="invoice.imageURLs"></ion-gallery>
+      <div class="invoice-image-wrapper">
+        <div class="invoice-image" ng-repeat="imageURL in invoice.imageURLs" ng-click="imageClicked(imageURL['src'])">
+          <span class="close"></span>
+          <img src="{{imageURL['src']}}" />
+        </div>
+      </div>
 
 		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid'" ng-click="editInvoice();">
 			  Edit Storage Invoice
