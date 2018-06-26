@@ -8,6 +8,7 @@ angular.module('fencesForBusiness.data_service', [])
     function buildRequestConfig(method, endpoint, body, queryParams) {
       var config;
 
+      console.log('### is staging: ' + $localStorage.isStaging);
       if(!$localStorage.isStaging) {
         config = { url: ApiEndpoint.url + endpoint, timeout: 6000, method: method, params: queryParams };
       } else {

@@ -20,6 +20,7 @@ angular.module('fencesForBusiness.login_ctrl', ['ngIOS9UIWebViewPatch'])
 
     $rootScope.punchCheckDelay = 0;
 
+
   	if(form.$valid) {
   		Auth.login($scope.user)
       .then( function() {
