@@ -102,6 +102,6 @@ angular.module('fencesForBusiness.warehouse_load_ctrl', ['ngIOS9UIWebViewPatch']
   };
 
   $scope.viewCompletedAppointment = function(appointment) {
-    $state.go('app.order_summary', { id : appointment.ssOrderId });
+    $state.go('app.order_summary', { id : appointment.ssOrderId, fromWarehouse : true });
   };
 });

@@ -10,14 +10,15 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.user = $localStorage.user;
   
-  $scope.orderUpdates = [
-    { warehouseStatus : '' },
-    { warehouseStatus : 'Pulled' },
-    { warehouseStatus : 'Servicing' },
-    { warehouseStatus : 'Partially Loaded' },
-    { warehouseStatus : 'Missing' },
-    { warehouseStatus : 'Loaded' },
-    { warehouseStatus : 'Loaded - last on truck' }
+  $scope.options = [
+    { name: 'Servicing', value: 'Servicing' , type:"WH Statuses"}, 
+    { name: 'Pulled', value: 'Pulled', type:"WH Statuses" }, 
+    { name: 'Pulled Partial', value: 'Pulled Partial' , type:"WH Statuses"},
+    { name: 'Cannot Find All', value: 'Cannot Find All', type:"WH Statuses" },
+    { name: 'Missing All', value: 'Missing' , type:"Truck Statuses"}, 
+    { name: 'Partially Loaded', value: 'Partially Loaded', type:"Truck Statuses" }, 
+    { name: 'Loaded - Last on Truck', value: 'Loaded - Last on Truck' , type:"Truck Statuses"},
+    { name: 'Loaded', value: 'Loaded', type:"Truck Statuses" }
   ];
 
   $scope.displayDate = function(dispatch) {
@@ -37,9 +38,25 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     });
   }
 
-  $scope.saveInvoices = function(invoices, status) {    
-    
+  $scope.completeOrder = function(appointment, event) {
+    appointment.warehouseStatus = "Loaded";
 
+    fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
+      $scope.getDispatch();
+      fencesData.callWrapper('/invoices/getOrderAndInvoice/' + appointment.ssOrderId, 'GET', null)
+        .then(function(result) {
+          $scope.saveInvoices(result.invoices, 'Loaded');
+        }, function(err) {
+          $ionicLoading.show({ template: 'There was an error', duration: 1000 });
+        }); 
+    });
+
+    event.preventDefault(); 
+    event.stopPropagation();
+  }
+
+
+  $scope.saveInvoices = function(invoices, status) {    
     invoices.forEach(function(entry) {
       entry.warehouseStatus = status;
       entry.items.forEach(function(item) {
@@ -61,7 +78,14 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.setOrderStatus = function(appointment) {
+    console.log('### changing...');
     $ionicLoading.show({ template : 'Saving Status' });
+    console.log('### saving order: ' + JSON.stringify(appointment));
+
+    if(appointment.warehouseStatus == 'Missing All') {
+      appointment.warehouseStatus = 'Missing';
+    }
+    console.log('### saving order: ' + JSON.stringify(appointment));
 
     fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
       $scope.getDispatch();
@@ -107,6 +131,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
       $scope.dispatch = result;
+      console.log('### got dispatch: ' + JSON.stringify($scope.dispatch));
 
       result.orders.forEach(function(entry) {
         var dispatchDate = moment.utc($scope.dispatch.dispatchDate);
@@ -142,7 +167,8 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     if(currentState == 'app.supplies-lookup') {
       $state.go('app.supplies', { id : order.ssOrderId });
     } else {
-      $state.go('app.order_summary', { id : order.ssOrderId });
+      console.log('### order summary...');
+      $state.go('app.order_summary', { id : order.ssOrderId, fromWarehouse : true });
     }
   };
 

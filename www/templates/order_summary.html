@@ -105,7 +105,8 @@
         </div>
       </div>
 
-		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid'" ng-click="editInvoice();">
+
+		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid' && !fromWarehouse" ng-click="editInvoice();">
 			  Edit Storage Invoice
 			</button>
 
@@ -123,24 +124,33 @@
 		    Phone - {{pickup.phone}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item" href="#" ng-if="!fromWarehouse">
 		    Pickup Date - {{formatDate(pickup.deliveryDate)}}
 		  </a>
-		  <a class="item" href="#">
+		  <a class="item" href="#" ng-if="!fromWarehouse">
 		    Pickup Status - {{pickup.status}}
 		  </a>
 
-		  <a class="item" href="#">
+		  <a class="item" href="#" ng-if="!fromWarehouse">
 		    Delivery Date - {{formatDate(delivery.deliveryDate)}}
 		  </a>
-		  <a class="item" href="#">
+		  <a class="item" href="#" ng-if="!fromWarehouse">
 		    Delivery Status - {{delivery.status}}
 		  </a>
 		</div>
 
-		  <button class="button button-full button-royal" ng-click="createLabels();">
-			  Create Shipping Labels
-		  </button>
+	  <button class="button button-full button-royal" ng-click="createLabels();" ng-if="!fromWarehouse">
+		  Create Shipping Labels
+	  </button>
+
+
+    <button class="button button-full button-calm" ng-click="lostItems();" ng-if="fromWarehouse">
+      Can't find item(s)?
+    </button>
+
+    <button class="button button-full button-assertive" ng-click="damagedItems();" ng-if="fromWarehouse">
+      Damaged Item(s)?
+    </button>
 
   </ion-content>
 
