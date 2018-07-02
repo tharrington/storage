@@ -84,7 +84,7 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 		if(currentState == 'app.supplies-lookup') {
 			$state.go('app.supplies', { id : order.ssOrderId });
 		} else {
-			$state.go('app.order_summary', { id : order.ssOrderId });
+			$state.go('app.order_summary', { id : order.ssOrderId, fromWarehouse : false });
 		}
 	};
 });

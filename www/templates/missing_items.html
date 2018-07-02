@@ -68,16 +68,20 @@
 				</div>
 	    </a>
 
-	    <div class="item item-divider">Delivered Items</div>
+      <textarea placeholder="Missing Description" ng-if="missing_count > 0" ng-model="delivery.missingItemNote" style="height:80px;" maxlength="255"></textarea>
+
+
+	    <div class="item item-divider" ng-if="deliveredCount > 0">Delivered Items</div>
 	    <a class="item today-item" ng-repeat="item in invoice.items" ng-if="item.type == 'Storage Goods' && item.warehouseStatus == 'Delivered'">
 	      <h2>{{item.product_display_name}} • {{item.quantity}}</h2>
 	    </a>
 		</div>
 
+    <div class="item item-divider">Original Order Image(s)</div>
 		<ion-gallery ion-gallery-items="images"></ion-gallery>
 	</ion-content>
 
 	<div class="bar bar-footer bar-balanced" ng-click="saveInvoice();">
-	  <div class="title">Save Missing Items</div>
+	  <div class="title">Save Missing Item(s)</div>
 	</div>
 </ion-view>

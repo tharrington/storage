@@ -26,7 +26,12 @@
 
 	.item-note {
 		color : #000;
+		font-size : 10px !important;
+		padding-top: 12px;
+		text-align: center !important;
 	}
+
+
 
 </style>
 
@@ -72,12 +77,19 @@
 
 	    <div class="list" ng-if="pulledOrders.length > 0">
 
-			  <a class="item today-item" ng-click="navigateToOrder(appointment)" ng-repeat="appointment in pulledOrders | orderBy:'-'">
+			  <a class="item today-item item-icon-right" ng-click="navigateToOrder(appointment)" ng-repeat="appointment in pulledOrders | orderBy:'-'">
 		      <h2>{{appointment.name}} - <strong>{{appointment.warehouseLocation}}</strong> - {{appointment.truckOrder}}
-		      	<select ng-click="$event.preventDefault(); $event.stopPropagation();" class="item-select" style="float:right;" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
-				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+		      	<select 
+		      		ng-click="$event.preventDefault(); $event.stopPropagation();" 
+		      		class="item-select item-select-warehouse " 
+		      		ng-change="setOrderStatus(appointment)" 
+		      		ng-model="appointment.warehouseStatus" 
+		      		ng-options="option.name as option.value group by option.type for option in options">
 				    </select>
 		      </h2>
+
+		      <i class="icon ion-checkmark-circled loaded-icon" ng-click="completeOrder(appointment, $event);"></i>
+		      <p>{{appointment.management_notes}}</p>
 		    </a>
 			</div>
 
@@ -89,15 +101,24 @@
 			    Loaded Orders ({{loadedOrders.length}})
 			  </div>
 
-			  <a class="item today-item" ng-click="navigateToOrder(appointment);" ng-repeat="appointment in loadedOrders | orderBy:'-'">
-		      <h2><span style="color: #f00;" ng-if="appointment.warehouseStatus == 'Partially Loaded'" ng-click="editMissingOrder(appointment, $event);">Edit </span>{{appointment.name}} - {{appointment.truckOrder}}
+			  <a class="item today-item item-icon-right" ng-click="navigateToOrder(appointment);" ng-repeat="appointment in loadedOrders | orderBy:'-'">
+		      <h2><span style="color: #f00;" ng-if="appointment.warehouseStatus == 'Partially Loaded'" ng-click="editMissingOrder(appointment, $event);">Edit </span>{{appointment.name}} - 
+		      	{{appointment.warehouseLocation}} - {{appointment.truckOrder}}
 
 
-		      	<select ng-click="$event.preventDefault(); $event.stopPropagation();" class="item-select" style="float:right; font-size: 100%; max-width: 34%" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
-				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+		      	<select 
+		      		ng-click="$event.preventDefault(); $event.stopPropagation();" 
+		      		class="item-select item-select-warehouse" 
+		      		ng-change="setOrderStatus(appointment)" 
+		      		ng-model="appointment.warehouseStatus"
+		      		ng-options="option.name as option.value group by option.type for option in options"
+		      	>
+				    	
 				    </select>
 		      </h2>
-		      <p> <strong>{{appointment.warehouseLocation}}</strong></p>
+
+		      <i class="icon ion-checkmark-circled loaded-icon complete-icon" ng-if="appointment.warehouseStatus == 'Loaded' || appointment.warehouseStatus == 'Loaded - Last on Truck'"></i>
+		      <p>{{appointment.management_notes}}</p>
 		    </a>
 			</div>
 
@@ -109,10 +130,18 @@
 
 			  <a class="item today-item" ng-click="navigateToOrder(appointment);" ng-repeat="appointment in missingOrders | orderBy:'-'">
 		      <h2><span style="color: #f00;" ng-if="appointment.warehouseStatus == 'Partially Loaded'" ng-click="editMissingOrder(appointment, $event);">Edit </span>{{appointment.name}} - <strong>{{appointment.warehouseLocation}}</strong> - {{appointment.truckOrder}}
-		      	<select ng-click="$event.preventDefault(); $event.stopPropagation();" class="item-select" style="float:right; font-size: 100%; max-width: 34%" ng-change="setOrderStatus(appointment)" ng-model="appointment.warehouseStatus">
-				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.warehouseStatus == stage.warehouseStatus">{{stage.warehouseStatus}}</option>
+		      	<select 
+		      		ng-click="$event.preventDefault(); $event.stopPropagation();" 
+		      		class="item-select item-select-warehouse" 
+		      		ng-change="setOrderStatus(appointment)" 
+		      		ng-options="option.name as option.value group by option.type for option in options"
+		      		ng-model="appointment.warehouseStatus">
+				    	
 				    </select>
 		      </h2>
+		      
+
+		      <p>{{appointment.management_notes}}</p>
 		    </a>
 			</div>
 		</div>

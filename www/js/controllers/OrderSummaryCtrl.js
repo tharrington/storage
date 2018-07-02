@@ -33,6 +33,8 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.total_shipping_items = 0;
   	$ionicLoading.show({ template: 'Loading Order...' });
 
+    $scope.fromWarehouse = $stateParams.fromWarehouse;
+
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
 	      $ionicLoading.hide();
@@ -59,7 +61,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
               inv.imageURLs.forEach(function(item) {
                 images.push({ src : item });
-                // images.push(item);
               });
 
               $scope.invoice = inv;
@@ -189,4 +190,13 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
      // Execute action
     $scope.selectedImageURL = null;
   });
+
+
+  $scope.lostItems = function() {
+    $state.go('app.lost_items', { id : $scope.pickup.ssOrderId });
+  }
+
+  $scope.damagedItems = function() {
+    $state.go('app.damaged_items', { id : $scope.pickup.ssOrderId });
+  }
 });

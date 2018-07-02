@@ -1,2 +1,15 @@
 /* Empty. Add your own CSS if you like */
 
+.item-select-warehouse { 
+  width: 100px !important;
+  float:right;
+}
+
+
+.loaded-icon {
+  margin-right: 124px;
+}
+
+.complete-icon {
+  color : #0f0;
+}

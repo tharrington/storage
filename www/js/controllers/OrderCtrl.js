@@ -9,7 +9,12 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.invoice_items = [];
 
   $scope.images = [];
+  $scope.damagedImages = [];
 
+  $scope.delivered = 0;
+  $scope.missing = 0;
+  $scope.loaded = 0;
+  $scope.stored = 0;
 
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
@@ -63,8 +68,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
         { status : 'Ok' },
         { status : 'Rescheduled' },
         { status : 'No Answer' },
-        { status : 'Canceled' },
-        { status : 'Complete- Left Unattended' }
+        { status : 'Canceled' }
       ]
     }
     $scope.order_status = result.status;
@@ -73,11 +77,24 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.$on('$ionicView.enter', function(e) {
     $scope.invoice_items = [];
     $scope.images = [];
+    $scope.damagedImages = [];
 
     Auth.checkLastTruckLogin();
     $ionicNavBarDelegate.showBackButton(true);
     fencesData.getOrder($stateParams.id).then(function(result) {
       $scope.order = result;
+
+      console.log('### got order: ' + JSON.stringify($scope.order));
+      console.log('### got orders: ' + JSON.stringify($scope.order.damagedImageURLs));
+      // damagedDescription: String,
+      // damagedImageURLs  : [String],
+      if($scope.order.damagedImageURLs) {
+        $scope.order.damagedImageURLs.forEach(function(entry) {
+          $scope.damagedImages.push({ src : entry });
+        });
+      }
+
+
 
       if (!$scope.order.proxyPhone) {
         return fencesData.postInfo('/orders/' + $stateParams.id, 'PUT', $scope.order)
@@ -117,11 +134,32 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
           $scope.invoices = result.invoices;
 
+          console.log('### invoices: ' + JSON.stringify($scope.invoices));
+
+
           $scope.invoices.forEach(function(inv) {
             inv.imageURLs.forEach(function(img) {
               $scope.images.push({ src : img });
             });
+            // $scope.delivered = 0;
+            // $scope.missing = 0;
+            // $scope.loaded = 0;
+            // $scope.stored = 0;
+
+
             inv.items.forEach(function(entry) {
+              if(entry.warehouseStatus == 'Missing') {
+                $scope.missing++;
+              }
+              if(entry.warehouseStatus == 'Delivered') {
+                $scope.delivered++;
+              }
+              if(entry.warehouseStatus == 'In Storage') {
+                $scope.stored++;
+              }
+              if(entry.warehouseStatus == 'Loaded') {
+                $scope.loaded++;
+              }
               if(entry.type == 'Storage Goods') {
                 $scope.invoice_items.push(entry);
               }
@@ -209,4 +247,12 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
       }
     }
   };
+
+  $scope.missingItems = function() {
+    $state.go('app.missing-items', { id : $scope.order.ssOrderId });
+  }
+
+  $scope.damagedItems = function() {
+    $state.go('app.damaged_items', { id : $scope.order.ssOrderId });
+  }
 });

@@ -1,0 +1,66 @@
+<ion-view view-title="Damaged Items" ng-controller="DamagedItemsCtrl">
+<style>
+  .truck-status {
+    background-color: transparent !important;
+  }
+
+  .item-select select {
+    color : #fff !important;
+  }
+
+  .item-select select {
+    color: #fff !important;
+    font-weight: 900 !important;
+  }
+  ul {
+    list-style-type: circle;
+  }
+  li {
+    padding-left: 16px;
+  }
+  a.today-item {
+    padding: 16px !important;
+    padding-bottom: 8px !important;
+    padding-top: 8px !important;
+  }
+
+  .item-note {
+    color : #000;
+  }
+
+  .item-icon-left .icon, .item-icon-right .icon {
+    font-size: 22px;
+  }
+
+</style>
+
+  <ion-nav-back-button>
+  </ion-nav-back-button>
+
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Damaged Items
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
+
+  <ion-content class="has-header has-footer has-subfooter">
+    <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+    <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>      
+      
+    <textarea placeholder="Damaged Description" ng-model="delivery.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255"></textarea>
+
+
+    <div class="item item-divider">Damaged Item(s) Image(s) </div>
+    <ion-gallery ion-gallery-items="images"></ion-gallery>
+  </ion-content>
+
+  <div class="bar bar-subfooter bar-calm" ng-click="uploadImage();">
+    <div class="title">Take Image(s)</div>
+  </div>
+
+  <div class="bar bar-footer bar-balanced" ng-click="saveOrder();">
+    <div class="title">Save Damaged Item(s)</div>
+  </div>
+</ion-view>

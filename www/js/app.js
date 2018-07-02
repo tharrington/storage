@@ -20,6 +20,11 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.load_dispatch_ctrl',
   'fencesForBusiness.load_order_ctrl',
   'fencesForBusiness.invoice_ctrl',
+
+  'fencesForBusiness.finalize_delivery_ctrl',
+  'fencesForBusiness.lost_items_ctrl',
+  'fencesForBusiness.damaged_items_ctrl',
+
   'fencesForBusiness.lookup_ctrl',
   'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.warehouse_load_ctrl',
@@ -128,7 +133,7 @@ angular.module('fencesForBusiness', [
       }
     })
     .state('app.order_summary', {
-      url: '/order_summary/:id',
+      url: '/order_summary/:id/:fromWarehouse',
       views: {
         'menuContent': {
           templateUrl: 'templates/order_summary.html'
@@ -144,6 +149,26 @@ angular.module('fencesForBusiness', [
         }
       }
     })
+
+    .state('app.lost_items', {
+      url: '/lost_items/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/lost_items_dispatch.html'
+        }
+      }
+    })
+
+    .state('app.damaged_items', {
+      url: '/damaged_items/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/damaged_items.html'
+        }
+      }
+    })
+
+
     .state('app.load_dispatch', {
       url: '/load_dispatch/:id',
       views: {
