@@ -24,11 +24,15 @@
 	  	<div class="item item-divider">
 		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
 		  </div>
-			<a class="item item-icon-right" href="#">
-		    Shipping
-
-		    <i class="icon ion-arrow-up-c" ng-click="incrementShipping(1);" style="right: 45px;">{{shipping_count}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1);"></i>
+			<a class="item" href="#">
+				<div style="float: left;">
+					Shipping
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{shipping_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 
 		  <button ng-click="takeShippingPhoto()" class="button button-full button-energized" ng-if="shipping_count > 0">
@@ -44,18 +48,23 @@
 		  </div>
 
 
-			<a class="item item-icon-right" ng-repeat="product in products track by $index" href="#">
-		    {{product.name}}
-
-		    <i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
-
-		    <i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);"></i>
-		    <label ng-if='(product.name == "Miscellaneous" || product.name == "Furniture") && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top:8px;">
-		  		<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
-
-		  		<textarea ng-if='(product.name == "Furniture")' placeholder="Furniture Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
-
-		 		</label>
+			<a class="item" ng-repeat="product in products track by $index" href="#">
+				<div style="float: left;">
+					<div>
+						{{product.name}}
+					</div>
+					<div>
+						<label ng-if='(product.name == "Miscellaneous" || product.name == "Furniture") && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top:8px;">
+							<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
+							<textarea ng-if='(product.name == "Furniture")' placeholder="Furniture Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
+						</label>
+					</div>
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementProduct($index, 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{product.invoice_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementProduct($index, -1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 
 		  <div class="item item-divider">
@@ -63,11 +72,15 @@
 		  </div>
 
 
-			<a class="item item-icon-right" ng-repeat="product in added_services track by $index" href="#">
-		    {{product.name}}
-
-		    <i class="icon ion-arrow-up-c" ng-click="increment_added_services($index, 1);" style="right: 45px;">{{product.invoice_count}}</i>
-		    <i class="icon ion-arrow-down-c" ng-click="increment_added_services($index, -1);"></i>
+			<a class="item" ng-repeat="product in added_services track by $index" href="#">
+				<div style="float: left;">
+					{{product.name}}
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="increment_added_services($index, 1);" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{product.invoice_count}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="increment_added_services($index, -1);" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
 		  </a>
 
 

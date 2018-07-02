@@ -32,7 +32,9 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           console.log('result.Delivery.shippingEasyPostIds', result.Delivery.shippingEasyPostIds);
           $state.go('app.existing_shipping_labels', { id: $stateParams.id });
         }
-
+        console.log('kaka000');
+        console.log($stateParams.id);
+        conosole.log(JSON.stringify(result));
 	      $scope.pickup = result.Pickup;
         $scope.shippingDate = result.Delivery.shippingDate;
         $scope.shippingDescription = result.Delivery.shippingDescription;
@@ -119,7 +121,20 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.shippingInputs.dimensions.splice(index, 1);
   }
 
-  $scope.processLabels = function() {
+  $scope.processLabels = function() {    
+    if (true) {
+      var a = moment($scope.shippingDate);
+      var b = moment();
+      var diff = a.diff(b, 'days');
+      if (diff > 3) {
+        var r = confirm("You are trying to create shipping labels for a future dated shipping order. Are you sure you want to create these labels now?");
+        if (r == true) {
+        } else {
+          return;
+        }
+      }
+    }
+    
     if (!$scope.shippingInputs.labelsEmail) {
       $scope.hasErrors = true;
       $scope.errorMessage = 'Email required';
@@ -130,7 +145,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = true;
       $scope.errorMessage = 'At least one item required';
       return
-    }
+    }    
 
     $scope.shippingInputs.dimensions.forEach(function(d) {
       if (isNil(d['length']) || isNil(d['width']) || isNil(d['height']) || isNil(d['weight'])) {
