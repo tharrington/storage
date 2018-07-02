@@ -26,6 +26,7 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
     { warehouseStatus : 'Loaded' }
   ];
 
+  $scope.deliveredCount = 0;
 
 	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
     .then(function(result) {
@@ -35,10 +36,14 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.pickup = result.Pickup;
 	  	$scope.delivery = result.Delivery;
 	  	$scope.invoices = result.invoices;
+      $scope.deliveredCount = 0;
+      $scope.missing_count = 0;
+
       $scope.invoices.forEach(function(inv) {
         inv.imageURLs.forEach(function(img) {
           $scope.images.push({ src : img });
         });
+
         inv.items.forEach(function(item) {
           if(item.type == 'Storage Goods') {
             if(!item.warehouseStatus) {
@@ -46,7 +51,15 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
             }
             if(item.warehouseStatus == 'Missing') {
               item.missing_count = item.quantity;
+              $scope.missing_count += item.quantity;
             }
+            console.log('### missing_count: ' + $scope.missing_count);
+
+            if(item.warehouseStatus == 'Delivered') {
+              $scope.deliveredCount++;
+            }
+
+            
             if(!item.missing_count) {
               item.missing_count = 0;
             }
@@ -74,7 +87,7 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
           item.warehouseStatus = 'Missing';
         }
       });
-      if(entry.invoice_type == 'Storage Goods') {
+      if(entry.invoice_type == 'Storage Goods' && ($scope.missing_count > 0 && (!$scope.delivery.missingItemNote || $scope.delivery.missingItemNote == ''))) {
         fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
           $ionicLoading.show({template : 'Invoice Saved', duration: 500});
         });
@@ -84,9 +97,10 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.increment_count = function(item) {
     if(item.missing_count == item.quantity) {
-      item.missing_count 
+      item.missing_count;
       return;
     }
+    $scope.missing_count++;
     item.missing_count++;
 
     if(item.missing_count == item.quantity) {
@@ -100,6 +114,7 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
     if(item.missing_count == 0) {
       return;
     }
+    $scope.missing_count--;
     item.missing_count--;
 
     if(item.missing_count == 0) {

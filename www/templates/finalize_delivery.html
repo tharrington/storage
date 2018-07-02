@@ -1,0 +1,39 @@
+<ion-view hide-nav-bar="false" view-title="Finalize Delivery" cache-view="false" ng-controller="FinalizeDeliveryCtrl">
+  <style>
+    .invoicePic {
+      height: 200px;
+      width: auto;
+      margin: 2px;
+    }
+
+    item-note {
+      color : #000;
+    }
+
+  </style>
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Finalize Delivery
+      <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
+    </div>
+  </ion-nav-title>
+
+  <ion-content class="has-header has-footer has-subfooter">
+    <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
+    <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
+
+
+    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order && order.deliveryImage && order.deliveryImage.length > 0">
+      <img ng-repeat="imageURL in order.deliveryImage" ng-src="{{imageURL}}" class="invoicePic" >
+    </ion-scroll>
+
+  </ion-content>
+
+  <div class="bar bar-subfooter bar-energized" ng-click="uploadImage();">
+    <div class="title">Take Images</div>
+  </div>
+  <div class="bar bar-footer bar-balanced" ng-click="saveDelivery();">
+    <div class="title">Finalize Delivery</div>
+  </div>
+</ion-view>

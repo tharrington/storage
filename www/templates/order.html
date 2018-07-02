@@ -56,8 +56,8 @@
 		    </select>
 		  </label>
 
-		  <label class="item item-input">
-		  	<textarea placeholder="Order Notes" ng-model="order.notes" style="height:100px;"></textarea>
+		  <label class="item item-input" ng-if="order.status == 'Rescheduled' || order.status == 'Canceled' || order.status == 'No Answer'">
+		  	<textarea placeholder="Missed Appointment Notes" ng-model="order.notes" style="height:80px;"></textarea>
 		 	</label>
 
 		 	<button ng-click="sendUpdate()" class="button button-full button-positive" ng-if="order.status == 'No Answer' || order.status == 'Rescheduled' || order.status == 'Canceled'">
@@ -68,30 +68,7 @@
 			  Build / Edit Invoice
 			</button>
 
-		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">Management Notes: {{order.management_notes}}</a>
-
-		  <div class="item item-divider" ng-if="order.type == 'Delivery'">Items you're delivering...</div>
-	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus == 'Loaded'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} • {{item.quantity}} </h2>
-	    </a>
-
-	    <div class="item item-divider" ng-if="order.type == 'Delivery'">Delivered Items</div>
-	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus == 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} • {{item.quantity}}</h2>
-	    </a>
-
-
-		  <div class="item item-divider" ng-if="order.type == 'Delivery' && order.warehouseStatus == 'Partially Loaded'">Items remaining in storage...</div>
-	    <a class="item" ng-repeat="item in invoice_items" ng-if="item.warehouseStatus != 'Loaded' && item.warehouseStatus != 'Delivered'" style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
-	    	<p>{{item.warehouseStatus}}</p>
-	    </a>
-
-	    <ion-gallery ion-gallery-items="images"></ion-gallery>
-
-
-
-		  <div class="item item-divider">Contact: {{order.name}} ({{order.customerId}})</div>
+			<div class="item item-divider">Contact: {{order.name}} ({{order.customerId}})</div>
 		  <a class="item item-icon-left" href="tel:{{order.friendPhone}}" ng-if="order.friendPhone" href="#">
 	    	<i class="icon ion-ios-telephone"></i>
 	    	Friend Phone: <strong>{{order.friendPhone}}</strong>
@@ -115,6 +92,69 @@
 	    	Email: {{order.email}}
 	    </a>
 
+
+
+		  <a class="item item-text-wrap" href="#" ng-if="order.management_notes">
+		  	Management Notes: {{order.management_notes}}
+		  </a>
+
+		  <div class="item item-divider" 
+		  	ng-if="order.type == 'Delivery'  && delivered > 0">
+		  	Items you're delivering...
+		  </div>
+	    <a class="item" 
+	    	ng-repeat="item in invoice_items" 
+	    	ng-if="item.warehouseStatus == 'Loaded'" 
+	    	style="padding-top: 4px; padding-bottom: 4px;">
+	    	<h2>{{item.product_display_name}} • {{item.quantity}} </h2>
+	    </a>
+
+	    <div class="item item-divider" 
+	    	ng-if="order.type == 'Delivery' && delivered > 0">
+	    	Delivered Items
+	    </div>
+	    <a class="item" 
+	    	ng-repeat="item in invoice_items" 
+	    	ng-if="item.warehouseStatus == 'Delivered'" 
+	    	style="padding-top: 4px; padding-bottom: 4px;">
+	    	<h2>{{item.product_display_name}} • {{item.quantity}}</h2>
+	    </a>
+
+
+		  <div class="item item-divider" 
+		  	ng-if="order.type == 'Delivery' && (stored > 0 || missing > 0)">
+		  	Items remaining in storage...
+		  </div>
+	    <a class="item" 
+	    	ng-repeat="item in invoice_items" 
+	    	ng-if="item.warehouseStatus == 'In Storage' || item.warehouseStatus == 'Missing'" 
+	    	style="padding-top: 4px; padding-bottom: 4px;">
+	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
+	    	<p>{{item.warehouseStatus}}</p>
+	    </a>
+
+	    <ion-gallery ion-gallery-items="images"></ion-gallery>
+
+
+	    <button class="button button-full button-calm" ng-click="missingItems();" ng-if="order.type == 'Delivery'">
+	      Missing Item(s)?
+	    </button>
+
+	    <textarea placeholder="Missing Description" ng-model="order.missingItemNote" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.missingItemNote && order.missingItemNote != ''"></textarea>
+
+	    <button class="button button-full button-assertive" ng-click="damagedItems();" ng-if="order.type == 'Delivery'">
+	      Damaged Item(s)?
+	    </button>
+
+	    <textarea placeholder="Damaged Description" ng-model="order.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.damagedDescription && order.damagedDescription != ''"></textarea>
+
+
+	    <div class="item item-divider" ng-if="order.type == 'Delivery' && order.damagedDescription && order.damagedDescription != ''">Damaged Items Images </div>
+	    <ion-gallery ion-gallery-items="damagedImages" ng-if="order.type == 'Delivery'"></ion-gallery>
+
+
+
+		  
 
 	    <div class="item item-divider">Location</div>
 	    <a class="item item-icon-left" href="#" ng-click="openInGoogleMaps()">
@@ -149,4 +189,9 @@
 	    <a class="item item-text-wrap" ng-if="order.hasInsurace" href="#">Declared Value: {{order.insuranceUnits}}</a>
 		</div>
   </ion-content>
+
+  <div class="bar bar-footer bar-balanced" ng-click="finalizeDelivery();" ng-if="order.type == 'Delivery'">
+	  <div class="title">Finalize Delivery & Take Photos</div>
+	</div>
+
 </ion-view>

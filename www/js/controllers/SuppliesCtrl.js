@@ -9,9 +9,7 @@ angular.module('fencesForBusiness.supplies_ctrl', ['ngIOS9UIWebViewPatch'])
 	$scope.order = {};
 
 	$scope.$on( "$ionicView.leave", function( scopes ) {
-		console.log('### leaving...');
     fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
-    	console.log('### saved');
     });
   });
 

@@ -15,6 +15,44 @@
 
   <ion-content class="has-header">
 
+    <div class="list">
+      <div class="item item-divider">
+        Warehouse Details
+      </div>
+
+
+      <label class="item item-input" ng-if="pickup">
+        <span class="input-label">WH Location </span>
+        <input type="text" placeholder="Enter WH Location" ng-model="pickup.warehouseLocation">
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">WH Notes </span>
+        <input type="text" placeholder="Enter WH Notes" ng-model="delivery.warehouse_notes">
+      </label>
+
+      <button class="button button-full button-royal" ng-click="saveNotes();">
+        Save Warehouse Info
+      </button>
+
+
+      <ion-item text-wrap class="wrap item-text-wrap" >
+        <strong>STEP 1 - Search the surrounding area</strong><br/>
+        Spend a few minutes to look in back, to the sides, on top, a row over, and behind you. <br/><br/>
+
+        <strong>STEP 2 - Look for surrounding customer orders</strong><br/>
+        Below is the shcedule from the day the customer's order was picked up. Most orders that come off the same truck are placed in the warehouse together. User the list below to get an idea of where the customers items may be. The customer's name that you're looking for is bolded.<br/>
+      </ion-item>
+
+
+      <div class="list" ng-if="orders">
+        <a class="item today-item" ng-repeat="appointment in orders track by $index" >
+          <h2>
+            <span ng-if="appointment._id != pickup._id">{{appointment.name}} - {{appointment.warehouseLocation}}</span>
+            <strong ng-if="appointment._id == pickup._id">{{appointment.name}} - {{appointment.warehouseLocation}}</strong>
+          </h2>
+        </a>
+    </div>
   </ion-content>
 
 </ion-view>

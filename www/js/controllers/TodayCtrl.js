@@ -83,8 +83,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
     { status : 'Scheduled' },
     { status : 'En Route' },
     { status : 'Arrived' },
-    { status : 'Servicing' },
-    { status : 'Complete' }
+    { status : 'Servicing' }
   ];
 
   function checkStatus() {

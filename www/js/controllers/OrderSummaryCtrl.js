@@ -61,7 +61,6 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
               inv.imageURLs.forEach(function(item) {
                 images.push({ src : item });
-                // images.push(item);
               });
 
               $scope.invoice = inv;

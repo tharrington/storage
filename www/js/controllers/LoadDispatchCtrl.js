@@ -15,7 +15,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     { name: 'Pulled', value: 'Pulled', type:"WH Statuses" }, 
     { name: 'Pulled Partial', value: 'Pulled Partial' , type:"WH Statuses"},
     { name: 'Cannot Find All', value: 'Cannot Find All', type:"WH Statuses" },
-    { name: 'Missing All', value: 'Missing' , type:"Truck Statuses"}, 
+    { name: 'Missing', value: 'Missing All' , type:"Truck Statuses"}, 
     { name: 'Partially Loaded', value: 'Partially Loaded', type:"Truck Statuses" }, 
     { name: 'Loaded - Last on Truck', value: 'Loaded - Last on Truck' , type:"Truck Statuses"},
     { name: 'Loaded', value: 'Loaded', type:"Truck Statuses" }
@@ -34,6 +34,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.setDispatchStatus = function(status) {
     $scope.dispatch.warehouseStatus = status;
+    console.log('### setting status: ' + status);
     fencesData.postInfo('/dispatches/' + $scope.dispatch._id, 'PATCH', $scope.dispatch).then(function(result) {
     });
   }
@@ -78,13 +79,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.setOrderStatus = function(appointment) {
-    console.log('### changing...');
     $ionicLoading.show({ template : 'Saving Status' });
-    console.log('### saving order: ' + JSON.stringify(appointment));
-
-    if(appointment.warehouseStatus == 'Missing All') {
-      appointment.warehouseStatus = 'Missing';
-    }
     console.log('### saving order: ' + JSON.stringify(appointment));
 
     fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
@@ -127,11 +122,9 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.pulledOrders = [];
     $scope.loading = true;
 
-    console.log('### id: ' + $stateParams.id);
 
     fencesData.callWrapper('/dispatches/getDispatch/' + $stateParams.id, 'GET', null).then(function(result) {
       $scope.dispatch = result;
-      console.log('### got dispatch: ' + JSON.stringify($scope.dispatch));
 
       result.orders.forEach(function(entry) {
         var dispatchDate = moment.utc($scope.dispatch.dispatchDate);
@@ -167,7 +160,6 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
     if(currentState == 'app.supplies-lookup') {
       $state.go('app.supplies', { id : order.ssOrderId });
     } else {
-      console.log('### order summary...');
       $state.go('app.order_summary', { id : order.ssOrderId, fromWarehouse : true });
     }
   };
