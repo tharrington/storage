@@ -23,10 +23,19 @@
     <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
     <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
+    <div class="list">
 
-    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order && order.deliveryImage && order.deliveryImage.length > 0">
-      <img ng-repeat="imageURL in order.deliveryImage" ng-src="{{imageURL}}" class="invoicePic" >
-    </ion-scroll>
+      <div class="item item-divider">
+        Delivery Notes
+      </div>
+
+      <textarea placeholder="Delivery Notes" ng-model="order.crewDeliveryNote" style="height:80px; width: 100% !important;" maxlength="255"></textarea>
+
+
+      <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order && order.deliveryImage && order.deliveryImage.length > 0">
+        <img ng-repeat="imageURL in order.deliveryImage" ng-src="{{imageURL}}" class="invoicePic" >
+      </ion-scroll>
+    </div>
 
   </ion-content>
 

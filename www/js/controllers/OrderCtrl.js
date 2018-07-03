@@ -3,7 +3,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 /**
  * OrderCtrl - view the order details and update the status.
  */
-.controller('OrderCtrl', function($scope, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+.controller('OrderCtrl', function($scope, $cordovaCamera, ImageService, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
   $scope.user = $localStorage.user;
   $scope.invoice_items = [];
@@ -141,10 +141,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
             inv.imageURLs.forEach(function(img) {
               $scope.images.push({ src : img });
             });
-            // $scope.delivered = 0;
-            // $scope.missing = 0;
-            // $scope.loaded = 0;
-            // $scope.stored = 0;
+
 
 
             inv.items.forEach(function(entry) {
@@ -171,12 +168,61 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   });
 
 
+  $scope.uploadImage = function() {
+    console.log('### upload image...');
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: false,
+      targetWidth: 400,
+      targetHeight: 400,
+      encodingType: Camera.EncodingType.JPEG,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false
+    };
+
+    // Take photos and upload the image urls to Cloudinary. 
+    // The image urls are then saved on the invoice record.
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      ImageService.uploadImage(imageData).then(function(response) {
+        $scope.order.deliveryImage.push(response.url);
+
+        fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+          $state.go('app.finalize_delivery', { id : $scope.order.ssOrderId });
+        });
+
+      });
+    }, function(err) {
+        // error
+        var alertPopup = $ionicPopup.alert({
+           title: 'There was an error opening the camera: ' + err,
+           template: JSON.stringify(err)
+        });
+
+        alertPopup.then(function(res) {});
+        console.log(err);
+    });
+  }
+
+
+  $scope.finalizeDelivery = function() {
+    console.log('### order: ' + JSON.stringify($scope.order));
+    if($scope.order.deliveryImage && $scope.order.deliveryImage.length == 0) {
+      $scope.uploadImage();
+    } else {
+      $state.go('app.finalize_delivery', { id : $scope.order.ssOrderId });
+    }
+  }
+
+
+
   /**
    * Complete the invoice
    */
 
   $scope.completeInvoice = function() {
-    $state.go('app.invoice', { id : $scope.order.ssOrderId });
+    $state.go('app.finalize_delivery', { id : $scope.order.ssOrderId });
   }
 
   $scope.changeStatus = function() {

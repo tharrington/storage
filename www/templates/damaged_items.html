@@ -48,12 +48,16 @@
     <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
     <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
     <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>      
-      
-    <textarea placeholder="Damaged Description" ng-model="delivery.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255"></textarea>
+    <div class="list">
+      <div class="item item-divider">
+        Missing Description
+      </div>
+      <textarea placeholder="Damaged Description" ng-model="delivery.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255"></textarea>
 
 
-    <div class="item item-divider">Damaged Item(s) Image(s) </div>
-    <ion-gallery ion-gallery-items="images"></ion-gallery>
+      <div class="item item-divider">Damaged Item(s) Image(s) </div>
+      <ion-gallery ion-gallery-items="images"></ion-gallery>
+    </div>
   </ion-content>
 
   <div class="bar bar-subfooter bar-calm" ng-click="uploadImage();">

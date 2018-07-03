@@ -17,15 +17,15 @@
     	color:    #aaaaaa !important;
 		}
 		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-		   color:    #aaaaaa;
-		   opacity:  1;
+		  color:    #aaaaaa;
+		  opacity:  1;
 		}
 		::-moz-placeholder { /* Mozilla Firefox 19+ */
-		   color:    #aaaaaa;
-		   opacity:  1;
+		  color:    #aaaaaa;
+		  opacity:  1;
 		}
 		:-ms-input-placeholder { /* Internet Explorer 10-11 */
-		   color:    #aaaaaa;
+		  color:    #aaaaaa;
 		}
 	</style>
 
@@ -140,12 +140,18 @@
 	      Missing Item(s)?
 	    </button>
 
+	    <div class="item item-divider">
+        Missing Description
+      </div>
 	    <textarea placeholder="Missing Description" ng-model="order.missingItemNote" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.missingItemNote && order.missingItemNote != ''"></textarea>
 
 	    <button class="button button-full button-assertive" ng-click="damagedItems();" ng-if="order.type == 'Delivery'">
 	      Damaged Item(s)?
 	    </button>
 
+	    <div class="item item-divider">
+        Damaged Description
+      </div>
 	    <textarea placeholder="Damaged Description" ng-model="order.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.damagedDescription && order.damagedDescription != ''"></textarea>
 
 

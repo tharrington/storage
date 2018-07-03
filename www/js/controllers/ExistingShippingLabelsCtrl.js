@@ -93,7 +93,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Resending labels email' });
 
-    const payload = { email: $scope.shippingInputs.labelsEmail }
+    var payload = { email: $scope.shippingInputs.labelsEmail }
 
     fencesData.postInfo(`/orders/${$stateParams.id}/resendShippingLabelsEmail`, 'POST', payload)
     .then(function(response) {
@@ -120,7 +120,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
     $scope.individualErrors = [];
     $ionicLoading.show({ template: 'Voiding labels' });
 
-    const payload = {}
+    var payload = {}
 
     fencesData.postInfo(`/orders/${$stateParams.id}/voidShipment`, 'POST', payload)
     .then(function(response) {

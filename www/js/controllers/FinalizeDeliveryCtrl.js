@@ -4,7 +4,7 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
 /**
  * Finalize Delivery - 
  */
-.controller('FinalizeDeliveryCtrl', function($scope, $ionicNavBarDelegate, mockFencesData, $localStorage, $rootScope, $state, $ionicPopup, $ionicLoading, fencesData, ImageService, $ionicHistory, InvoiceService, $cordovaCamera) {
+.controller('FinalizeDeliveryCtrl', function($scope, $stateParams, $ionicNavBarDelegate, mockFencesData, $localStorage, $rootScope, $state, $ionicPopup, $ionicLoading, fencesData, ImageService, $ionicHistory, InvoiceService, $cordovaCamera) {
   $scope.order = InvoiceService.getOrder();
   $scope.total_item_count = 0;
   $scope.total_added_services_count = 0;
@@ -17,6 +17,15 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
   deliveryImage     : [String],
 
   */
+
+  fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
+    .then(function(result) {
+      $scope.order = result.Delivery;
+      console.log('### got finalized order: ' + JSON.stringify($scope.order));
+    });
+
+
+
 
   $scope.uploadImage = function() {
     console.log('### upload image...');
@@ -71,7 +80,8 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
 
 
     fencesData.callWrapper('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
-      
+      $ionicHistory.nextViewOptions({ disableBack: true });
+          $state.go('app.orders');
       $ionicLoading.hide();
     });
   }
