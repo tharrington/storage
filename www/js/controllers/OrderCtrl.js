@@ -222,7 +222,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
    */
 
   $scope.completeInvoice = function() {
-    $state.go('app.finalize_delivery', { id : $scope.order.ssOrderId });
+    $state.go('app.finalize_invoice_ctrl', { id : $scope.order.ssOrderId });
   }
 
   $scope.changeStatus = function() {
