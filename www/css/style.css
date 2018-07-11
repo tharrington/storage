@@ -10,6 +10,11 @@
   margin-right: 124px;
 }
 
+textarea {
+  height:80px; 
+  width: 100% !important;
+}
+
 .complete-icon {
   color : #0f0;
 }

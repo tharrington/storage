@@ -87,11 +87,9 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
           item.warehouseStatus = 'Missing';
         }
       });
-      if(entry.invoice_type == 'Storage Goods' && ($scope.missing_count > 0 && (!$scope.delivery.missingItemNote || $scope.delivery.missingItemNote == ''))) {
-        fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
-          $ionicLoading.show({template : 'Invoice Saved', duration: 500});
-        });
-      }
+      fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
+        $ionicLoading.show({template : 'Invoice Saved', duration: 500});
+      });
     });
   }
 

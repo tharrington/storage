@@ -11,14 +11,16 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.user = $localStorage.user;
   
   $scope.options = [
-    { name: 'Servicing', value: 'Servicing' , type:"WH Statuses"}, 
-    { name: 'Pulled', value: 'Pulled', type:"WH Statuses" }, 
-    { name: 'Pulled Partial', value: 'Pulled Partial' , type:"WH Statuses"},
-    { name: 'Cannot Find All', value: 'Cannot Find All', type:"WH Statuses" },
-    { name: 'Missing', value: 'Missing All' , type:"Truck Statuses"}, 
-    { name: 'Partially Loaded', value: 'Partially Loaded', type:"Truck Statuses" }, 
-    { name: 'Loaded - Last on Truck', value: 'Loaded - Last on Truck' , type:"Truck Statuses"},
-    { name: 'Loaded', value: 'Loaded', type:"Truck Statuses" }
+    { name: '', value: '--' , type:"None"}, 
+
+    { name: 'Servicing', value: 'Servicing' , type:"WAREHOUSE STATUS"}, 
+    { name: 'Pulled', value: 'Pulled', type:"WAREHOUSE STATUS" }, 
+    { name: 'Pulled Partial', value: 'Pulled Partial' , type:"WAREHOUSE STATUS"},
+    { name: 'Cannot Find All', value: 'Cannot Find All', type:"WAREHOUSE STATUS" },
+    { name: 'Missing', value: 'Missing All' , type:"TRUCK STATUS"}, 
+    { name: 'Partially Loaded', value: 'Partially Loaded', type:"TRUCK STATUS" }, 
+    { name: 'Loaded - Last on Truck', value: 'Loaded - Last on Truck' , type:"TRUCK STATUS"},
+    { name: 'Loaded', value: 'Loaded', type:"TRUCK STATUS" }
   ];
 
   $scope.displayDate = function(dispatch) {

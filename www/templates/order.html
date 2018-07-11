@@ -140,7 +140,7 @@
 	      Missing Item(s)?
 	    </button>
 
-	    <div class="item item-divider">
+	    <div class="item item-divider" ng-if="order.type == 'Delivery'">
         Missing Description
       </div>
 	    <textarea placeholder="Missing Description" ng-model="order.missingItemNote" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.missingItemNote && order.missingItemNote != ''"></textarea>
@@ -149,7 +149,7 @@
 	      Damaged Item(s)?
 	    </button>
 
-	    <div class="item item-divider">
+	    <div class="item item-divider" ng-if="order.type == 'Delivery'">
         Damaged Description
       </div>
 	    <textarea placeholder="Damaged Description" ng-model="order.damagedDescription" style="height:80px; width: 100% !important;" maxlength="255" readonly ng-if="order.type == 'Delivery'  && order.damagedDescription && order.damagedDescription != ''"></textarea>

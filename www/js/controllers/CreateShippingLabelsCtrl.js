@@ -34,7 +34,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
         }
         console.log('kaka000');
         console.log($stateParams.id);
-        conosole.log(JSON.stringify(result));
+
 	      $scope.pickup = result.Pickup;
         $scope.shippingDate = result.Delivery.shippingDate;
         $scope.shippingDescription = result.Delivery.shippingDescription;

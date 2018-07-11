@@ -68,6 +68,10 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.saveOrder = function() {
     fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
       $ionicLoading.show({template : 'Order Saved', duration: 500});
+
+      $ionicHistory.nextViewOptions({ disableBack: true });
+      $state.go('app.orders');
+
     });
   }
 });
