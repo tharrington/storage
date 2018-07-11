@@ -21,6 +21,7 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
   fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
     .then(function(result) {
       $scope.order = result.Delivery;
+
       console.log('### got finalized order: ' + JSON.stringify($scope.order));
     });
 

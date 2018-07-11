@@ -208,6 +208,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.finalizeDelivery = function() {
     console.log('### order: ' + JSON.stringify($scope.order));
+
     if($scope.order.deliveryImage && $scope.order.deliveryImage.length == 0) {
       $scope.uploadImage();
     } else {

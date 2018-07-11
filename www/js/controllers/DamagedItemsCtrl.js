@@ -55,8 +55,8 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
     }, function(err) {
         // error
         var alertPopup = $ionicPopup.alert({
-           title: 'There was an error opening the camera: ' + err,
-           template: JSON.stringify(err)
+          title: 'There was an error opening the camera: ' + err,
+          template: JSON.stringify(err)
         });
 
         alertPopup.then(function(res) {});
@@ -66,12 +66,26 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
 
   $scope.saveOrder = function() {
-    fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
-      $ionicLoading.show({template : 'Order Saved', duration: 500});
+    if($scope.delivery.damagedDescription && $scope.delivery.damagedDescription != '' && $scope.images.length > 0) {
+      fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
+        $ionicLoading.show({template : 'Order Saved', duration: 500});
 
-      $ionicHistory.nextViewOptions({ disableBack: true });
-      $state.go('app.orders');
+        $ionicHistory.nextViewOptions({ disableBack: true });
+        $state.go('app.orders');
+      });  
+    } else if($scope.delivery.damagedDescription && $scope.delivery.damagedDescription != '' && $scope.images.length == 0) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Please upload an image'
+      });
 
-    });
+      alertPopup.then(function(res) {});
+    } else if((!$scope.delivery.damagedDescription || $scope.delivery.damagedDescription == '') && $scope.images.length > 0) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Please add a description'
+      });
+
+      alertPopup.then(function(res) {});
+    }
+    
   }
 });
