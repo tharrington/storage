@@ -100,7 +100,7 @@
 
       <div class="invoice-image-wrapper">
         <div class="invoice-image" ng-repeat="imageURL in invoice.imageURLs" ng-click="imageClicked(imageURL['src'])">
-          <span class="close"></span>
+          <span ng-if="!imageURL['isPaid']" class="close"></span>
           <img src="{{imageURL['src']}}" />
         </div>
       </div>
