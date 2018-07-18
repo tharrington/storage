@@ -275,7 +275,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
             $ionicLoading.show({template : 'Order Saved', duration: 500});
             $ionicNavBarDelegate.showBackButton(true);
 
-            if($scope.order.status != 'Appointment Scheduled') {
+            if($scope.order && $scope.order.status != 'Appointment Scheduled') {
               $ionicHistory.nextViewOptions({ disableBack: true });
               $state.go('app.orders');
             }

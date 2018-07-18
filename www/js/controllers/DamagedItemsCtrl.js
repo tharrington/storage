@@ -70,8 +70,9 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
       fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
         $ionicLoading.show({template : 'Order Saved', duration: 500});
 
-        $ionicHistory.nextViewOptions({ disableBack: true });
-        $state.go('app.orders');
+        $ionicHistory.goBack();
+        // $ionicHistory.nextViewOptions({ disableBack: true });
+        // $state.go('app.orders');
       });  
     } else if($scope.delivery.damagedDescription && $scope.delivery.damagedDescription != '' && $scope.images.length == 0) {
       var alertPopup = $ionicPopup.alert({

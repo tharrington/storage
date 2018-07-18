@@ -1,10 +1,7 @@
 angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
 
-/**
- * LookupCtrl - A User will type in a text string, most likely customer name and the server will find 
- * results. Display all relevant Orders.
- */
+
 .controller('MissingItemsCtrl', function($scope, $location, OrderInvoiceService, $timeout, $sce, 
 		$ionicLoading, $window, $ionicPopup, $cordovaInAppBrowser, $interval, $localStorage, 
 		$ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
@@ -70,12 +67,38 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
     }, function(err) {
     	$ionicLoading.show({ template: 'There was an error', duration: 1000 });
     });
+
+  $scope.saveOrder = function() {
+    if($scope.delivery.missingItemNote && $scope.delivery.missingItemNote != '' && $scope.images.length > 0) {
+      fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
+        $ionicLoading.show({template : 'Order Saved', duration: 500});
+
+        // $ionicHistory.nextViewOptions({ disableBack: true });
+        // $state.go('app.orders');
+        $ionicHistory.goBack();
+      });  
+    } else if($scope.delivery.missingItemNote && $scope.delivery.missingItemNote != '' && $scope.images.length == 0) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Please upload an image'
+      });
+
+      alertPopup.then(function(res) {});
+    } else if((!$scope.delivery.missingItemNote || $scope.delivery.missingItemNote == '') && $scope.images.length > 0) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Please add a description'
+      });
+
+      alertPopup.then(function(res) {});
+    }
+    
+  }
 	
   /**
    * Save Invoice
    */
 	$scope.saveInvoice = function() {    
     $ionicLoading.show({ template : 'Saving Invoice' });
+    $scope.saveOrder();
 
     $scope.invoices.forEach(function(entry) {
       entry.items.forEach(function(item) {

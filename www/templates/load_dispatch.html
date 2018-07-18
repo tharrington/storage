@@ -78,7 +78,7 @@
 	    <div class="list" ng-if="pulledOrders.length > 0">
 
 			  <a class="item today-item item-icon-right item-text-wrap" ng-click="navigateToOrder(appointment)" ng-repeat="appointment in pulledOrders | orderBy:'-'">
-		      <h2>{{appointment.name}} - <strong>{{appointment.warehouseLocation}}</strong> - {{appointment.truckOrder}}
+		      <h2>{{appointment.name}}
 		      	<select 
 		      		ng-click="$event.preventDefault(); $event.stopPropagation();" 
 		      		class="item-select item-select-warehouse " 
@@ -89,7 +89,7 @@
 		      </h2>
 
 		      <i class="icon ion-checkmark-circled loaded-icon" ng-click="completeOrder(appointment, $event);"></i>
-		      <p><strong>{{appointment.management_notes}}</strong></p>
+		      <p><strong>{{appointment.warehouseLocation}}</strong> - {{appointment.truckOrder}} -- <strong>{{appointment.management_notes}}</strong></p>
 		    </a>
 			</div>
 

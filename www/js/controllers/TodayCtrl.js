@@ -62,6 +62,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
         appointment.status = 'Scheduled';
       }
       $ionicLoading.show({template : 'Order Saved', duration: 500});
+      $scope.getOrders();
     });
   }
 
