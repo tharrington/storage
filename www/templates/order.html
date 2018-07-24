@@ -34,7 +34,7 @@
 
   <ion-nav-title>
     <div class="browse-nav-title">
-      {{order.name}}
+      {{order.name}} 
       <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
     </div>
   </ion-nav-title>
@@ -99,7 +99,7 @@
 		  </a>
 
 		  <div class="item item-divider" 
-		  	ng-if="order.type == 'Delivery'  && delivered > 0">
+		  	ng-if="order.type == 'Delivery'  && loaded > 0">
 		  	Items you're delivering...
 		  </div>
 	    <a class="item" 

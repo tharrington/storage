@@ -200,7 +200,7 @@
 			    {{appointment.name}}
 			  </ion-item> -->
 
-			  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in completedOrders track by $index">
+			  <a class="item" href="#/app/orders/{{appointment._id}}" ng-repeat="appointment in canceledOrders track by $index">
 		      <h2>
 			      <span style="max-width: 240px; width: 240px; overflow: ellipsis;">
 		      		{{appointment.name}}

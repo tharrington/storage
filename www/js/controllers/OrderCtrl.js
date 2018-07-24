@@ -145,18 +145,21 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
 
             inv.items.forEach(function(entry) {
-              if(entry.warehouseStatus == 'Missing') {
-                $scope.missing++;
+              if(entry.type == 'Storage Goods') {
+                if(entry.warehouseStatus == 'Missing') {
+                  $scope.missing++;
+                }
+                if(entry.warehouseStatus == 'Delivered') {
+                  $scope.delivered++;
+                }
+                if(entry.warehouseStatus == 'In Storage') {
+                  $scope.stored++;
+                }
+                if(entry.warehouseStatus == 'Loaded') {
+                  $scope.loaded++;
+                }
               }
-              if(entry.warehouseStatus == 'Delivered') {
-                $scope.delivered++;
-              }
-              if(entry.warehouseStatus == 'In Storage') {
-                $scope.stored++;
-              }
-              if(entry.warehouseStatus == 'Loaded') {
-                $scope.loaded++;
-              }
+              
               if(entry.type == 'Storage Goods') {
                 $scope.invoice_items.push(entry);
               }
