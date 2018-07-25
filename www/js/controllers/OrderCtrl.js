@@ -15,6 +15,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.missing = 0;
   $scope.loaded = 0;
   $scope.stored = 0;
+  $scope.partially_loaded = 0;
 
 	$scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
@@ -157,6 +158,9 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
                 }
                 if(entry.warehouseStatus == 'Loaded') {
                   $scope.loaded++;
+                }
+                if(entry.warehouseStatus == 'Partially Loaded') {
+                  $scope.partially_loaded++;
                 }
               }
               

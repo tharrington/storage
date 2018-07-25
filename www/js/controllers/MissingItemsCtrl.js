@@ -89,9 +89,17 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
       });
 
       alertPopup.then(function(res) {});
-    }
-    
+    } 
   }
+
+  $scope.saveOrderFromInvoice = function(warehouseStatus) {
+    $scope.pickup.warehouseStatus = warehouseStatus;
+    $scope.delivery.warehouseStatus = warehouseStatus;
+    fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
+    }); 
+    fencesData.postInfo('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup).then(function(result) {
+    });  
+  } 
 	
   /**
    * Save Invoice
@@ -101,15 +109,40 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.saveOrder();
 
     $scope.invoices.forEach(function(entry) {
+      var has_missing = false, has_loaded = false;
       entry.items.forEach(function(item) {
-        if(item.missing_count == 0) {
-          item.warehouseStatus = 'Loaded';
-        } else if(item.missing_count > 0 && item.missing_count < item.quantity) {
-          item.warehouseStatus = 'Partially Loaded';
-        } else {
-          item.warehouseStatus = 'Missing';
+        if(item.type == 'Storage Goods') {
+          if(item.missing_count == 0) {
+            item.warehouseStatus = 'Loaded';
+            has_loaded = true;
+          } else if(item.missing_count > 0 && item.missing_count < item.quantity) {
+            item.warehouseStatus = 'Partially Loaded';
+            has_missing = true;
+          } else {
+            item.warehouseStatus = 'Missing';
+            has_missing = true;
+          }
         }
+        
       });
+
+      if(entry.invoice_type == 'Storage Goods') {
+        var whStatus;
+
+
+        if(has_missing && has_loaded) {
+          whStatus = 'Partially Loaded';
+        } else if(!has_missing && has_loaded) {
+          whStatus = 'Loaded';
+        } else if(has_missing && !has_loaded) {
+          whStatus = 'Missing';
+        } 
+        if(whStatus) {
+          $scope.saveOrderFromInvoice(whStatus);
+        }
+        
+      }
+
       fencesData.callWrapper('/invoices/' + entry._id, 'PUT', entry).then(function(result) {
         $ionicLoading.show({template : 'Invoice Saved', duration: 500});
       });

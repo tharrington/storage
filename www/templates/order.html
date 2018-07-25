@@ -99,14 +99,14 @@
 		  </a>
 
 		  <div class="item item-divider" 
-		  	ng-if="order.type == 'Delivery'  && loaded > 0">
+		  	ng-if="order.type == 'Delivery'  && (loaded > 0 || partially_loaded > 0)">
 		  	Items you're delivering...
 		  </div>
 	    <a class="item" 
 	    	ng-repeat="item in invoice_items" 
-	    	ng-if="item.warehouseStatus == 'Loaded'" 
+	    	ng-if="item.warehouseStatus == 'Loaded' || item.warehouseStatus == 'Partially Loaded'" 
 	    	style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} • {{item.quantity}} </h2>
+	    	<h2>{{item.product_display_name}} • {{item.quantity - item.missing_count}} </h2>
 	    </a>
 
 	    <div class="item item-divider" 
@@ -122,12 +122,12 @@
 
 
 		  <div class="item item-divider" 
-		  	ng-if="order.type == 'Delivery' && (stored > 0 || missing > 0)">
+		  	ng-if="order.type == 'Delivery' && (stored > 0 || missing > 0 || partially_loaded > 0)">
 		  	Items remaining in storage...
 		  </div>
 	    <a class="item" 
 	    	ng-repeat="item in invoice_items" 
-	    	ng-if="item.warehouseStatus == 'In Storage' || item.warehouseStatus == 'Missing'" 
+	    	ng-if="item.warehouseStatus == 'In Storage' || item.warehouseStatus == 'Missing'  || item.warehouseStatus == 'Partially Loaded'" 
 	    	style="padding-top: 4px; padding-bottom: 4px;">
 	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
 	    	<p>{{item.warehouseStatus}}</p>
