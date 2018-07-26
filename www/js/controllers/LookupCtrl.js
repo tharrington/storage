@@ -80,6 +80,7 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 		var currentState = $state.current.name;
 
 		OrderInvoiceService.setOrderInvoice(order);
+    console.log('### going to next...');
 
 		if(currentState == 'app.supplies-lookup') {
 			$state.go('app.supplies', { id : order.ssOrderId });

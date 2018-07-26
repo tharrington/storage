@@ -33,6 +33,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.total_shipping_items = 0;
   	$ionicLoading.show({ template: 'Loading Order...' });
 
+    console.log('### $stateParams.fromWarehouse: ' + $stateParams.fromWarehouse);
     $scope.fromWarehouse = $stateParams.fromWarehouse;
 
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
@@ -47,6 +48,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
         }
 
         if(result.invoices && result.invoices.length > 0) {
+          console.log('### invoices: ' + JSON.stringify(result.invoices));
           var items = [];
           var images = [];
 

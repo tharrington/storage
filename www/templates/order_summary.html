@@ -48,7 +48,7 @@
 
   <ion-nav-title>
     <div class="browse-nav-title">
-      {{pickup.name}}
+      {{pickup.name}} sum
       <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
     </div>
   </ion-nav-title>
@@ -106,7 +106,7 @@
       </div>
 
 
-		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid' && !fromWarehouse" ng-click="editInvoice();">
+		  <button class="button button-full button-royal" ng-if="invoice && invoice.status != 'Paid' && fromWarehouse != true" ng-click="editInvoice();">
 			  Edit Storage Invoice
 			</button>
 

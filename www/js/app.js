@@ -20,11 +20,9 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.load_dispatch_ctrl',
   'fencesForBusiness.load_order_ctrl',
   'fencesForBusiness.invoice_ctrl',
-
   'fencesForBusiness.finalize_delivery_ctrl',
   'fencesForBusiness.lost_items_ctrl',
   'fencesForBusiness.damaged_items_ctrl',
-
   'fencesForBusiness.lookup_ctrl',
   'fencesForBusiness.drivers_ctrl',
   'fencesForBusiness.warehouse_load_ctrl',
