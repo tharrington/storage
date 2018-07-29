@@ -100,8 +100,11 @@
 		  </div>
       <label class="item item-input">
         <span class="input-label">Shipping Notes:</span>
-        <input type="text" placeholder="Shipping Note...">
+        <input type="text" placeholder="Shipping Note..." ng-model="shippingInputs.shippingNotes">
       </label>
+      <button class="button button-full button-royal" ng-click="saveShippingNotes();">
+        Save Shipping Notes
+      </button>
       <div class="item item-divider">
         Item Dimensions
 		  </div>

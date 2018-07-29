@@ -11,7 +11,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.individualErrors     = [];
     $scope.hasErrors            = false;
     $scope.pickup               = {};
-    $scope.shippingInputs       = { dimensions: [], labelsEmail: null };
+    $scope.shippingInputs       = { dimensions: [], labelsEmail: null, shippingNotes: null };
     $scope.shipping_invoice     = {};
     $scope.total_invoice_items  = 0;
     $scope.total_shipping_items = 0;
@@ -46,6 +46,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           state:   result.Delivery.shippingAddressState,
           zip:     result.Delivery.shippingAddressZip
         }
+        $scope.shippingInputs.shippingNotes = result.Pickup.shippingNotes;
         $scope.shippingAddressPretty = formatAddress(
           result.Delivery.shippingAddressName,
           result.Delivery.shippingAddressStreet1,
@@ -121,7 +122,29 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
     $scope.shippingInputs.dimensions.splice(index, 1);
   }
 
-  $scope.processLabels = function() {    
+  $scope.saveShippingNotes = function() {
+    let payload = { "shippingNotes": $scope.shippingInputs.shippingNotes };
+    $ionicLoading.show({template : 'Saving...'});
+    fencesData.postInfo(`/orders/${$stateParams.id}/shippingNotes`, 'PATCH', payload)
+    .then(function(response) {
+      $scope.hasErrors = false;
+      $scope.errorMessage = '';
+      $scope.individualErrors = [];
+      $ionicLoading.hide();
+    })
+    .catch(function(err) {
+      $scope.hasErrors = true;
+      $ionicLoading.show({template : 'Call failed', duration: 500});
+      if(err) {
+        $scope.errorMessage = err.message || 'Unknown error';
+        if (err.errors) {
+          $scope.individualErrors = err.errors;
+        }
+      }
+    });
+  }
+
+  $scope.processLabels = function() {
     if (true) {
       var a = moment($scope.shippingDate);
       var b = moment();
@@ -134,7 +157,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
         }
       }
     }
-    
+
     if (!$scope.shippingInputs.labelsEmail) {
       $scope.hasErrors = true;
       $scope.errorMessage = 'Email required';
@@ -145,7 +168,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $scope.hasErrors = true;
       $scope.errorMessage = 'At least one item required';
       return
-    }    
+    }
 
     $scope.shippingInputs.dimensions.forEach(function(d) {
       if (isNil(d['length']) || isNil(d['width']) || isNil(d['height']) || isNil(d['weight'])) {
