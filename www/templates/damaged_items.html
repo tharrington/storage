@@ -32,6 +32,30 @@
     font-size: 22px;
   }
 
+    .invoice-image-wrapper {
+      padding: 5px;
+    }
+
+    .invoice-image {
+      padding: 1px;
+      display: inline;
+    }
+
+    .invoice-image img {
+      width: 30%;
+    }
+    .close:before {
+      content: '✕';
+    }
+    .close {
+      position: relative;
+      bottom: 5px;
+      left: 27%;
+      cursor: pointer;
+      color: white;
+      display: inline-block;
+      width: 0;
+    }
 </style>
 
   <ion-nav-back-button>
@@ -47,7 +71,7 @@
   <ion-content class="has-header has-footer has-subfooter">
     <div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
     <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
-    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>      
+    <div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
     <div class="list">
       <div class="item item-divider">
         Damaged Description
@@ -56,7 +80,13 @@
 
 
       <div class="item item-divider">Damaged Item(s) Image(s) </div>
-      <ion-gallery ion-gallery-items="images"></ion-gallery>
+      <!-- <ion-gallery ion-gallery-items="images"></ion-gallery> -->
+      <div class="invoice-image-wrapper">
+        <div class="invoice-image" ng-repeat="imageURL in images" ng-click="imageClicked(imageURL)">
+          <span class="close"></span>
+          <img src="{{imageURL['src']}}" />
+        </div>
+      </div>
     </div>
   </ion-content>
 

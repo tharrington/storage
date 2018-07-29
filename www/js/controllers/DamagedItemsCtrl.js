@@ -4,6 +4,8 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.images = [];
   $ionicLoading.show({ template: 'Loading Order...' });
+  $scope.modal = null;
+  $scope.selectedImageURL = null;
 
   fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
     .then(function(result) {
@@ -14,10 +16,6 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
       $scope.delivery.damagedImageURLs.forEach(function(entry) {
         $scope.images.push({ src : entry });
-
-        console.log('### got delivery: ' + JSON.stringify($scope.delivery));
-        console.log('### got images: ' + JSON.stringify($scope.images));
-
       });
     }, function(err) {
       $ionicLoading.show({ template: 'There was an error', duration: 1000 });
@@ -45,7 +43,7 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
       saveToPhotoAlbum: false
     };
 
-    // Take photos and upload the image urls to Cloudinary. 
+    // Take photos and upload the image urls to Cloudinary.
     // The image urls are then saved on the invoice record.
     $cordovaCamera.getPicture(options).then(function(imageData) {
         ImageService.uploadImage(imageData).then(function(response) {
@@ -73,13 +71,7 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
         $ionicHistory.goBack();
         // $ionicHistory.nextViewOptions({ disableBack: true });
         // $state.go('app.orders');
-      });  
-    } else if($scope.delivery.damagedDescription && $scope.delivery.damagedDescription != '' && $scope.images.length == 0) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Please upload an image'
       });
-
-      alertPopup.then(function(res) {});
     } else if((!$scope.delivery.damagedDescription || $scope.delivery.damagedDescription == '') && $scope.images.length > 0) {
       var alertPopup = $ionicPopup.alert({
         title: 'Please add a description'
@@ -87,6 +79,66 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
       alertPopup.then(function(res) {});
     }
-    
   }
+
+
+  $scope.imageClicked = function(imageURL) {
+    $scope.selectedImageURL = imageURL.src;
+    console.log('### 1 scope.selectedImageURL', $scope.selectedImageURL);
+    $scope.openModal();
+  }
+
+  $scope.deleteImage = function() {
+    var newImageURLs = $scope.delivery.damagedImageURLs.filter(function(url) {
+      return url !== $scope.selectedImageURL;
+    }).map(function(obj) {
+      return obj;
+    });
+
+    $scope.delivery.damagedImageURLs = newImageURLs;
+
+    fencesData.postInfo('/orders/' + $scope.delivery._id, 'PUT', $scope.delivery).then(function(result) {
+      $scope.images = $scope.delivery.damagedImageURLs.map(function(url) {
+        return { src: url };
+      });
+      $ionicLoading.show({template : 'Order Saved', duration: 500});
+      $scope.selectedImageURL = null;
+      $scope.closeModal();
+    });
+  }
+
+  $ionicModal.fromTemplateUrl('templates/delete_image_modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+     $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+     $scope.modal.hide();
+    $scope.selectedImageURL = null;
+  };
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
+
 });
