@@ -116,6 +116,11 @@
 			      <span ng-if="substringField(appointment.serviceType) == 'Room Servi'">RS - </span>
 			      <span ng-if="substringField(appointment.serviceType) != 'Room Servi'">ME - </span>
 
+
+			      <span ng-if="appointment.type == 'Delivery' && appointment.dropoffPermissions == 'Drop them off unattended if you cannot reach me' "><strong>YES, You may drop unattended</strong></span>
+
+			      <span ng-if="appointment.type == 'Delivery' && appointment.dropoffPermissions != 'Drop them off unattended if you cannot reach me' "><strong>DO NOT drop unattended - </strong></span>
+
 			      <span ng-if="appointment.building">{{ substringField(appointment.building) }}</span>
 			      <span ng-if="!appointment.building">{{ substringField(appointment.address) }}</span>
 			    </p>
@@ -154,11 +159,11 @@
 		      	</span>
 
 		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%; max-width: 34%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
-				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
+				    	<option ng-repeat="stage in orderUpdatesComplete" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 				    </select>
 
 				    <select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%; max-width: 34%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
-				    	<option ng-repeat="stage in deliveryUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
+				    	<option ng-repeat="stage in orderUpdatesComplete" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 				    </select>
 		      </h2>
 		    </a>

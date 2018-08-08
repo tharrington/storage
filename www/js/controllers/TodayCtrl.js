@@ -87,6 +87,14 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
     { status : 'Servicing' }
   ];
 
+  $scope.orderUpdatesComplete = [
+    { status : 'Scheduled' },
+    { status : 'En Route' },
+    { status : 'Arrived' },
+    { status : 'Servicing' },
+    { status : 'Complete' }
+  ];
+
   function checkStatus() {
   	if($scope.dispatch && $scope.dispatch.status == 'New') {
   		$scope.dispatchUpdates = [

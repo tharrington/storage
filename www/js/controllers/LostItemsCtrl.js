@@ -3,7 +3,11 @@ angular.module('fencesForBusiness.lost_items_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('LostItemsCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $ionicModal) {
 
   console.log('### query for pickup disptach...');
+
+
   $scope.orders = [];
+
+
   fencesData.callWrapper('/orders/getDispatchOrdersBySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {
     console.log('### result: ' + JSON.stringify(result));
     $scope.orders = result;
@@ -15,7 +19,6 @@ angular.module('fencesForBusiness.lost_items_ctrl', ['ngIOS9UIWebViewPatch'])
       $ionicLoading.hide();
       $scope.pickup = result.Pickup;
       $scope.delivery = result.Delivery;
-      console.log('### order result: ' + JSON.stringify(result));
     });
 
 
@@ -40,4 +43,4 @@ angular.module('fencesForBusiness.lost_items_ctrl', ['ngIOS9UIWebViewPatch'])
       });
   }
 
-});
+});   

@@ -133,7 +133,7 @@ angular.module('fencesForBusiness.load_dispatch_ctrl', ['ngIOS9UIWebViewPatch'])
         var delDate = moment.utc(entry.deliveryDate);
         if(dispatchDate.isSame(delDate, 'day') && entry.type == 'Delivery') {
 
-          if(entry.warehouseStatus == 'Loaded' || entry.warehouseStatus == 'Loaded - last on truck' || entry.warehouseStatus == 'Partially Loaded') {
+          if(entry.warehouseStatus == 'Loaded' || entry.warehouseStatus == 'Loaded - Last on Truck' || entry.warehouseStatus == 'Partially Loaded') {
             $scope.loadedOrders.push(entry);
           } else if(entry.warehouseStatus == 'Missing') {
             $scope.missingOrders.push(entry);
