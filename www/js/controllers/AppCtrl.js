@@ -18,7 +18,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.moverId = $localStorage.mover ? $localStorage.mover._id : null;
 
     if (!$rootScope.startedPunchChecks) {
-      $ionicLoading.show({ template: 'Loading Punch...' });
+      // $ionicLoading.show({ template: 'Loading Punch...' });
       checkIfPunchedIn();
     }
 
@@ -29,12 +29,12 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     if (!$scope.moverId) {
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
-      $ionicLoading.hide();
+      // $ionicLoading.hide();
       return
     }
     fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
     .then(function(stratusTimePunch) {
-      $ionicLoading.hide();
+      // $ionicLoading.hide();
       $scope.stratusTimePunch = stratusTimePunch;
       $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
       // Perioodically check if user is punched in
@@ -50,7 +50,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
         clearTimeout($rootScope.checkPunchinTimeout);
         $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
       }
-      $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
+      // $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
         if ($scope.errorMessage === 'User does not have TWS Employee ID') {

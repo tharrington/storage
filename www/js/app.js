@@ -30,6 +30,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.create_shipping_labels_ctrl',
   'fencesForBusiness.existing_shipping_labels_ctrl',
   'fencesForBusiness.time_cards_ctrl',
+  'fencesForBusiness.shipping_today_ctrl',
   'ngStorage',
   'ion-gallery',
   'ngCordova',
@@ -37,16 +38,16 @@ angular.module('fencesForBusiness', [
 ])
 
 // Dev
-// .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
-// .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+.constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
 
 // Staging
 // .constant('ApiEndpoint', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
 // .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
 
 // Production
-.constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
-.constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
+// .constant('ApiEndpoint', { url: 'https://storage-squad-scheduling.herokuapp.com/api', baseURL : 'https://storage-squad-scheduling.herokuapp.com' })
+// .constant('ApiEndpointStaging', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
 
 
 .run(function($ionicPlatform, $localStorage, $ionicHistory, $state, $http, fencesLocations, $rootScope) {
@@ -242,6 +243,16 @@ angular.module('fencesForBusiness', [
         }
       }
     })
+
+    .state('app.shipping-today', {
+      url: '/shipping',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/shipping.html'
+        }
+      }
+    })
+
 
     .state('app.create_shipping_labels', {
       url: '/create_shipping_labels/:id',

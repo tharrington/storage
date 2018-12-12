@@ -1,0 +1,63 @@
+<ion-view view-title="Shipping" ng-controller="ShippingTodayCtrl">
+
+<style>
+  .truck-status {
+    background-color: transparent !important;
+  }
+
+  .item-select select {
+    color : #fff !important;
+  }
+
+  .item-select select {
+    color: #fff !important;
+    font-weight: 900 !important;
+  }
+  ul {
+    list-style-type: circle;
+  }
+  li {
+    padding-left: 10px;
+  }
+  a.today-item {
+    padding: 10px !important;
+    padding-bottom: 2px !important;
+    padding-top: 6px !important;
+  }
+
+  .item-note {
+    color : #000;
+  }
+
+</style>
+
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Shipping
+    </div>
+  </ion-nav-title>
+
+    
+  <ion-content class="has-header">
+    <!-- BEGEIN ORDERS SUMMARY -->
+      <div class="list">
+        <div class="item item-body" ng-if="orders && orders.length == 0">
+          <h1 style="text-align: center;"><i class="icon ion-trophy"></i></h1>
+          <p>No Orders today.</p>
+        </div>
+
+        <a class="item today-item" href="#/app/order_summary/{{appointment.ssOrderId}}/true" ng-repeat="appointment in orders track by $index">
+          <h2><span style="max-width: 240px; width: 240px; overflow: ellipsis;">{{appointment.name}}</span></h2>
+          <p>
+
+            {{appointment.shippingAddressStreet1}} {{appointment.shippingAddressCity}}, {{appointment.shippingAddressState}}
+          </p>
+          <p ng-if="appointment.management_notes">
+            <strong>{{appointment.management_notes}}</strong>
+          </p>
+        </a>
+      </div>
+  </ion-content>
+      
+
+</ion-view>
