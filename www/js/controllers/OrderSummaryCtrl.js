@@ -39,6 +39,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
 	    .then(function(result) {
 	      $ionicLoading.hide();
+        console.log('### got data: ' + JSON.stringify(result));
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
 
@@ -138,12 +139,16 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.imageClicked = function(imageURL) {
+    // if($scope.invoice.status != 'Paid') {
+    //   $scope.selectedImageURL = imageURL;
+    //   $scope.openModal();  
+    // } 
     $scope.selectedImageURL = imageURL;
-    $scope.openModal();
+    $scope.openModal();     
   }
 
   $scope.deleteImage = function() {
-    console.log('$scope', $scope);
+
     var externalInvoiceId = $scope.invoice.externalId;
     var newImageURLs = $scope.invoice.imageURLs.filter(function(url) {
       return url.src !== $scope.selectedImageURL;
@@ -170,11 +175,12 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   });
 
   $scope.openModal = function() {
-     $scope.modal.show();
+    console.log('### open modal: ' + $scope.invoice.status );
+    $scope.modal.show();
   };
 
   $scope.closeModal = function() {
-     $scope.modal.hide();
+    $scope.modal.hide();
     $scope.selectedImageURL = null;
   };
 

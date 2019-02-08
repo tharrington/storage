@@ -9,9 +9,10 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.searchTerm = null;
   $scope.results = [];
   $scope.order = {
-    pickupSeason: 'Spring 2018',
+    pickupSeason: 'Spring 2019',
   }
-  $scope.pickupSeasons = ['Spring 2018', 'ALL'];
+  $scope.pickupSeasons = ['Spring 2019', 'ALL'];
+  $scope.justSwitched = false;
 
   $scope.vm = {};
   $scope.title = 'Customer Lookup';
@@ -49,7 +50,8 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 
     if ($scope.order.pickupSeason == 'ALL') {
       queryParams = null;
-    }
+		}
+		
 
     fencesData.callWrapper('/invoices/search/' + val, 'GET', null, queryParams)
 	    .then(function(results) {
@@ -67,7 +69,12 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
 	      			$scope.results.push(entry);
 	      		}
 	      	});
-	      }
+				}
+				if($scope.results.length == 0 && queryParams) {
+					$scope.order = { pickupSeason: 'ALL' };
+					$scope.inputChanged(val);
+          $scope.justSwitched = true;
+				}
 	      //reset token
         console.log('### reseting token: ' + token);
         $localStorage.token = token;

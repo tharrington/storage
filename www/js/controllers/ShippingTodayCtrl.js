@@ -8,7 +8,11 @@ angular.module('fencesForBusiness.shipping_today_ctrl', ['ngIOS9UIWebViewPatch']
   $scope.$on( "$ionicView.enter", function( scopes ) {
     fencesData.callWrapper('/orders/shippingInfo/today', 'GET', null)
       .then(function(result) {
-        console.log('### shipping result: ' + JSON.stringify(result));
+
+        result.forEach(function(entry) {
+          entry.shippingDate = moment.utc(entry.shippingDate).format('MM/DD/YYYY');
+        });
+        console.log('### got results: ' + JSON.stringify(result));
         $scope.orders = result;
       });
   });

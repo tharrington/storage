@@ -4,13 +4,13 @@
 		  height: 200px;
 		  width: auto;
 		  margin: 2px;
-		}
+		} 
 
 	</style>
 
   <ion-nav-title>
     <div class="browse-nav-title">
-      Invoice {{invoice.name}}
+      {{invoice.name}}
       <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
     </div>
   </ion-nav-title>
@@ -20,7 +20,11 @@
   	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
   	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
-	  <div class="list">
+	  <div class="list"> 
+	  	<div class="item item-divider" ng-if="order && order.shipping"> 
+	  		Shipping: {{order.Shipping_All_or_Some}}
+		  </div>
+
 	  	<div class="item item-divider">
 		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
 		  </div>
@@ -36,7 +40,7 @@
 		  </a>
 
 		  <button ng-click="takeShippingPhoto()" class="button button-full button-energized" ng-if="shipping_count > 0">
-			  Take Photo of Shipment Items
+			  Take Photo of Shipment Items 
 			</button>
 
 			<ion-scroll zooming="true" ng-if="order && order.shippingUnits > 0" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">

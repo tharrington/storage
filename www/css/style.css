@@ -5,6 +5,21 @@
   float:right;
 }
 
+.scroll-content {
+  top: 74px !important;
+}
+
+ion-header-bar {
+  height: 74px !important;
+}
+.header-item {
+  padding-top: 10px;
+}
+
+.bar-footer { 
+  height: 56px !important;
+}
+
 
 .loaded-icon {
   margin-right: 124px;
@@ -17,4 +32,9 @@ textarea {
 
 .complete-icon {
   color : #0f0;
+}
+
+.tutorial-alert {
+  background-color: #f00;
+  color: #fff;
 }

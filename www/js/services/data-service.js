@@ -42,7 +42,7 @@ angular.module('fencesForBusiness.data_service', [])
         deferred.resolve(mockFencesData.getOrder(id));
       }
     	return deferred.promise;
-    }
+    } 
 
     /**
      * getTodaysDispatch  - Builds the object needed by the main app controller. This will contain

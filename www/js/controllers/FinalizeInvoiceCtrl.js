@@ -92,6 +92,8 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       }
     });
 
+    console.log('### saving ingvoice: ' + JSON.stringify($scope.invoice));
+
     fencesData.callWrapper('/invoices/' + $scope.invoice._id, 'PUT', $scope.invoice).then(function(result) {
       
       if($rootScope.isTraining) {

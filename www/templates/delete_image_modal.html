@@ -1,7 +1,7 @@
 <style>
   .invoice-image-delete img {
-    width: 75%;
-    margin: 20px 12.5%;
+    width: 100%;
+
   }
 
   .title {
@@ -12,19 +12,31 @@
 
 <ion-modal-view>
    <ion-header-bar>
-     <h1 class = "title">Delete Image?</h1>
+     <h1 class = "title" ng-if="invoice.status != 'Paid'">Delete Image?</h1>
+     <h1 class = "title" ng-if="invoice.status == 'Paid'"></h1>
    </ion-header-bar>
 
    <ion-content>
-     <div class="invoice-image-delete">
-      <img src="{{selectedImageURL}}" />
-     </div>
+    <div class="invoice-image-delete">
+        <ion-scroll
+          direction="xy"
+          zooming="true"
+          min-zoom="1.0"
+          max-zoom="2.5"
+          overflow-scroll="false"
+          has-bouncing="false"
+          >  
+          <img src="{{selectedImageURL}}" />
+        </ion-scroll>
+    <!-- </div> -->
 
-		  <button class="button button-full button-assertive" ng-click="deleteImage();">
+
+      <button class="button button-full button-assertive" ng-click="deleteImage();" ng-if="invoice.status != 'Paid'">
 			  Delete
 			</button>
       <button class = "button button-full button-dark" ng-click="closeModal()">
         Cancel
       </button>
    </ion-content>
-</ion-modal-view>
+</ion-modal-view> 
+   

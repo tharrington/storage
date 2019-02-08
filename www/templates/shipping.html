@@ -47,13 +47,16 @@
         </div>
 
         <a class="item today-item" href="#/app/order_summary/{{appointment.ssOrderId}}/true" ng-repeat="appointment in orders track by $index">
-          <h2><span style="max-width: 240px; width: 240px; overflow: ellipsis;">{{appointment.name}}</span></h2>
+          <h2>{{appointment.name}} - {{appointment.shippingDate}}</h2>
+          <p>WH Loc: <strong>{{appointment.warehouseLocation}}</strong> - Region: <strong>{{appointment.region}}</strong></p>
           <p>
-
             {{appointment.shippingAddressStreet1}} {{appointment.shippingAddressCity}}, {{appointment.shippingAddressState}}
           </p>
           <p ng-if="appointment.management_notes">
             <strong>{{appointment.management_notes}}</strong>
+          </p>
+          <p>
+            <strong>{{appointment.Shipping_All_or_Some}}</strong>
           </p>
         </a>
       </div>

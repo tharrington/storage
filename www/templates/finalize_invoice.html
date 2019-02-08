@@ -61,6 +61,15 @@
 		  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
 		</ion-scroll>
 
+    <div class="item item-divider" ng-if="order.shippingImageURLs">
+      Shipping Images
+    </div>
+
+    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order.shippingImageURLs">
+      <img ng-src="{{order.shippingImageURLs}}" class="invoicePic" >
+    </ion-scroll>
+    
+
   </ion-content>
 
   <div class="bar bar-subfooter bar-energized" ng-click="uploadImage();">

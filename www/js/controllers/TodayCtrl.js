@@ -11,6 +11,9 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.user = $localStorage.user;
   $scope.loading = true;
   $scope.training_complete = false;
+  $scope.pickupCount = 0;
+  $scope.deliveryCount = 0;
+  $scope.firstAppDetails = '';
 
 
   $scope.changeLocation = function() {
@@ -117,12 +120,35 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   		}
 		}
   }
+
+  $scope.findStartData = function() {
+    var deliveryCount = 0, pickupCount = 0;
+    if($scope.dispatch && $scope.dispatch.orders && $scope.dispatch.orders.length > 0 && $scope.dispatch.status == 'New') {
+      $scope.dispatch.orders.forEach(function(entry) {
+        if(entry.type == 'Pickup') {
+          pickupCount++;
+        } else {
+          deliveryCount++;
+        } 
+      });
+
+      if($scope.dispatch.orders[0].address) {
+        $scope.firstAppDetails = $scope.dispatch.orders[0].address + ' at ' +$scope.dispatch.orders[0].deliveryTime;
+      } else {
+        $scope.firstAppDetails = $scope.dispatch.orders[0].building + ' at ' +$scope.dispatch.orders[0].deliveryTime;
+      }
+    }
+
+    $scope.pickupCount = pickupCount;
+    $scope.deliveryCount = deliveryCount;
+  }
   
   function organizeOrders() {
   	fencesData.getTodaysDispatch().then(function(result) {
       console.log('### got dispatch: ' + JSON.stringify(result));
   		$scope.dispatch = result;
   		$rootScope.dispatch = result;
+      $scope.findStartData();
   		$ionicLoading.hide();
 
   		if($scope.dispatch && $scope.dispatch.orders) {

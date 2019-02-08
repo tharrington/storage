@@ -61,6 +61,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
         InvoiceService.setInvoice(result.invoice);
         InvoiceService.setProducts(result.products);
         InvoiceService.setOrder(result.order);
+        console.log('### got result: ' + JSON.stringify(result));
       }
     });
   }
@@ -90,12 +91,12 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    * Take photos for shipping and save them to the order
    */
   $scope.takeShippingPhoto = function() {
-    var options = {
-      quality: 50,
+    var options = { 
+      quality: 80,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
       allowEdit: false,
-      encodingType: Camera.EncodingType.JPEG,
+      encodingType: Camera.EncodingType.JPEG, 
       popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false
     };
@@ -176,12 +177,12 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
             item_price : entry.price,
             total_price: entry.price,
             quantity : entry.invoice_count,
-            product_name : entry.name
+            product_name : entry.name  
           });
         }
         else if(entry.invoice_count > 0 && (entry.name == 'Miscellaneous' || entry.name == 'Furniture')){
           items.push({
-            product_id : entry.externalId,
+            product_id : entry.externalId, 
             type: "Storage Goods",
             item_price : entry.price,
             total_price: entry.price,
@@ -233,7 +234,11 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     if($scope.shipping_count > 0 || value == 1) {
       $scope.shipping_count = $scope.shipping_count + value; 
       $scope.order.shippingUnits = $scope.shipping_count;
+
+      fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+      });
     }
+    console.log('### shipping: ' + $scope.order.shippingUnits);
   }
 
 });

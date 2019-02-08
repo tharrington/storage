@@ -60,7 +60,7 @@
 
 			<button class="button button-block button-balanced" ng-if="training_complete && isTraining" style="margin-top:10px;" ng-click="completeTraining();">
 	      Complete Training
-	    </button>
+	    </button> 
 
 	  	<ion-refresher pulling-text="Pull to refresh your schedule..." on-refresh="getOrders()"></ion-refresher>
 
@@ -74,6 +74,23 @@
 				</div>
 			</div>
 
+			<div class="list" ng-if="dispatch._id && dispatch.status == 'New'">
+				<div class="item item-divider">
+			    Today's Summary
+			  </div>
+			  <div class="item item-body">
+			  	<h3>First Order:</h3>
+					<p>{{firstAppDetails}}</p>
+				</div>
+			  <div class="item item-body">
+			  	<h3>Total Pickups:</h3>
+					<p>{{pickupCount}}</p>
+				</div>
+				<div class="item item-body">
+					<h3>Total Deliverys:</h3>
+					<p>{{deliveryCount}}</p>
+				</div>
+			</div>
 
 
 			<button class="button button-full button-balanced" ng-click="startDispatch()" ng-if="dispatch._id && dispatch.status == 'New'">
@@ -99,15 +116,19 @@
 		      		{{appointment.name}} ({{appointment.deliveryTime}})
 		      		<span style="background-color:'#f00'" ng-if="appointment.warehouseStatus == 'Loaded - Last Order on Truck'">Last -- </span>
 		      	</span>
-
-		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%; max-width: 34%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'">
+ 
+		      	<select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%; max-width: 34%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Pickup'"> 
 				    	<option ng-repeat="stage in orderUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 				    </select>
 
 				    <select ng-click="$event.preventDefault();" class="item-select" style="float:right; font-size: 100%; max-width: 34%;" ng-change="setOrderStatus(appointment)" ng-model="appointment.status" ng-if="appointment.type == 'Delivery'">
 				    	<option ng-repeat="stage in deliveryUpdates" ng-selected="appointment.status == stage.status">{{stage.status}}</option>
 				    </select>
-		      </h2>
+		      </h2> 
+
+		      <p ng-if="appointment.guartanteedPickup"> 
+		      	<strong style="color: blue;">Guaranteed Time Window</strong> 
+		      </p>
 		      <p>
 		      	<span ng-if="appointment.warehouseStatus == 'Partially Loaded'" style='color: #f00;'>Partial Order - </span>
 		      	<span ng-if="appointment.type == 'Delivery'">DEL - </span>
