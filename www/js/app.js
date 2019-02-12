@@ -37,6 +37,10 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
+//ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+
+
+
 // Dev
 // .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
 // .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })

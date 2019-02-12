@@ -6,10 +6,23 @@
 		  margin: 2px;
 		} 
 
+		.list .item.item-accordion {
+		  line-height: 38px;
+		  padding-top: 0;
+		  padding-bottom: 0;
+		  transition: 0.09s all linear;
+		}
+		.list .item.item-accordion.ng-hide {
+		  line-height: 0px;
+		}
+		.list .item.item-accordion.ng-hide-add,
+		.list .item.item-accordion.ng-hide-remove {
+		  display: block !important;
+		}
 	</style>
 
   <ion-nav-title>
-    <div class="browse-nav-title">
+    <div class="browse-nav-title"> 
       {{invoice.name}}
       <i class="icon ion-clock punch-clock" ng-class="{'punched-in': isPunchedIn, 'punched-out': !isPunchedIn }"></i>
     </div>
@@ -21,23 +34,87 @@
   	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
 	  <div class="list"> 
-	  	<div class="item item-divider" ng-if="order && order.shipping"> 
+	  	<!-- <div class="item item-divider" ng-if="order && order.shipping"> 
 	  		Shipping: {{order.Shipping_All_or_Some}}
+		  </div> -->
+
+	  	<div class="item item-divider" ng-click="toggleShipping()" ng-class="{active: show_shipping}">
+	  		<i class="icon" ng-class="show_shipping ? 'ion-minus' : 'ion-plus'"></i>
+		    Shipping Items - ({{shipping_count}}) - {{order.Shipping_All_or_Some}} <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
 		  </div>
 
-	  	<div class="item item-divider">
-		    Shipping Items - ({{shipping_count}}) <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
-		  </div>
-			<a class="item" href="#">
-				<div style="float: left;">
-					Shipping
+		  <ion-item class="item-stable item-text-wrap" ng-if="show_shipping" style="background-color: yellow;">
+        <strong>{{shipping_info_text}}</strong>
+      </ion-item>
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Megaboxes
 				</div>
 				<div style="top: 10px; position: absolute; right: 10px;">
-					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1);" style="padding: 10px;	font-size: 32px;"></i>
-					<span style="font-size: 32px;">{{shipping_count}}</span>
-					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1);" style="padding: 10px;	font-size: 32px;"></i>
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'megaboxShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.megaboxShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'megaboxShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
 				</div>
-		  </a>
+      </a>
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Bins
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'binShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.binShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'binShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
+      </a>
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Boxes
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'boxShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.boxShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'boxShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
+      </a>
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Bags
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'bagShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.bagShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'bagShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
+      </a>
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Luggage
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'luggageShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.luggageShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'luggageShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
+      </a>
+
+
+      <a class="item" href="#" ng-if="show_shipping">
+        <div style="float: left;">
+					Trunks
+				</div>
+				<div style="top: 10px; position: absolute; right: 10px;">
+					<i class="icon ion-arrow-up-c" ng-click="incrementShipping(1, 'trunkShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+					<span style="font-size: 32px;">{{order.trunkShippingUnits}}</span>
+					<i class="icon ion-arrow-down-c" ng-click="incrementShipping(-1, 'trunkShippingUnits');" style="padding: 10px;	font-size: 32px;"></i>
+				</div>
+      </a>
+
+
 
 		  <button ng-click="takeShippingPhoto()" class="button button-full button-energized" ng-if="shipping_count > 0">
 			  Take Photo of Shipment Items 
@@ -47,12 +124,16 @@
 			  <img ng-src="{{order.shippingImageURLs}}" class="invoicePic" >
 			</ion-scroll>
 
-		  <div class="item item-divider">
+		  <div class="item item-divider" ng-click="toggleStorage()" ng-class="{active: show_storage}">
+	  		<i class="icon" ng-class="show_storage ? 'ion-minus' : 'ion-plus'"></i>
 		    Storage Items - ({{total_count}})
 		  </div>
 
 
-			<a class="item" ng-repeat="product in products track by $index" href="#">
+
+
+
+			<a class="item" ng-repeat="product in products track by $index" ng-if="show_storage" href="#">
 				<div style="float: left;">
 					<div>
 						{{product.name}}

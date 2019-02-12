@@ -8,6 +8,9 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.added_services = [];
   $scope.total_count = 0, $scope.shipping_count = 0, $scope.added_services_count = 0;
   var miscIndex;
+  $scope.show_shipping = false;
+  $scope.show_storage = true;
+  $scope.shipping_info_text = 'Confirm customer wishes to ship their entire order and not store anything.';
 
   function handleResult(invoice, products) {
     products.forEach(function(entry) {
@@ -55,6 +58,29 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
         $scope.all_products = result.products;
         $scope.order = result.order;
+
+        // this.megaboxShippingUnits + this.binShippingUnits + this.boxShippingUnits + this.bagShippingUnits + this.luggageShippingUnits + this.trunkShippingUnits
+        if(!$scope.order.megaboxShippingUnits) {
+          $scope.order.megaboxShippingUnits = 0;
+        }
+        if(!$scope.order.binShippingUnits) {
+          $scope.order.binShippingUnits = 0;
+        }
+        if(!$scope.order.boxShippingUnits) {
+          $scope.order.boxShippingUnits = 0;
+        }
+        if(!$scope.order.bagShippingUnits) {
+          $scope.order.bagShippingUnits = 0;
+        }
+        if(!$scope.order.luggageShippingUnits) {
+          $scope.order.luggageShippingUnits = 0;
+        }
+        if(!$scope.order.trunkShippingUnits) {
+          $scope.order.trunkShippingUnits = 0;
+        }
+
+        // do shipping calculation
+
 
         $scope.shipping_count = $scope.order.shippingUnits;
         $scope.invoice = result.invoice;
@@ -230,15 +256,36 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     }
   }
 
-  $scope.incrementShipping = function(value) {
-    if($scope.shipping_count > 0 || value == 1) {
-      $scope.shipping_count = $scope.shipping_count + value; 
-      $scope.order.shippingUnits = $scope.shipping_count;
 
+  // $scope.incrementShipping = function(value, key) {
+  //   if($scope.shipping_count > 0 || value == 1) {
+  //     $scope.shipping_count = $scope.shipping_count + value; 
+  //     $scope.order.shippingUnits = $scope.shipping_count;
+
+  //     fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
+  //     });
+  //   }
+  //   console.log('### shipping: ' + $scope.order.shippingUnits);
+  // }
+
+  $scope.incrementShipping = function(value, key) {
+    if($scope.order[key] > 0 || value == 1) {
+      $scope.order[key] = $scope.order[key] + value; 
+
+      console.log('### saving order: ' + JSON.stringify($scope.order));
       fencesData.postInfo('/orders/' + $scope.order._id, 'PUT', $scope.order).then(function(result) {
       });
     }
-    console.log('### shipping: ' + $scope.order.shippingUnits);
+
   }
+
+  $scope.toggleShipping = function() {
+    $scope.show_shipping = !$scope.show_shipping;
+  };
+
+  $scope.toggleStorage = function() {
+    $scope.show_storage = !$scope.show_storage;
+  };
+
 
 });

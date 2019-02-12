@@ -5,13 +5,19 @@
   float:right;
 }
 
-.scroll-content {
+/*.scroll-content {
+  top: 108px !important;
+}*/
+
+/*.bar-subheader {
   top: 74px !important;
 }
 
-ion-header-bar {
+*/
+
+/*ion-header-bar {
   height: 74px !important;
-}
+}*/
 .header-item {
   padding-top: 10px;
 }
