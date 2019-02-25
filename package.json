@@ -3,7 +3,6 @@
   "version": "9.0.1",
   "description": "Storage Squad",
   "dependencies": {
-    "cordova-android": "6.4.0",
     "cordova-background-geolocation-lt": "^2.12.2",
     "cordova-ios": "4.5.5",
     "cordova-plugin-android-permissions": "~1.0.0",
@@ -69,7 +68,6 @@
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {}
     },
     "platforms": [
-      "android",
       "ios"
     ]
   }

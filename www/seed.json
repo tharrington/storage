@@ -190,7 +190,7 @@
       "guartanteedPickup": false,
       "pickupSeason": "Study Abroad 2016",
       "serviceType": "Main Entrance - Meet us Outside Your Building (FREE)",
-      "guartanteedTime": "XX:XX - XX:XX",
+      "guartanteedTime": "12:00-4:00",
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
@@ -560,6 +560,8 @@
       "region": "Boston",
       "account": null,
       "__v": 0,
+      "Shipping_All_or_Some" : "Some",
+      "megaboxShippingUnits": 2,
       "type": "Pickup",
       "loadSize": 0,
       "warehouseStatus": "Unloaded",
@@ -593,7 +595,7 @@
       "serviceType": "Room Service - We do all the lifting ($15 total)",
       "friendPhone": "8127195031",
       "guartanteedTime": "XX:XX - XX:XX",
-      "hasInsurace": true,
+      "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
       "customerId": "26454",
@@ -720,9 +722,11 @@
       "customerId": "26454",
       "unpaidInvoices": false,
       "region": "Boston",
+      "Shipping_All_or_Some" : "Some",
       "account": null,
       "__v": 0,
       "type": "Pickup",
+      "megaboxShippingUnits": 3,
       "loadSize": 0,
       "warehouseStatus": "Unloaded",
       "status": "Appointment Scheduled"
@@ -844,6 +848,14 @@
           "total_price": 33,
           "quantity": 3,
           "product_name": "Mega Box"
+        },
+        {
+          "product_id": "01t6100000181GVAAY",
+          "type": "Storage Goods",
+          "item_price": 25,
+          "total_price": 25,
+          "quantity": 1,
+          "product_name": "Overweight Box (70+ LBS)"
         }
       ],
       "imageURLs": [
@@ -880,14 +892,7 @@
           "quantity": 1,
           "product_name": "Fridge"
         },
-        {
-          "product_id": "01t61000001aJAoAAM",
-          "type": "Storage Goods",
-          "item_price": 23,
-          "total_price": 23,
-          "quantity": 1,
-          "product_name": "Mirror"
-        },
+
         {
           "product_id": "01t61000001aJAeAAM",
           "type": "Storage Goods",
@@ -960,7 +965,7 @@
           "type": "Storage Goods",
           "item_price": 73,
           "total_price": 73,
-          "quantity": 2,
+          "quantity": 1,
           "product_name": "Mattress or Box Spring"
         },
         {
@@ -976,7 +981,7 @@
           "type": "Storage Goods",
           "item_price": 10,
           "total_price": 10,
-          "quantity": 2,
+          "quantity": 1,
           "product_name": "Mattress Bag"
         }
       ],
@@ -1065,14 +1070,7 @@
           "quantity": 1,
           "product_name": "Box"
         },
-        {
-          "product_id": "01t61000001aJAAAA2",
-          "type": "Storage Goods",
-          "item_price": 33,
-          "total_price": 33,
-          "quantity": 1,
-          "product_name": "Fan"
-        },
+
         {
           "product_id": "01t61000001aJAFAA2",
           "type": "Storage Goods",
@@ -1099,15 +1097,7 @@
       "order_id": "a064C000000JcMcQAK",
       "updatedAt": "2017-03-31T18:48:08.893Z",
       "items": [
-        {
-          "product_id": "01t61000000oFYEAA2",
-          "type": "Storage Goods",
-          "item_price": 43,
-          "total_price": 43,
-          "quantity": 1,
-          "product_name": "Miscellaneous",
-          "misc_notes": "Thing 1"
-        },
+
         {
           "product_id": "01t61000000oFYEAA2",
           "type": "Storage Goods",
@@ -1148,20 +1138,13 @@
           "quantity": 1,
           "product_name": "Luggage"
         },
-        {
-          "product_id": "01t61000001aJAjAAM",
-          "type": "Storage Goods",
-          "item_price": 33,
-          "total_price": 33,
-          "quantity": 1,
-          "product_name": "Microwave"
-        },
+
         {
           "product_id": "01t61000001aJAeAAM",
           "type": "Storage Goods",
           "item_price": 33,
           "total_price": 33,
-          "quantity": 1,
+          "quantity": 2,
           "product_name": "Mega Box"
         }
       ],

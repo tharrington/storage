@@ -41,7 +41,7 @@
 	  	<div class="item item-divider" ng-click="toggleShipping()" ng-class="{active: show_shipping}">
 	  		<i class="icon" ng-class="show_shipping ? 'ion-minus' : 'ion-plus'"></i>
 		    Shipping Items - ({{shipping_count}}) - {{order.Shipping_All_or_Some}} <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
-		  </div>
+		  </div> 
 
 		  <ion-item class="item-stable item-text-wrap" ng-if="show_shipping" style="background-color: yellow;">
         <strong>{{shipping_info_text}}</strong>
@@ -152,12 +152,17 @@
 				</div>
 		  </a>
 
-		  <div class="item item-divider">
+		  <!-- <div class="item item-divider">
 		    Added Services - ({{added_services_count}})
-		  </div>
+		  </div> -->
+
+      <div class="item item-divider" ng-click="toggleAdditional()" ng-class="{active: show_additional}">
+        <i class="icon" ng-class="show_additional ? 'ion-minus' : 'ion-plus'"></i>
+        Added Services - ({{added_services_count}})
+      </div> 
 
 
-			<a class="item" ng-repeat="product in added_services track by $index" href="#">
+			<a class="item" ng-repeat="product in added_services track by $index" href="#" ng-if="show_additional">
 				<div style="float: left;">
 					{{product.name}}
 				</div>

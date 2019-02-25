@@ -37,8 +37,8 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
-//ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
-
+// ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+// ionic cordova run ios -l -- --buildFlag="-UseModernBuildSystem=0"
 
 
 // Dev
