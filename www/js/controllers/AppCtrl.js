@@ -60,6 +60,10 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     });
   };
 
+  $scope.displayTrainingMessage = function() {
+    $ionicLoading.show({ template:  'This function is not available during training.', duration: 2000 });
+  }
+
   $scope.createPunch = function(isPunchIn) {
     $rootScope.punchCheckDelay = 0;
     $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });

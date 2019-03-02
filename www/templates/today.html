@@ -134,8 +134,10 @@
 		      	<span ng-if="appointment.type == 'Delivery'">DEL - </span>
 			      <span ng-if="appointment.type == 'Pickup'">PU - </span>
 
-			      <span ng-if="substringField(appointment.serviceType) == 'Room Servi'">RS - </span>
-			      <span ng-if="substringField(appointment.serviceType) != 'Room Servi'">ME - </span>
+			      <span ng-if="containsRoomService(appointment.serviceType)">RS - </span>
+			      <span ng-if="!containsRoomService(appointment.serviceType)">ME - </span>
+
+			      <span ng-if="appointment.shipping">Ship - </span>
 
 
 			      <span ng-if="appointment.type == 'Delivery' && appointment.dropoffPermissions == 'Drop them off unattended if you cannot reach me' "><strong>YES, You may drop unattended</strong></span>

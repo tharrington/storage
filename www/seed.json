@@ -187,7 +187,7 @@
       "editURL": "https://www.tfaforms.com/4603332?id=a064C000000JcLjQAK&signature=LbR8gFEmBfWDC95tbP%2FUY%2BBny%2BlGh3SqrFeP8LwP3CU%3D",
       "school": "Northeastern",
       "phone": "6303990793",
-      "guartanteedPickup": false,
+      "guartanteedPickup": true,
       "pickupSeason": "Study Abroad 2016",
       "serviceType": "Main Entrance - Meet us Outside Your Building (FREE)",
       "guartanteedTime": "12:00-4:00",
@@ -471,7 +471,7 @@
     "isFinalized": true,
     "loadCapacity": 50,
     "currentLoadSize": 0,
-    "status": "On Time",
+    "status": "New",
     "warehouseStatus": "Unloaded"
   },
 
@@ -506,10 +506,10 @@
       "editURL": "https://www.tfaforms.com/4603332?id=a064C000000JcLjQAK&signature=LbR8gFEmBfWDC95tbP%2FUY%2BBny%2BlGh3SqrFeP8LwP3CU%3D",
       "school": "Northeastern",
       "phone": "6303990793",
-      "guartanteedPickup": false,
+      "guartanteedPickup": true,
       "pickupSeason": "Study Abroad 2016",
       "serviceType": "Main Entrance - Meet us Outside Your Building (FREE)",
-      "guartanteedTime": "XX:XX - XX:XX",
+      "guartanteedTime": "12:00-4:00",
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": false,
@@ -908,14 +908,6 @@
           "total_price": 15,
           "quantity": 1,
           "product_name": "Room Service"
-        },
-        {
-          "product_id": "01t6100000181GVAAY",
-          "type": "Storage Goods",
-          "item_price": 25,
-          "total_price": 25,
-          "quantity": 1,
-          "product_name": "Overweight Box (70+ LBS)"
         }
       ],
       "imageURLs": [
@@ -1138,13 +1130,21 @@
           "quantity": 1,
           "product_name": "Luggage"
         },
+        {
+          "product_id": "01t61000001aJ9vAAE",
+          "type": "Storage Goods",
+          "item_price": 43,
+          "total_price": 43,
+          "quantity": 1,
+          "product_name": "Box"
+        },
 
         {
           "product_id": "01t61000001aJAeAAM",
           "type": "Storage Goods",
           "item_price": 33,
           "total_price": 33,
-          "quantity": 2,
+          "quantity": 3,
           "product_name": "Mega Box"
         }
       ],

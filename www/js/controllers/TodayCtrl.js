@@ -52,7 +52,12 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
 
     alertPopup.then(function(res) {
       $scope.dispatch.status = 'Start';
-      $scope.setDispatchStatus();
+      if($rootScope.isTraining) {
+        $scope.dispatch.status = 'On Time';
+        checkStatus();
+      } else {
+        $scope.setDispatchStatus();
+      }
     });
   }
 
@@ -69,11 +74,20 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
     });
   }
 
+  $scope.containsRoomService = function(value) {
+    if(value.includes("Room Service")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   $scope.substringField = function(value) {
   	if(!value) return 'Not declared';
   	if(value.length < 10) return value;
-  	return value.substring(0, 10);
+
+    if(value.length < 30) return value.substring(0, value.length - 1);
+  	return value.substring(0, 30);
   }
 
   $scope.orderUpdates = [
@@ -122,6 +136,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.findStartData = function() {
+    console.log('### finding start data...');
     var deliveryCount = 0, pickupCount = 0;
     if($scope.dispatch && $scope.dispatch.orders && $scope.dispatch.orders.length > 0 && $scope.dispatch.status == 'New') {
       $scope.dispatch.orders.forEach(function(entry) {
@@ -133,9 +148,9 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
       });
 
       if($scope.dispatch.orders[0].address) {
-        $scope.firstAppDetails = $scope.dispatch.orders[0].address + ' at ' +$scope.dispatch.orders[0].deliveryTime;
+        $scope.firstAppDetails = $scope.dispatch.orders[0].address + ' @ ' +$scope.dispatch.orders[0].deliveryTime;
       } else {
-        $scope.firstAppDetails = $scope.dispatch.orders[0].building + ' at ' +$scope.dispatch.orders[0].deliveryTime;
+        $scope.firstAppDetails = $scope.dispatch.orders[0].building + ' @ ' +$scope.dispatch.orders[0].deliveryTime;
       }
     }
 

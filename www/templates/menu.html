@@ -42,62 +42,130 @@
           <i class="icon ion-android-bus"></i> Start Driving
         </ion-item>
 
-        <ion-item menu-close ui-sref="app.supplies-lookup">
-          <i class="icon ion-ios-box-outline"></i> Supply Handouts
-        </ion-item>
-        
+        <div ng-if="mover && !mover.tutorialCompleted">
+          <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-ios-box-outline"></i> Supply Handouts
+          </ion-item>
+          
 
-        <div class="item item-divider">
-          Warehouse Crew
+          <div class="item item-divider">
+            Warehouse Crew
+          </div>
+
+          
+          <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-cube"></i> Load Truck
+          </ion-item>
+
+          <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-briefcase"></i> Unload Truck
+          </ion-item>
+
+          <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-clipboard"></i> Shipping
+          </ion-item>
+
+
+          <div class="item item-divider">
+            Customer Lookup
+          </div>
+
+
+
+          <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-search"></i> Search Customers
+          </ion-item>
+
+
+
+          <div class="item item-divider">
+            Account
+          </div>
+
+          <ion-item menu-close href="#" ng-click="logout();">
+            <i class="icon ion-reply"></i>
+            Logout
+          </ion-item>
+
+          <ion-item id="punchIn" ng-click="displayTrainingMessage();">
+            <i class="icon ion-clock"></i>
+            <span>Punch In</span>
+          </ion-item>
+          <ion-item id="punchOut" ng-click="displayTrainingMessage();">
+            <i class="icon ion-clock"></i>
+            <span>Punch Out</span>
+          </ion-item>
+
+          <ion-item ng-if="!isMissingTWSEmployeeId" ng-click="displayTrainingMessage();">
+            <i class="icon ion-calendar"></i> Time Cards
+          </ion-item>
         </div>
 
-        
-        <ion-item menu-close ui-sref="app.warehouse">
-          <i class="icon ion-cube"></i> Load Truck
-        </ion-item>
-
-        <ion-item menu-close ui-sref="app.load_truck">
-          <i class="icon ion-briefcase"></i> Unload Truck
-        </ion-item>
-
-        <ion-item menu-close ui-sref="app.shipping-today">
-          <i class="icon ion-clipboard"></i> Shipping
-        </ion-item>
 
 
-        <div class="item item-divider">
-          Customer Lookup
+
+
+
+
+
+        <div ng-if="mover && mover.tutorialCompleted">
+          <ion-item menu-close ui-sref="app.supplies-lookup">
+            <i class="icon ion-ios-box-outline"></i> Supply Handouts
+          </ion-item>
+          
+
+          <div class="item item-divider">
+            Warehouse Crew
+          </div>
+
+          
+          <ion-item menu-close ui-sref="app.warehouse">
+            <i class="icon ion-cube"></i> Load Truck
+          </ion-item>
+
+          <ion-item menu-close ui-sref="app.load_truck">
+            <i class="icon ion-briefcase"></i> Unload Truck
+          </ion-item>
+
+          <ion-item menu-close ui-sref="app.shipping-today">
+            <i class="icon ion-clipboard"></i> Shipping
+          </ion-item>
+
+
+          <div class="item item-divider">
+            Customer Lookup
+          </div>
+
+
+
+          <ion-item menu-close ui-sref="app.lookup">
+            <i class="icon ion-search"></i> Search Customers
+          </ion-item>
+
+
+
+          <div class="item item-divider">
+            Account
+          </div>
+
+          <ion-item menu-close href="#" ng-click="logout();">
+            <i class="icon ion-reply"></i>
+            Logout
+          </ion-item>
+
+          <ion-item id="punchIn" ng-if="!isPunchedIn && !isMissingTWSEmployeeId" href="#" ng-click="createPunch(true);">
+            <i class="icon ion-clock"></i>
+            <span>Punch In</span>
+          </ion-item>
+          <ion-item id="punchOut" ng-if="isPunchedIn && !isMissingTWSEmployeeId" href="#" ng-click="createPunch(false)">
+            <i class="icon ion-clock"></i>
+            <span>Punch Out</span>
+          </ion-item>
+
+          <ion-item menu-close ui-sref="app.time_cards" ng-if="!isMissingTWSEmployeeId">
+            <i class="icon ion-calendar"></i> Time Cards
+          </ion-item>
         </div>
-
-
-
-        <ion-item menu-close ui-sref="app.lookup">
-          <i class="icon ion-search"></i> Search Customers
-        </ion-item>
-
-
-
-        <div class="item item-divider">
-          Account
-        </div>
-
-        <ion-item menu-close href="#" ng-click="logout();">
-          <i class="icon ion-reply"></i>
-          Logout
-        </ion-item>
-
-        <ion-item id="punchIn" ng-if="!isPunchedIn && !isMissingTWSEmployeeId" href="#" ng-click="createPunch(true);">
-          <i class="icon ion-clock"></i>
-          <span>Punch In</span>
-        </ion-item>
-        <ion-item id="punchOut" ng-if="isPunchedIn && !isMissingTWSEmployeeId" href="#" ng-click="createPunch(false)">
-          <i class="icon ion-clock"></i>
-          <span>Punch Out</span>
-        </ion-item>
-
-        <ion-item menu-close ui-sref="app.time_cards" ng-if="!isMissingTWSEmployeeId">
-          <i class="icon ion-calendar"></i> Time Cards
-        </ion-item>
       </ion-list>
     </ion-content>
 

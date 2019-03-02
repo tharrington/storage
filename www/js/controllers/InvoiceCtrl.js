@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('InvoiceCtrl', function($scope, $ionicNavBarDelegate, $ionicPopup, $ionicLoading, $interval, $localStorage, $rootScope, $state, fencesData, $stateParams, InvoiceService, ImageService, $cordovaCamera) {
+.controller('InvoiceCtrl', function($scope, $ionicNavBarDelegate, $ionicScrollDelegate, $ionicPopup, $ionicLoading, $interval, $localStorage, $rootScope, $state, fencesData, $stateParams, InvoiceService, ImageService, $cordovaCamera) {
   $scope.invoice = {};
   $scope.order = {};
   $scope.products = [];
@@ -53,7 +53,8 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
   function getInvoice() {
     console.log('### getting info...');
-    fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {      
+    fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {    
+      console.log('### got result: ' + JSON.stringify(result));  
       if(result && result.products) {
         handleResult(result.invoice, result.products);
 
@@ -84,7 +85,6 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
         var shippingMoment = moment($scope.order.shippingDate);
         var duration = moment.duration(shippingMoment.diff(pickupMoment));
         var days = duration.asDays();
-        console.log('### days: ' + days);
 
         if($scope.order.Shipping_All_or_Some == 'All' && days < 21) {
           $scope.shipping_info_text = 'Confirm customer wishes to ship their entire order and not store anything. Enter all of the customer’s items under Shipping Section ONLY.';
@@ -104,12 +104,19 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
           $scope.show_shipping = true;
         }
 
+        if(!$scope.order.Shipping_All_or_Some) {
+          $scope.show_storage = true;
+          $scope.show_shipping = false;
+        }
+
         $scope.shipping_count = $scope.order.shippingUnits;
         $scope.invoice = result.invoice;
         InvoiceService.setInvoice(result.invoice);
         InvoiceService.setProducts(result.products);
         InvoiceService.setOrder(result.order);
         console.log('### got result: ' + JSON.stringify(result));
+
+        $ionicScrollDelegate.resize();
       }
     });
   }
@@ -305,14 +312,17 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.toggleShipping = function() {
     $scope.show_shipping = !$scope.show_shipping;
+    $ionicScrollDelegate.resize();
   };
 
   $scope.toggleStorage = function() {
     $scope.show_storage = !$scope.show_storage;
+    $ionicScrollDelegate.resize();
   };
 
   $scope.toggleAdditional = function() {
     $scope.show_additional = !$scope.show_additional;
+    $ionicScrollDelegate.resize();
   };
 
 
