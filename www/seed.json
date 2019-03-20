@@ -239,6 +239,7 @@
       "insuranceUnits": 0,
       "shipping": true,
       "shippingUnits" : 0,
+      "Shipping_All_or_Some" : "Some",
       "shippingImageURLs" : "",
       "customerId": "26454",
       "unpaidInvoices": false,
@@ -408,6 +409,7 @@
       "hasInsurace": false,
       "insuranceUnits": 0,
       "shipping": true,
+      "Shipping_All_or_Some" : "Some",
       "shippingUnits" : 0,
       "shippingImageURLs" : "",
       "customerId": "26454",
@@ -907,7 +909,7 @@
           "item_price": 15,
           "total_price": 15,
           "quantity": 1,
-          "product_name": "Room Service"
+          "product_name": "Last Minute Room Service"
         }
       ],
       "imageURLs": [
@@ -1398,9 +1400,9 @@
     },
     {
       "_id": "58e6448a1821340b007ca843",
-      "name": "Room Service",
+      "name": "Last Minute Room Service",
       "externalId": "01t4C000000kVb1QAE",
-      "product_family": "Storage",
+      "product_family": "Fees",
       "show_to_driver": true,
       "price": 15,
       "priority": 56,

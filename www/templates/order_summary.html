@@ -75,6 +75,9 @@
 		    Warehouse Details
 		  </div>
 
+			<ion-item class="item-stable item-text-wrap" ng-if="total_invoice_items >= 10" style="background-color: yellow;">
+        <h3>This is a HUGE order. Make sure to count <strong>{{total_invoice_items}}</strong> items and that all the labels are correct!</h3>
+			</ion-item>
 
 		  <label class="item item-input" ng-if="pickup">
 		    <span class="input-label">WH Location </span>
@@ -85,6 +88,19 @@
 		    <span class="input-label">WH Notes </span>
 		    <input type="text" placeholder="Enter WH Notes" ng-model="delivery.warehouse_notes">
 		  </label>
+
+      <label class="item item-input" ng-if="hasBike">
+        <span class="input-label">Bike WH Location </span>
+        <input type="text" placeholder="Enter WH Notes" ng-model="delivery.bikeWarehouseLocation">
+      </label>
+      <label class="item item-input" ng-if="hasMattress">
+        <span class="input-label">Mattress WH Location </span>
+        <input type="text" placeholder="Enter WH Notes" ng-model="delivery.mattressWarehouseLocation">
+      </label>
+      <label class="item item-input" ng-if="hasShipping">
+        <span class="input-label">Shipping WH Location </span>
+        <input type="text" placeholder="Enter WH Notes" ng-model="delivery.shippingWarehouseLocation">
+      </label>
 
 		  <button class="button button-full button-royal" ng-click="saveNotes();">
 			  Save Warehouse Info

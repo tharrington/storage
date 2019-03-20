@@ -4,12 +4,13 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
 /**
  * Finalize Invoices - 
  */
-.controller('FinalizeInvoiceCtrl', function($scope, $ionicNavBarDelegate, mockFencesData, $localStorage, $rootScope, $state, $ionicPopup, $ionicLoading, fencesData, ImageService, $ionicHistory, InvoiceService, $cordovaCamera) {
+.controller('FinalizeInvoiceCtrl', function($scope, $ionicNavBarDelegate, $ionicModal, mockFencesData, $localStorage, $rootScope, $state, $ionicPopup, $ionicLoading, fencesData, ImageService, $ionicHistory, InvoiceService, $cordovaCamera) {
   $scope.invoice = InvoiceService.getInvoice();
   $scope.order = InvoiceService.getOrder();
   $scope.total_item_count = 0;
   $scope.total_added_services_count = 0;
 
+  console.log('### inv to finalize: ' + JSON.stringify($scope.invoice));
   $scope.items = [];
   $scope.added_services = [];
 
@@ -36,7 +37,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   
 
   $scope.uploadImage = function() {
-    console.log('### upload image...');
+
     var options = {
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
@@ -92,8 +93,6 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       }
     });
 
-    console.log('### saving ingvoice: ' + JSON.stringify($scope.invoice));
-
     fencesData.callWrapper('/invoices/' + $scope.invoice._id, 'PUT', $scope.invoice).then(function(result) {
       
       if($rootScope.isTraining) {
@@ -116,4 +115,63 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       
     });
   }
+
+
+  $scope.imageClicked = function(imageURL) {
+    $scope.selectedImageURL = imageURL;
+    $scope.openModal();
+  }
+
+  $scope.deleteImage = function() {
+    var newImageURLs = $scope.invoice.imageURLs.filter(function(url) {
+      return url !== $scope.selectedImageURL;
+    }).map(function(obj) {
+      return obj;
+    });
+
+    console.log('### new images: ' + newImageURLs);
+
+    $scope.invoice.imageURLs = newImageURLs;
+
+    fencesData.callWrapper('/invoices/' + $scope.invoice._id, 'PUT', $scope.invoice).then(function(result) {
+      
+      $ionicLoading.show({template : 'Invoice Saved', duration: 500});
+      $scope.selectedImageURL = null;
+      $scope.closeModal();
+    });
+  }
+
+  $ionicModal.fromTemplateUrl('templates/delete_image_modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+     $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+     $scope.modal.hide();
+    $scope.selectedImageURL = null;
+  };
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
+
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+     // Execute action
+    $scope.selectedImageURL = null;
+  });
 });

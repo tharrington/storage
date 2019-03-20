@@ -5,6 +5,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.invoice = { imageURLs : [] };
   $scope.modal = null;
   $scope.selectedImageURL = null;
+  
+  $scope.hasMattress = false;
+  $scope.hasBike = false;
+  $scope.hasShipping = false;
 
   $scope.$on( "$ionicView.leave", function( scopes ) {
     if($scope.delivery && $scope.pickup && $scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
@@ -43,6 +47,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 	      $scope.pickup = result.Pickup;
 		  	$scope.delivery = result.Delivery;
 
+        if($scope.pickup.shipping) {
+          $scope.hasShipping = true;
+        }
+
         if($scope.delivery && $scope.pickup && $scope.delivery.warehouseLocation && !$scope.pickup.warehouseLocation) {
           $scope.pickup.warehouseNotes = $scope.delivery.warehouseNotes;
           $scope.pickup.warehouseLocation = $scope.delivery.warehouseLocation;
@@ -59,6 +67,13 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
               inv.items.forEach(function(item) {
                 if(item.type == 'Storage Goods') {
                   items.push(item);
+                }
+
+                if(item.product_name == 'Bicycle') {
+                  $scope.hasBike = true;
+                }
+                if(item.product_name == 'Mattress or Box Spring') {
+                  $scope.hasMattress = true;
                 }
               });
 
@@ -115,6 +130,10 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.delivery.warehouseNotes = $scope.pickup.warehouseNotes;
       $scope.delivery.warehouseLocation = $scope.pickup.warehouseLocation;
     }
+
+    $scope.pickup.bikeWarehouseLocation = $scope.delivery.bikeWarehouseLocation;
+    $scope.pickup.mattressWarehouseLocation = $scope.delivery.mattressWarehouseLocation;
+    $scope.pickup.shippingWarehouseLocation = $scope.delivery.shippingWarehouseLocation;
 
     fencesData.callWrapper('/orders/' + $scope.pickup._id, 'PUT', $scope.pickup)
       .then(function(result) {

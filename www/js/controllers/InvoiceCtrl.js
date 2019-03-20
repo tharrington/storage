@@ -9,20 +9,25 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.total_count = 0, $scope.shipping_count = 0, $scope.added_services_count = 0;
   var miscIndex;
   $scope.show_shipping = false;
+  $scope.show_shipping_message = false;
   $scope.show_storage = true;
   $scope.show_additional = false;
   $scope.shipping_info_text = '';
 
   function handleResult(invoice, products) {
+
     products.forEach(function(entry) {
       entry.invoice_count = 0;
     });
+    $scope.products = [];
+    $scope.added_services = [];
     
     if(invoice && invoice.items) {
       products.forEach(function(product) {
         if(product.name.indexOf('Mattress Bag') != 0 && 
           product.name.indexOf('Overweight Box') != 0 && 
           product.name.indexOf('Room Service') != 0 && 
+          product.name.indexOf('Last Minute Room Service') != 0 && 
           product.name.indexOf('Moving Blanket') != 0 && 
           product.name.indexOf('Declared Value') != 0) {
           $scope.products.push(product);
@@ -31,12 +36,17 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
         }
 
         invoice.items.forEach(function(item) {
+          if(!item.misc_notes) {
+            item.misc_notes = '';
+          }
+
           if(product.name == item.product_name && item.type != 'Service Fees') {
             product.invoice_count = item.quantity;
 
             if(product.name.indexOf('Mattress Bag') != 0 && 
               product.name.indexOf('Overweight Box') != 0 && 
               product.name.indexOf('Room Service') != 0 && 
+              product.name.indexOf('Last Minute Room Service') != 0 && 
               product.name.indexOf('Moving Blanket') != 0 && 
               product.name.indexOf('Declared Value') != 0) {
               $scope.total_count += item.quantity;
@@ -56,7 +66,14 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {    
       console.log('### got result: ' + JSON.stringify(result));  
       if(result && result.products) {
-        handleResult(result.invoice, result.products);
+
+        if(!InvoiceService.getInvoice()._id) {
+          $scope.invoice = result.invoice;
+        } else {
+          $scope.invoice = InvoiceService.getInvoice();
+        }
+        console.log('### got invoice: ' + JSON.stringify($scope.invoice))
+        handleResult($scope.invoice, result.products);
 
         $scope.all_products = result.products;
         $scope.order = result.order;
@@ -94,12 +111,13 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
           $scope.shipping_info_text = 'Confirm customer wishes to ship their entire order at a later date. Enter all items under the Storage Section ONLY, not under the Shipping Section. Each item should have a storage and shipping label with identical item count.';
           $scope.show_storage = true;
           $scope.show_shipping = false;
+          $scope.show_shipping_message = true;
         } else if($scope.order.Shipping_All_or_Some != 'All' && days < 21) {
           $scope.shipping_info_text = 'Confirm customer wishes to ship some of their items ASAP and store the rest. Enter ONLY shipping items into Shipping Section. Enter ONLY storage items into Storage Section. Storage and shipping labels should have separate item counts.';
           $scope.show_storage = true;
           $scope.show_shipping = true;
         } else if($scope.order.Shipping_All_or_Some != 'All' && days >= 21) {
-          $scope.shipping_info_text = 'Customer wishes to store All items and ship SOME at a later date. Enter ONLY shipping items under Shipping Section. Enter ONLY items under Storage Section. Storage and shipping labels should have separate item count.';
+          $scope.shipping_info_text = 'Customer wishes to store ALL items and ship SOME at a later date. Enter ONLY shipping items under Shipping Section. Enter ALL items under Storage Section. Storage and shipping labels should have separate item count.';
           $scope.show_storage = true;
           $scope.show_shipping = true;
         }
@@ -110,11 +128,11 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
         }
 
         $scope.shipping_count = $scope.order.shippingUnits;
-        $scope.invoice = result.invoice;
-        InvoiceService.setInvoice(result.invoice);
+
+        InvoiceService.setInvoice($scope.invoice);
+
         InvoiceService.setProducts(result.products);
         InvoiceService.setOrder(result.order);
-        console.log('### got result: ' + JSON.stringify(result));
 
         $ionicScrollDelegate.resize();
       }
@@ -130,16 +148,8 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
     $scope.all_products = [];
     $scope.added_services = [];
     
-    var inv = InvoiceService.getInvoice(); 
     $scope.total_count = 0;
-    if(inv == null || inv._id == null || inv.order_id != $stateParams.id ) {
-      // getInvoice();
-    } else {
-      $scope.all_products = InvoiceService.getProducts(); 
-      $scope.order = InvoiceService.getOrder(); 
-      handleResult(inv, $scope.all_products);
-      $scope.invoice = inv;
-    }
+
     getInvoice();
   });
 
@@ -225,6 +235,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   function createInvoice(){
     var items = [];
+      console.log("### type: " + JSON.stringify($scope.all_products));
       $scope.all_products.forEach(function(entry) {
         if(entry.invoice_count > 0 && (entry.name != 'Miscellaneous' || entry.name != 'Furniture')) {
           items.push({
@@ -233,10 +244,10 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
             item_price : entry.price,
             total_price: entry.price,
             quantity : entry.invoice_count,
-            product_name : entry.name  
+            product_name : entry.name,
+            misc_notes : entry.misc_notes
           });
-        }
-        else if(entry.invoice_count > 0 && (entry.name == 'Miscellaneous' || entry.name == 'Furniture')){
+        } else if(entry.invoice_count > 0 && (entry.name == 'Miscellaneous' || entry.name == 'Furniture')){
           items.push({
             product_id : entry.externalId, 
             type: "Storage Goods",
@@ -244,7 +255,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
             total_price: entry.price,
             quantity : entry.invoice_count,
             product_name : entry.name,
-            misc_notes : entry.notes
+            misc_notes : entry.misc_notes
           });
         }
       });

@@ -26,6 +26,7 @@ angular.module('fencesForBusiness.invoice_service', [])
     }
 
     function setInvoice(invoice) {
+      console.log('### set invoice: ' + JSON.stringify(invoice));
       service.invoice = invoice;
     }
 

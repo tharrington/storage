@@ -136,7 +136,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.findStartData = function() {
-    console.log('### finding start data...');
+
     var deliveryCount = 0, pickupCount = 0;
     if($scope.dispatch && $scope.dispatch.orders && $scope.dispatch.orders.length > 0 && $scope.dispatch.status == 'New') {
       $scope.dispatch.orders.forEach(function(entry) {
@@ -147,10 +147,11 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
         } 
       });
 
-      if($scope.dispatch.orders[0].address) {
-        $scope.firstAppDetails = $scope.dispatch.orders[0].address + ' @ ' +$scope.dispatch.orders[0].deliveryTime;
-      } else {
+      
+      if($scope.dispatch.orders[0].building && $scope.dispatch.orders[0].building != 'MY BUILDING IS NOT LISTED') {
         $scope.firstAppDetails = $scope.dispatch.orders[0].building + ' @ ' +$scope.dispatch.orders[0].deliveryTime;
+      } else {
+        $scope.firstAppDetails = $scope.dispatch.orders[0].address + ' @ ' +$scope.dispatch.orders[0].deliveryTime;
       }
     }
 

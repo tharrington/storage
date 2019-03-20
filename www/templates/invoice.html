@@ -38,15 +38,16 @@
   	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
 
 	  <div class="list"> 
-
+			<ion-item class="item-stable item-text-wrap" ng-if="order.shipping && (show_shipping || show_shipping_message)" style="background-color: yellow;">
+        <strong>{{shipping_info_text}}</strong>
+			</ion-item>
+			
 	  	<div class="item item-divider" ng-click="toggleShipping()" ng-class="{active: show_shipping}">
 	  		<i class="icon" ng-class="show_shipping ? 'ion-minus' : 'ion-plus'"></i>
 		    Shipping Items - ({{shipping_count}}) - {{order.Shipping_All_or_Some}} <span ng-if="order && order.shippingImageURLs && order.shippingImageURLs.length > 0">- Image Uploaded</span>
 		  </div> 
 
-		  <ion-item class="item-stable item-text-wrap" ng-if="show_shipping" style="background-color: yellow;">
-        <strong>{{shipping_info_text}}</strong>
-      </ion-item>
+		  
 
       <a class="item" href="#" ng-if="show_shipping">
         <div style="float: left;">
@@ -141,8 +142,8 @@
 					</div>
 					<div>
 						<label ng-if='(product.name == "Miscellaneous" || product.name == "Furniture") && product.invoice_count > 0' class="item item-input" style="width:85%; margin-top:8px;">
-							<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
-							<textarea ng-if='(product.name == "Furniture")' placeholder="Furniture Description" ng-init='product.misc_notes = ""' ng-model="product.misc_notes"></textarea>
+							<textarea ng-if='(product.name == "Miscellaneous")' placeholder="Miscellaneous Description"  ng-model="product.misc_notes"></textarea>
+							<textarea ng-if='(product.name == "Furniture")' placeholder="Furniture Description" ng-model="product.misc_notes"></textarea>
 						</label>
 					</div>
 				</div>

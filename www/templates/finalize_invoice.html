@@ -12,6 +12,30 @@
     .bar-subfooter {
       bottom: 56px;
     }
+    .invoice-image-wrapper {
+      padding: 5px; 
+    }
+
+    .invoice-image {
+      padding: 1px;
+      display: inline;
+    }
+
+    .invoice-image img {
+      width: 30%;
+    }
+    .close:before {
+      content: '✕';
+    }
+    .close {
+      position: relative;
+      bottom: 5px;
+      left: 27%;
+      cursor: pointer;
+      color: white;
+      display: inline-block;
+      width: 0;
+    }
 	</style>
   <ion-nav-title>
     <div class="browse-nav-title">
@@ -38,13 +62,26 @@
 	    	</span>
 	  	</a>
 
+      <div class="item item-divider" ng-if="order.shippingImageURLs">
+        Shipping Images
+      </div>
+
+      <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order.shippingImageURLs">
+        <img ng-src="{{order.shippingImageURLs}}" class="invoicePic" ng-click="imageClicked(order.shippingImageURLs)">
+      </ion-scroll>
+
 		  <div class="item item-divider">
 		    Storage Invoice Items ({{total_item_count}})
-		  </div>
+			</div>
+			
+			<ion-item class="item-stable item-text-wrap" ng-if="total_item_count >= 10" style="background-color: yellow;">
+        <h3>This is a HUGE order. PLEASE DOUBLE CHECK THAT THE LABELS ARE OUT OF <strong>{{total_item_count}}</strong>!!</h3>
+			</ion-item>
+
 	  	<a class="item" href="#" ng-repeat="item in items">
 	    	{{item.product_name}}
 	    	<span class="item-note">
-	     	{{item.quantity}}
+	     	{{item.quantity}} 
 	    	</span>
 	  	</a>
 
@@ -55,21 +92,21 @@
 	    	{{item.product_name}}
 	    	<span class="item-note">
 	     	{{item.quantity}}
-	    	</span>
+	    	</span> 
 	  	</a>
 		</div>
 
 		<ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="invoice && invoice.imageURLs && invoice.imageURLs.length > 0">
-		  <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" >
+		  <!-- <img ng-repeat="imageURL in invoice.imageURLs" ng-src="{{imageURL}}" class="invoicePic" ng-click="imageClicked(imageURL)"> -->
+
+      <div class="invoice-image" ng-repeat="imageURL in invoice.imageURLs" ng-click="imageClicked(imageURL)">
+        <span class="close"></span>
+        <img src="{{imageURL}}" />
+      </div>
+
 		</ion-scroll>
 
-    <div class="item item-divider" ng-if="order.shippingImageURLs">
-      Shipping Images
-    </div>
-
-    <ion-scroll zooming="true" direction="x" style="height: 200px; overflow-x: scroll; white-space: nowrap;" ng-if="order.shippingImageURLs">
-      <img ng-src="{{order.shippingImageURLs}}" class="invoicePic" >
-    </ion-scroll>
+    
     
 
   </ion-content>
