@@ -12,6 +12,8 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
   $scope.items = [];
   $scope.added_services = [];
 
+  var isAndroid = ionic.Platform.isAndroid();
+
   /**
   crewDeliveryNote  : String,
   deliveryImage     : [String],
@@ -30,6 +32,8 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
 
   $scope.uploadImage = function() {
     console.log('### upload image...');
+    let encodingType = isAndroid ? Camera.EncodingType.PNG : Camera.EncodingType.JPEG;
+
     var options = {
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
@@ -37,8 +41,9 @@ angular.module('fencesForBusiness.finalize_delivery_ctrl', ['ngIOS9UIWebViewPatc
       allowEdit: false,
       targetWidth: 400,
       targetHeight: 400,
-      encodingType: Camera.EncodingType.JPEG,
+      encodingType: encodingType,
       popoverOptions: CameraPopoverOptions,
+      correctOrientation: true,
       saveToPhotoAlbum: false
     };
 

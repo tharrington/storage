@@ -17,7 +17,9 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.stored = 0;
   $scope.partially_loaded = 0;
 
-	$scope.openInGoogleMaps = function() {
+  var isAndroid = ionic.Platform.isAndroid();
+
+  $scope.openInGoogleMaps = function() {
 		if($scope.order && $scope.order.position) {
 			var lat = parseFloat($scope.order.position.coords.latitude);
 			var lng = parseFloat($scope.order.position.coords.longitude);
@@ -177,15 +179,16 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.uploadImage = function() {
     console.log('### upload image...');
-    var options = {
-      quality: 50,
+    let encodingType = isAndroid ? Camera.EncodingType.PNG : Camera.EncodingType.JPEG;
+
+    var options = { 
+      quality: 80,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
       allowEdit: false,
-      targetWidth: 400,
-      targetHeight: 400,
-      encodingType: Camera.EncodingType.JPEG,
+      encodingType: encodingType, 
       popoverOptions: CameraPopoverOptions,
+      correctOrientation: true,
       saveToPhotoAlbum: false
     };
 

@@ -13,6 +13,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.show_storage = true;
   $scope.show_additional = false;
   $scope.shipping_info_text = '';
+  var isAndroid = ionic.Platform.isAndroid();
 
   function handleResult(invoice, products) {
 
@@ -157,13 +158,16 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
    * Take photos for shipping and save them to the order
    */
   $scope.takeShippingPhoto = function() {
+    let encodingType = isAndroid ? Camera.EncodingType.PNG : Camera.EncodingType.JPEG;
+
     var options = { 
       quality: 80,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
       allowEdit: false,
-      encodingType: Camera.EncodingType.JPEG, 
+      encodingType: encodingType, 
       popoverOptions: CameraPopoverOptions,
+      correctOrientation: true,
       saveToPhotoAlbum: false
     };
 

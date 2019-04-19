@@ -14,6 +14,8 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
   $scope.items = [];
   $scope.added_services = [];
 
+  var isAndroid = ionic.Platform.isAndroid();
+
   if($scope.invoice && $scope.invoice.items) {
     $scope.invoice.items.forEach(function(entry) {
       if(entry.type != 'Service Fees') {
@@ -38,6 +40,8 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
 
   $scope.uploadImage = function() {
 
+    let encodingType = isAndroid ? Camera.EncodingType.PNG : Camera.EncodingType.JPEG;
+
     var options = {
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
@@ -45,8 +49,9 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       allowEdit: false,
       targetWidth: 400,
       targetHeight: 400,
-      encodingType: Camera.EncodingType.JPEG,
+      encodingType: encodingType,
       popoverOptions: CameraPopoverOptions,
+      correctOrientation: true,
       saveToPhotoAlbum: false
     };
 
@@ -64,6 +69,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
         });
 
         alertPopup.then(function(res) {});
+        console.log("Camera error");
         console.log(err);
     });
   }

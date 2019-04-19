@@ -6,6 +6,7 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
   $ionicLoading.show({ template: 'Loading Order...' });
   $scope.modal = null;
   $scope.selectedImageURL = null;
+  var isAndroid = ionic.Platform.isAndroid();
 
   fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
     .then(function(result) {
@@ -31,6 +32,8 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
   $scope.uploadImage = function() {
 
+    let encodingType = isAndroid ? Camera.EncodingType.PNG : Camera.EncodingType.JPEG;
+
     var options = {
       quality: 50,
       destinationType: Camera.DestinationType.FILE_URI,
@@ -38,8 +41,9 @@ angular.module('fencesForBusiness.damaged_items_ctrl', ['ngIOS9UIWebViewPatch'])
       allowEdit: false,
       targetWidth: 400,
       targetHeight: 400,
-      encodingType: Camera.EncodingType.JPEG,
+      encodingType: encodingType,
       popoverOptions: CameraPopoverOptions,
+      correctOrientation: true,
       saveToPhotoAlbum: false
     };
 
