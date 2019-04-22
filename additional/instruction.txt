@@ -1,4 +1,13 @@
 1. Pull the source code from the github.
 2. Install node modules with 'npm install'.
-3. Replace the file '\plugins\cordova-plugin-camera\src\android\CameraLauncher.java' into the one.
-4. In order to run on android, you can use the command, 'ionic cordova run android'.
+3. If you need to modify the source, do the changes and follow the below instruction.
+3. In order to run on android, you can use the command, 'ionic cordova run android'.
+4. Once you run the app on android phone, close it and open android project with android studio.
+5. Replace the file '\plugins\cordova-plugin-camera\src\android\CameraLauncher.java' into the one.
+6. Fix some issues on android studio.
+7. Run the project on android studio.
+
+* The reason that app crashes because it has some issues on ionic camera plugin source code.
+  I have changed it in order to run it on android 5.x also, so you should replace it with my modified code.
+  'ionic cordova run android' uses the repo to pull the sources of all plugins that is used in project, so you have to run it with android studio.
+  There are some differences between ionic and android native, so there might be some issues to be fixed easily with android studio when you open the project with android studio.
