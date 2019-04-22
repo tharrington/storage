@@ -1,0 +1,4 @@
+1. Pull the source code from the github.
+2. Install node modules with 'npm install'.
+3. Replace the file '\plugins\cordova-plugin-camera\src\android\CameraLauncher.java' into the one.
+4. In order to run on android, you can use the command, 'ionic cordova run android'.
