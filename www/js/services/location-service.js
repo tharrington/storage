@@ -37,10 +37,10 @@ angular.module('fencesForBusiness.location_service', [])
           stationaryRadius: 25,
           distanceFilter: 10,
           disableElasticity: false, 
-          locationUpdateInterval: 5000,
-          minimumActivityRecognitionConfidence: 70, 
-          fastestLocationUpdateInterval: 4000,
-          activityType: BackgroundGeolocation.ACTIVITY_TYPE_OTHER,
+          locationUpdateInterval: 10000,
+          minimumActivityRecognitionConfidence: 10, 
+          fastestLocationUpdateInterval: 10000,
+          activityType: BackgroundGeolocation.ACTIVITY_TYPE_AUTOMOTIVE_NAVIGATION,
           debug: false, 
           stopOnTerminate: false 
         }

@@ -19,6 +19,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
 
     products.forEach(function(entry) {
       entry.invoice_count = 0;
+      entry.misc_notes = '';
     });
     $scope.products = [];
     $scope.added_services = [];
