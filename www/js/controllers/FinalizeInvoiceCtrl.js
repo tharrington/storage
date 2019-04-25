@@ -52,7 +52,7 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
       encodingType: encodingType,
       popoverOptions: CameraPopoverOptions,
       correctOrientation: true,
-      saveToPhotoAlbum: false
+      // saveToPhotoAlbum: false
     };
 
     // Take photos and upload the image urls to Cloudinary. 
