@@ -12,7 +12,7 @@ angular.module('fencesForBusiness.shipping_today_ctrl', ['ngIOS9UIWebViewPatch']
         result.forEach(function(entry) {
           entry.shippingDate = moment.utc(entry.shippingDate).format('MM/DD/YYYY');
         });
-        console.log('### got results: ' + JSON.stringify(result));
+
         $scope.orders = result;
       });
   });

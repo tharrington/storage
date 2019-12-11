@@ -31,6 +31,7 @@ angular.module('fencesForBusiness', [
   'fencesForBusiness.existing_shipping_labels_ctrl',
   'fencesForBusiness.time_cards_ctrl',
   'fencesForBusiness.shipping_today_ctrl',
+  'fencesForBusiness.missing_orders_ctrl',
   'ngStorage',
   'ion-gallery',
   'ngCordova',
@@ -44,6 +45,7 @@ angular.module('fencesForBusiness', [
 // Dev
 // .constant('ApiEndpoint', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
 // .constant('ApiEndpointStaging', { url: 'http://localhost:5000/api', baseURL : 'http://localhost:5000' })
+
 
 // Staging
 // .constant('ApiEndpoint', { url: 'https://fences-staging.herokuapp.com/api', baseURL : 'https://fences-staging.herokuapp.com' })
@@ -60,6 +62,7 @@ angular.module('fencesForBusiness', [
   if($localStorage.mover && !$localStorage.mover.tutorialCompleted) {
     $rootScope.isTraining = true;
   }
+
 
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();
@@ -123,6 +126,15 @@ angular.module('fencesForBusiness', [
       views: {
         'menuContent': {
           templateUrl: 'templates/lookup.html'
+        }
+      }
+    })
+    .state('app.missing-orders', {
+      url: '/missing-orders/:id',
+      controller: 'MissingOrdersCtrl',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/missing_orders.html'
         }
       }
     })

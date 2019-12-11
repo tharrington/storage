@@ -27,7 +27,7 @@ angular.module('fencesForBusiness.missing_items_ctrl', ['ngIOS9UIWebViewPatch'])
 
 	fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
     .then(function(result) {
-      console.log('### got result: ' + JSON.stringify(result));
+
 
       $ionicLoading.hide();
       $scope.pickup = result.Pickup;

@@ -3,6 +3,9 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
 .controller('TimeCardsController', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $rootScope, $ionicHistory) {
   var PAY_PERIOD_OFFSET = 1;
 
+  $scope.punches = [];
+  $scope.isPaypal = false;
+
   $scope.$on( "$ionicView.leave", function( scopes ) { });
 
   $scope.$on( "$ionicView.enter", function( scopes ) {
@@ -17,12 +20,20 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
     fencesData.callWrapper('/users/punches', 'GET', null)
     .then(function(punches) {
       $ionicLoading.hide();
-      punches = punches.reverse();
-      $scope.punches = punches;
-      $scope.groupedPunches = groupPunches(punches);
-      $scope.payPeriodNumbers = _.keys($scope.groupedPunches).map(function(k) {
-        return parseInt(k);
-      });
+      if(punches && punches.length > 0 && punches[0].isPaypal) {
+        $scope.isPaypal = true;
+        $scope.punches = punches.punches;
+      } else {
+        $scope.isPaypal = false;
+        punches = punches.reverse();
+        $scope.punches = punches;
+        $scope.groupedPunches = groupPunches(punches);
+        $scope.payPeriodNumbers = _.keys($scope.groupedPunches).map(function(k) {
+          return parseInt(k);
+        });
+
+      }
+      
     }, function(err) {
       $ionicLoading.show({ template: 'There was an error', duration: 1000 });
     });
@@ -69,6 +80,10 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
     return $scope.formatDate(thisPeriodEndDay);
   }
 
+  function isValidDate(d) {
+    return d instanceof Date && !isNaN(d);
+  }
+
   $scope.getDateOfISOWeek = function(w) {
       var y = new Date().getFullYear();
       var simple = new Date(y, 0, 1 + (w - 1) * 7);
@@ -82,10 +97,18 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.formatDate = function(date) {
+    if (!date || !isValidDate(date)) {
+      return null;
+    }
+    console.log('### formatting date: ' + date);
+    return moment.utc(date).format('M/D');
+  }
+
+  $scope.formatDateWYear = function(date) {
     if (!date) {
       return null;
     }
-    return moment.utc(date).format('M/D/YY');
+    return moment.utc(date).format('M/D/YYYY');
   }
 
   $scope.formatTime = function(date) {

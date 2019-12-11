@@ -111,13 +111,14 @@ angular.module('fencesForBusiness.finalize_invoice_ctrl', ['ngIOS9UIWebViewPatch
           $ionicHistory.nextViewOptions({ disableBack: true });
           $state.go('app.orders');
         } else {
+          $ionicHistory.nextViewOptions({ disableBack: false });
           $ionicLoading.show({template : validate_result.message, duration: 3000});
         }
       } else {
         $ionicLoading.show({template : 'Invoice Saved', duration: 500});
         $ionicHistory.nextViewOptions({ disableBack: true });
         $state.go('app.orders');
-      }
+      } 
       
     });
   }

@@ -66,10 +66,10 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
   function getInvoice() {
     console.log('### getting info...');
     fencesData.callWrapper('/invoices/bySSOrderId/' + $stateParams.id, 'GET', null).then(function(result) {    
-      console.log('### got result: ' + JSON.stringify(result));  
+
       if(result && result.products) {
 
-        if(!InvoiceService.getInvoice()._id) {
+        if(!InvoiceService.getInvoice()._id || InvoiceService.getInvoice()._id != result.invoice._id) {
           $scope.invoice = result.invoice;
         } else {
           $scope.invoice = InvoiceService.getInvoice();

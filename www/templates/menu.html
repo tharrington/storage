@@ -62,6 +62,11 @@
           </ion-item>
 
           <ion-item  ng-click="displayTrainingMessage();">
+            <i class="icon ion-briefcase"></i> Missing Orders
+          </ion-item>
+
+
+          <ion-item  ng-click="displayTrainingMessage();">
             <i class="icon ion-clipboard"></i> Shipping
           </ion-item>
 
@@ -127,8 +132,14 @@
             <i class="icon ion-briefcase"></i> Unload Truck
           </ion-item>
 
+          <ion-item  ui-sref="app.missing-orders">
+            <i class="icon ion-briefcase"></i> Missing Orders
+            <span class="badge badge-assertive" ng-if="missingCount > 0">{{missingCount}}</span>
+          </ion-item>
+
           <ion-item menu-close ui-sref="app.shipping-today">
             <i class="icon ion-clipboard"></i> Shipping
+            <span class="badge badge-assertive" ng-if="shippingCount > 0">{{shippingCount}}</span>
           </ion-item>
 
 

@@ -51,15 +51,18 @@ angular.module('fencesForBusiness.warehouse_load_ctrl', ['ngIOS9UIWebViewPatch']
           // Make sure the order date is the same day as the current date.
           if(today.isSame(delDate, 'day')) {
             $scope.total_orders++;
-            if(entry.type == 'Pickup' && entry.status == 'Complete' && !entry.warehouseLocation) {
+            if(entry.type == 'Pickup' && entry.status != 'Rescheduled' && entry.status != 'Canceled' && !entry.warehouseLocation) {
               $scope.completedOrders.push(entry);
-            } else if(entry.type == 'Pickup' && entry.status == 'Complete' && entry.warehouseLocation) {
+            } else if(entry.type == 'Pickup' && entry.status != 'Rescheduled' && entry.status != 'Canceled' && entry.warehouseLocation) {
               $scope.warehousedOrders.push(entry);
             } 
           }
 
         });
-      }
+
+        $scope.warehousedOrders = $scope.warehousedOrders.reverse();
+        $scope.completedOrders = $scope.completedOrders.reverse();
+      } 
       $scope.loading = false;
     }).finally(function() {
       $ionicLoading.hide();
@@ -83,8 +86,11 @@ angular.module('fencesForBusiness.warehouse_load_ctrl', ['ngIOS9UIWebViewPatch']
             $scope.organizeOrders();
           })
           .catch( function(err) {
-            $scope.hasErrors = true;
-            $scope.errorMessage = err.message;
+            if(err) {
+              $scope.hasErrors = true;
+              $scope.errorMessage = err.message;
+            }
+            
           });
       }
     });

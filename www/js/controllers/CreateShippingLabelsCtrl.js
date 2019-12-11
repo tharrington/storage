@@ -32,7 +32,6 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           console.log('result.Delivery.shippingEasyPostIds', result.Delivery.shippingEasyPostIds);
           $state.go('app.existing_shipping_labels', { id: $stateParams.id });
         }
-        console.log('kaka000');
         console.log($stateParams.id);
 
 	      $scope.pickup = result.Pickup;
@@ -55,6 +54,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
           result.Delivery.shippingAddressState,
           result.Delivery.shippingAddressZip
         );
+        console.log('### result.Delivery: ' + JSON.stringify(result.Delivery));
 
         if(result.invoices && result.invoices.length > 0) {
           var items = [];
@@ -133,6 +133,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       $ionicLoading.hide();
     })
     .catch(function(err) {
+      console.log('### got error:' + JSON.stringify(err));
       $scope.hasErrors = true;
       $ionicLoading.show({template : 'Call failed', duration: 500});
       if(err) {
@@ -183,14 +184,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       }
     });
 
-    // var parcels = $scope.shippingInputs.dimensions.map(d => {
-    //   return {
-    //     length: d['length'],
-    //     width:  d['width'],
-    //     height: d['height'],
-    //     weight: roundVal(16*d['weight'], 2),
-    //   }
-    // });
+
 
     var parcels = [];
     $scope.shippingInputs.dimensions.forEach(function(d) {
@@ -227,6 +221,7 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
       function checkLabelsGenerated() {
         fencesData.callWrapper('/invoices/getOrderAndInvoice/' + $stateParams.id, 'GET', null)
         .then(function(result) {
+
           $scope.batchFetchAttempts += 1;
           var order = result.Delivery;
           if (order.batch && order.batch.state === 'label_generated') {
@@ -240,10 +235,11 @@ angular.module('fencesForBusiness.create_shipping_labels_ctrl', ['ngIOS9UIWebVie
             if (order.batch) {
               $ionicLoading.show({template : `${_.capitalize(order.batch.state).replace('_', ' ')}...`});
             }
-            setTimeout(checkLabelsGenerated, 1000);
+            setTimeout(checkLabelsGenerated, 2000);
           }
         })
         .catch(function(e){
+          console.log('### err: ' + JSON.stringify(e));
           $scope.hasErrors = true;
           $ionicLoading.show({template : 'Call failed', duration: 500});
           if(err) {

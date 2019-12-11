@@ -1,0 +1,65 @@
+<ion-view view-title="Missing Orders" ng-controller="MissingOrdersCtrl">
+
+<style>
+  .truck-status {
+    background-color: transparent !important;
+  }
+
+  .item-select select {
+    color : #fff !important;
+  }
+
+  .item-select select {
+    color: #fff !important;
+    font-weight: 900 !important;
+  }
+  ul {
+    list-style-type: circle;
+  }
+  li {
+    padding-left: 10px;
+  }
+  a.today-item {
+    padding: 10px !important;
+    padding-bottom: 2px !important;
+    padding-top: 6px !important;
+  }
+
+  .item-note {
+    color : #000;
+  }
+
+</style>
+
+  <ion-nav-title>
+    <div class="browse-nav-title">
+      Missing Orders
+    </div>
+  </ion-nav-title>
+
+    
+  <ion-content class="has-header">
+    <!-- BEGEIN ORDERS SUMMARY -->
+      <div class="list">
+        <div class="item item-body" ng-if="orders && orders.length == 0">
+          <h1 style="text-align: center;"><i class="icon ion-trophy"></i></h1>
+          <p>No Missing Orders.</p>
+        </div>
+
+        <a class="item today-item" href="#/app/order_summary/{{appointment.ssOrderId}}/true" ng-repeat="appointment in orders track by $index">
+          <h2>{{appointment.name}} - {{appointment.shippingDate}} - <strong>{{appointment.warehouseStatus}} </strong></h2>
+          <p>WH Loc: <strong>{{appointment.warehouseLocation}}</strong> - Region: <strong>{{appointment.region}}</strong>
+          </p>
+          <p>
+            Notes : {{appointment.missingItemNote}} 
+          </p>
+          <p ng-if="appointment.management_notes">
+            <strong>{{appointment.management_notes}}</strong>
+          </p>
+
+        </a>
+      </div>
+  </ion-content>
+      
+
+</ion-view>

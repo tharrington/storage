@@ -1,6 +1,6 @@
 angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
 
-.controller('OrderSummaryCtrl', function($scope, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $ionicModal) {
+.controller('OrderSummaryCtrl', function($scope, InvoiceService, OrderInvoiceService, $ionicLoading, $state, fencesData, $stateParams, $ionicModal) {
 
   $scope.invoice = { imageURLs : [] };
   $scope.modal = null;
@@ -65,7 +65,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
             if(inv.invoice_type == 'Storage Goods') {
 
               inv.items.forEach(function(item) {
-                if(item.type == 'Storage Goods') {
+                if(item.type == 'Storage Goods' && (item.product_name != 'Late Fee- Storage Goods' && item.product_name != 'Discount')) {
                   items.push(item);
                 }
 
@@ -146,6 +146,7 @@ angular.module('fencesForBusiness.order_summary_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.editInvoice = function(invoice) {
+    InvoiceService.setInvoice({});
   	$state.go('app.invoice', { id : $stateParams.id });
   }
 

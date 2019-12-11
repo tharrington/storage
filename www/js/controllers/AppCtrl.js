@@ -4,9 +4,11 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
  */
 .controller('AppCtrl', function($scope, $localStorage, fencesData, $ionicHistory, $state, $ionicLoading, $rootScope) {
   $scope.isSandbox = false;
+  $scope.shippingCount = 0;
+  $scope.missingCount = 0;
 
   $scope.$on('$ionicView.enter', function(e) {
-    console.log('apctrl loading....');
+
     if($localStorage.isStaging) {
       $scope.isSandbox = true;
     } else {
@@ -23,6 +25,17 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     }
 
     $rootScope.isMissingTWSEmployeeId = false;
+
+
+    fencesData.callWrapper('/orders/shippingInfo/today', 'GET', null)
+      .then(function(result) {
+        $scope.shippingCount = result.length;
+      });
+    fencesData.callWrapper('/orders/missingOrders/missing', 'GET', null)
+      .then(function(result) {
+
+        $scope.missingCount = result.length;
+      });
   });
 
   var checkIfPunchedIn = function() {

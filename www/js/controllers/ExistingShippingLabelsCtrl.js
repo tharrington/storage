@@ -101,6 +101,7 @@ angular.module('fencesForBusiness.existing_shipping_labels_ctrl', ['ngIOS9UIWebV
       $scope.hasErrors = false;
       $scope.errorMessage = '';
       $scope.individualErrors = [];
+      console.log('### got response: ' + JSON.stringify(response));
     })
     .catch(function(err) {
       $scope.hasErrors = true;

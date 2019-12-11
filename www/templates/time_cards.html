@@ -89,77 +89,80 @@
     <button class="button button-full button-royal" ng-click="loadPunches();">
       Refresh
     </button>
-    <div ng-repeat="payPeriodNumber in payPeriodNumbers">
-      <div class="pay-period-wrapper item" ng-class="{'open-pay-period': payPeriodNumber == openPayPeriodNumber}">
-        <div class="pay-period-header" ng-click="togglePayPeriod(payPeriodNumber)">
-          {{ getStartDateOfPayPeriodNumber(payPeriodNumber) }} - {{ getEndDateOfPayPeriodNumber(payPeriodNumber) }}
-          <i class="icon ion-chevron-right pay-period-chevron" ng-if="payPeriodNumber != openPayPeriodNumber"></i>
-          <i class="icon ion-chevron-down pay-period-chevron" ng-if="payPeriodNumber == openPayPeriodNumber"></i>
-        </div>
-        <div ng-if="payPeriodNumber == openPayPeriodNumber" class="pay-periods">
-          <div class="row-table">
-            <div class="row">
-              <div class="col col-25 col-header">
-                <div>Date</div>
-              </div>
-              <div class="col col-25 col-header">
-                <div>In</div>
-              </div>
-              <div class="col col-25 col-header">
-                <div>Out</div>
-              </div>
-              <div class="col col-25 col-header">
-                <div>Hours</div>
-              </div>
+
+    <div ng-if="isPaypal">
+      <div ng-repeat="punch in punches">
+          
+        <div class="row-table">
+          <div class="row">
+            <div class="col col-50 col-header" ng-if="punch.isPunchIn">
+              <div>Time In: {{formatDate(punch.createdAt)}} {{formatTime(punch.createdAt)}}</div>
             </div>
-            <div class="row" ng-repeat="punch in groupedPunches[payPeriodNumber]">
-              <div class="col col-25 col-input">
-                {{ punch.InTime ? formatDate(punch.InTime) : (punch.OutTime ? formatDate(punch.OutTime) : 'Missing') }}
+            <div class="col col-50 col-header" ng-if="!punch.isPunchIn">
+              <div>Time Out: {{formatDate(punch.createdAt)}} {{formatTime(punch.createdAt)}} </div>
+            </div>
+
+            <div class="col col-50 col-header" ng-if="punch.isPaid">
+              <div>Paid</div>
+            </div>
+
+            <div class="col col-50 col-header" ng-if="!punch.isPaid">
+              <div>Not Paid</div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div ng-if="!isPaypal">
+      <div ng-repeat="payPeriodNumber in payPeriodNumbers">
+        <div class="pay-period-wrapper item" ng-class="{'open-pay-period': payPeriodNumber == openPayPeriodNumber}">
+          <div class="pay-period-header" ng-click="togglePayPeriod(payPeriodNumber)">
+            {{ getStartDateOfPayPeriodNumber(payPeriodNumber) }} - {{ getEndDateOfPayPeriodNumber(payPeriodNumber) }}
+            <i class="icon ion-chevron-right pay-period-chevron" ng-if="payPeriodNumber != openPayPeriodNumber"></i>
+            <i class="icon ion-chevron-down pay-period-chevron" ng-if="payPeriodNumber == openPayPeriodNumber"></i>
+          </div>
+          <div ng-if="payPeriodNumber == openPayPeriodNumber" class="pay-periods">
+            <div class="row-table">
+              <div class="row">
+                <div class="col col-25 col-header">
+                  <div>Date</div>
+                </div>
+                <div class="col col-25 col-header">
+                  <div>In</div>
+                </div>
+                <div class="col col-25 col-header">
+                  <div>Out</div>
+                </div>
+                <div class="col col-25 col-header">
+                  <div>Hours</div>
+                </div>
               </div>
-              <div class="col col-25 col-input">
-                {{ punch.InTime ? formatTime(punch.InTime) : 'Missing' }}
-              </div>
-              <div class="col col-25 col-input">
-                {{ punch.OutTime ? formatTime(punch.OutTime) : 'Missing' }}
-              </div>
-              <div class="col col-25 col-input">
-                {{ formatHours(punch.RegularMinutes) }}
+              <div class="row" ng-repeat="punch in groupedPunches[payPeriodNumber]">
+                <div class="col col-25 col-input">
+                  {{ punch.InTime ? formatDateWYear(punch.InTime) : (punch.OutTime ? formatDateWYear(punch.OutTime) : 'Missing') }}
+                  
+                </div>
+                <div class="col col-25 col-input">
+                  {{ punch.InTime ? formatTime(punch.InTime) : 'Missing' }}
+                </div>
+                <div class="col col-25 col-input">
+                  {{ punch.OutTime ? formatTime(punch.OutTime) : 'Missing' }}
+                </div>
+                <div class="col col-25 col-input">
+                  {{ formatHours(punch.RegularMinutes) }}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="row-table"> -->
-    <!--   <div class="row"> -->
-    <!--     <div class="col col-25 col-header"> -->
-    <!--       <div>Date</div> -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-header"> -->
-    <!--       <div>In</div> -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-header"> -->
-    <!--       <div>Out</div> -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-header"> -->
-    <!--       <div>Hours</div> -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!--   <div class="row" ng-repeat="punch in punches"> -->
-    <!--     <div class="col col-25 col-input"> -->
-    <!--       {{ punch.InTime ? formatDate(punch.InTime) : (punch.OutTime ? formatDate(punch.OutTime) : 'Missing') }} -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-input"> -->
-    <!--       {{ punch.InTime ? formatTime(punch.InTime) : 'Missing' }} -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-input"> -->
-    <!--       {{ punch.OutTime ? formatTime(punch.OutTime) : 'Missing' }} -->
-    <!--     </div> -->
-    <!--     <div class="col col-25 col-input"> -->
-    <!--       {{ formatHours(punch.RegularMinutes) }} -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!-- </div> -->
+
   </ion-content>
 
 

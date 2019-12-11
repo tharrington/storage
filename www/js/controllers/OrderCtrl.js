@@ -3,7 +3,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
 /**
  * OrderCtrl - view the order details and update the status.
  */
-.controller('OrderCtrl', function($scope, $cordovaCamera, ImageService, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
+.controller('OrderCtrl', function($scope, InvoiceService, $cordovaCamera, ImageService, $ionicNavBarDelegate, Auth, $window, $ionicPopup, $ionicLoading, $cordovaInAppBrowser, $interval, $localStorage, $ionicActionSheet, $rootScope, $state, fencesData, $stateParams, $ionicModal, $ionicHistory) {
   $scope.order_status;
   $scope.user = $localStorage.user;
   $scope.invoice_items = [];
@@ -58,6 +58,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
    */
   fencesData.getOrder($stateParams.id).then(function(result) {
 		$scope.order = result;
+    console.log('### order: ' + JSON.stringify(result));
 
     if ($scope.order.proxyPhone && $scope.order.moverPhone && !['Complete', 'Canceled', 'Deleted'].includes($scope.order.status)) {
       $scope.messagePhone = $scope.order.proxyPhone;
@@ -233,6 +234,7 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
    */
 
   $scope.completeInvoice = function() {
+    InvoiceService.setInvoice({});
     $state.go('app.invoice', { id : $scope.order.ssOrderId });
   }
 

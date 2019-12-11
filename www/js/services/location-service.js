@@ -30,25 +30,29 @@ angular.module('fencesForBusiness.location_service', [])
     }
 
     function startLocation() {
-      bgGeo = window.BackgroundGeolocation;      
-      if(bgGeo) {
-        var locationConfig = {
-          desiredAccuracy: 10,
-          stationaryRadius: 25,
-          distanceFilter: 10,
-          disableElasticity: false, 
-          locationUpdateInterval: 10000,
-          minimumActivityRecognitionConfidence: 10, 
-          fastestLocationUpdateInterval: 10000,
-          activityType: BackgroundGeolocation.ACTIVITY_TYPE_AUTOMOTIVE_NAVIGATION,
-          debug: false, 
-          stopOnTerminate: false 
-        }
-        bgGeo.configure(pushLocation, failureFn, locationConfig);
-        bgGeo.start(function() {
-        	bgGeo.changePace(true);
-        });
-      } 
+      if(window && window.BackgroundGeolocation) {
+        bgGeo = window.BackgroundGeolocation;     
+
+        if(bgGeo) {
+          var locationConfig = {
+            desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_VERY_LOW,
+            stationaryRadius: 25,
+            distanceFilter: 100,
+            disableElasticity: false, 
+            locationUpdateInterval: 10000,
+            fastestLocationUpdateInterval: 10000,
+            activityType: BackgroundGeolocation.ACTIVITY_TYPE_OTHER,
+            debug: false, 
+            useSignificantChangesOnly : true,
+            stopOnTerminate: true 
+          }
+          bgGeo.configure(pushLocation, failureFn, locationConfig);
+          bgGeo.start(function() {
+            bgGeo.changePace(true);
+          });
+        } 
+      }
+      
     }
 
 
