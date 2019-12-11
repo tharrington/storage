@@ -31,8 +31,9 @@ angular.module('fencesForBusiness.time_cards_ctrl', ['ngIOS9UIWebViewPatch'])
         $scope.payPeriodNumbers = _.keys($scope.groupedPunches).map(function(k) {
           return parseInt(k);
         });
-
+        console.log('### got punches: ' + JSON.stringify($scope.payPeriodNumbers));
       }
+      console.log('### punches: ' + JSON.stringify($scope.punches));
       
     }, function(err) {
       $ionicLoading.show({ template: 'There was an error', duration: 1000 });

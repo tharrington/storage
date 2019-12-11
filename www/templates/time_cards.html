@@ -119,7 +119,32 @@
 
 
     <div ng-if="!isPaypal">
-      <div ng-repeat="payPeriodNumber in payPeriodNumbers">
+
+      <div ng-repeat="punch in punches">
+          
+        <div class="row-table">
+          <div class="row">
+            <div class="col col-50 col-header">
+              <div>Time In: {{punch.InTime}}</div>
+            </div>
+            <div class="col col-50 col-header">
+              <div>Time Out: {{punch.OutTime}} </div>
+            </div>
+
+            <!-- <div class="col col-50 col-header" ng-if="punch.isPaid">
+              <div>Paid</div>
+            </div>
+
+            <div class="col col-50 col-header" ng-if="!punch.isPaid">
+              <div>Not Paid</div>
+            </div> -->
+          </div>
+          
+        </div>
+      </div>
+
+
+      <!-- <div ng-repeat="payPeriodNumber in payPeriodNumbers">
         <div class="pay-period-wrapper item" ng-class="{'open-pay-period': payPeriodNumber == openPayPeriodNumber}">
           <div class="pay-period-header" ng-click="togglePayPeriod(payPeriodNumber)">
             {{ getStartDateOfPayPeriodNumber(payPeriodNumber) }} - {{ getEndDateOfPayPeriodNumber(payPeriodNumber) }}
@@ -160,7 +185,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </ion-content>
