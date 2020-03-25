@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="16021" id="com.storagesquad.drivers" ios-CFBundleVersion="300" version="9.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="16022" id="com.storagesquad.drivers" ios-CFBundleVersion="300" version="9.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>storage</name>
     <description>
         Storage Squad's Driver Application
@@ -28,10 +28,17 @@
     <preference name="cordova-background-geolocation-license" value="a0a414ac6025d3446e909b36eac5797ddea3c113f64c2d88782034a46ce448da" />
     <preference name="cordova-background-geolocation-orderId" value="1158560001" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="28" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
     <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+            <application android:networkSecurityConfig="@xml/network_security_config" />
+        </edit-config>
+        <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
+        <allow-intent href="market:*" />
         <config-file parent="/manifest" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

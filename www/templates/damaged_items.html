@@ -84,7 +84,7 @@
       <div class="invoice-image-wrapper">
         <div class="invoice-image" ng-repeat="imageURL in images" ng-click="imageClicked(imageURL)">
           <span class="close"></span>
-          <img src="{{imageURL['src']}}" />
+          <img ng-src="{{imageURL['src']}}" />
         </div>
       </div>
     </div>

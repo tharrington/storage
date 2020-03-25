@@ -101,7 +101,7 @@
 
       <div class="invoice-image" ng-repeat="imageURL in invoice.imageURLs" ng-click="imageClicked(imageURL)">
         <span class="close"></span>
-        <img src="{{imageURL}}" />
+        <img ng-src="{{imageURL}}" />
       </div>
 
 		</ion-scroll>

@@ -117,7 +117,7 @@
       <div class="invoice-image-wrapper">
         <div class="invoice-image" ng-repeat="imageURL in invoice.imageURLs" ng-click="imageClicked(imageURL['src'])">
           <span ng-if="!imageURL['isPaid']" class="close"></span>
-          <img src="{{imageURL['src']}}" />
+          <img ng-src="{{imageURL['src']}}" />
         </div>
       </div>
 
@@ -161,7 +161,7 @@
     </div>
     <div class="invoice-image-wrapper" ng-if="pickup.shippingImageURLs">
       <div class="invoice-image" >
-        <img src="{{pickup.shippingImageURLs}}" />
+        <img ng-src="{{pickup.shippingImageURLs}}" />
       </div>
     </div>
 
