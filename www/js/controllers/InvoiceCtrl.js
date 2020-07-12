@@ -165,6 +165,7 @@ angular.module('fencesForBusiness.invoice_ctrl', ['ngIOS9UIWebViewPatch'])
       quality: 80,
       destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.CAMERA,
+      // sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
       allowEdit: false,
       encodingType: encodingType, 
       popoverOptions: CameraPopoverOptions,

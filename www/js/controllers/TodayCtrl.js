@@ -65,6 +65,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
     if(appointment.status == 'Scheduled') {
       appointment.status = 'Appointment Scheduled';
     }
+    
     fencesData.postInfo('/orders/' + appointment._id, 'PUT', appointment).then(function(result) {
       if(appointment.status == 'Appointment Scheduled') {
         appointment.status = 'Scheduled';
@@ -75,7 +76,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
   }
 
   $scope.containsRoomService = function(value) {
-    if(value.includes("Room Service")) {
+    if(value && value.includes("Room Service")) {
       return true;
     } else {
       return false;
@@ -94,22 +95,34 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
     { status : 'Scheduled' },
   	{ status : 'En Route' },
   	{ status : 'Arrived' },
-    { status : 'Servicing' }
+    { status : 'Servicing' },
+    { status : 'Packed' }
   ];
 
   $scope.deliveryUpdates = [
     { status : 'Scheduled' },
     { status : 'En Route' },
     { status : 'Arrived' },
-    { status : 'Servicing' }
+    { status : 'Servicing' },
+    { status : 'Packed' }
   ];
 
   $scope.orderUpdatesComplete = [
+    { status : 'Scheduled', value : 'Scheduled' },
+    { status : 'En Route', value : 'En Route' },
+    { status : 'Arrived', value : 'Arrived' },
+    { status : 'Servicing', value : 'Servicing' },
+    { status : 'Complete', value : 'Complete' },
+    { status : 'Complete - Loaded', value : 'Complete - Loaded' }
+  ];
+
+  $scope.canceledStatuses = [
     { status : 'Scheduled' },
     { status : 'En Route' },
     { status : 'Arrived' },
     { status : 'Servicing' },
-    { status : 'Complete' }
+    { status : 'Complete' },
+    { status : 'Canceled' },
   ];
 
   function checkStatus() {
@@ -176,7 +189,7 @@ angular.module('fencesForBusiness.today_ctrl', ['ngIOS9UIWebViewPatch'])
           // Make sure the order date is the same day as the current date.
           if(today.isSame(delDate, 'day')) {
             $scope.total_orders++;
-            if(entry.status == 'Complete') {
+            if(entry.status == 'Complete' || entry.status == 'Complete - Loaded') {
               $scope.completedOrders.push(entry);
             } else if(entry.status == 'Rescheduled') {
               $scope.rescheduledOrders.push(entry);

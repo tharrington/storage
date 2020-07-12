@@ -9,9 +9,9 @@ angular.module('fencesForBusiness.lookup_ctrl', ['ngIOS9UIWebViewPatch'])
   $scope.searchTerm = null;
   $scope.results = [];
   $scope.order = {
-    pickupSeason: 'Spring 2019',
+    pickupSeason: 'Current',
   }
-  $scope.pickupSeasons = ['Spring 2019', 'ALL'];
+  $scope.pickupSeasons = ['Current', 'ALL'];
   $scope.justSwitched = false;
 
   $scope.vm = {};

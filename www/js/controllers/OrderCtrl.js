@@ -172,6 +172,8 @@ angular.module('fencesForBusiness.order_ctrl', ['ngIOS9UIWebViewPatch'])
               }
             });
           });
+
+          console.log('### invoices: ' + JSON.stringify($scope.invoice_items));
         });
       }
     });

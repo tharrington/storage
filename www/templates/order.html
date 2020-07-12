@@ -104,9 +104,9 @@
 		  </div>
 	    <a class="item" 
 	    	ng-repeat="item in invoice_items" 
-	    	ng-if="item.warehouseStatus == 'Loaded' || item.warehouseStatus == 'Partially Loaded'" 
+	    	ng-if="(item.warehouseStatus == 'Loaded' || item.warehouseStatus == 'Partially Loaded' ) && item.product_display_name != 'Late Fee- Storage Goods'" 
 	    	style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} • {{item.quantity - item.missing_count}} </h2>
+	    	<h2>{{item.product_name}} • {{item.quantity - item.missing_count}} </h2>
 	    </a>
 
 	    <div class="item item-divider" 
@@ -115,9 +115,9 @@
 	    </div>
 	    <a class="item" 
 	    	ng-repeat="item in invoice_items" 
-	    	ng-if="item.warehouseStatus == 'Delivered'" 
+	    	ng-if="(item.warehouseStatus == 'Delivered' ) && item.product_display_name != 'Late Fee- Storage Goods'" 
 	    	style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} • {{item.quantity}}</h2>
+	    	<h2>{{item.product_name}} • {{item.quantity}}</h2>
 	    </a>
 
 
@@ -127,9 +127,9 @@
 		  </div>
 	    <a class="item" 
 	    	ng-repeat="item in invoice_items" 
-	    	ng-if="item.warehouseStatus == 'In Storage' || item.warehouseStatus == 'Missing'  || item.warehouseStatus == 'Partially Loaded'" 
+	    	ng-if="(item.warehouseStatus == 'In Storage' || item.warehouseStatus == 'Missing'  || item.warehouseStatus == 'Partially Loaded') && item.product_display_name != 'Late Fee- Storage Goods'" 
 	    	style="padding-top: 4px; padding-bottom: 4px;">
-	    	<h2>{{item.product_display_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
+	    	<h2>{{item.product_name}} <span ng-if="item.missing_count > 0"> • {{item.missing_count}} missing</span> - {{item.quantity}} total</h2>
 	    	<p>{{item.warehouseStatus}}</p>
 	    </a>
 

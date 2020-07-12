@@ -38,7 +38,7 @@ angular.module('fencesForBusiness', [
   'angularMoment'
 ])
 
-// ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0"
+// ionic cordova build ios -- --buildFlag="-UseModernBuildSystem=0" 
 // ionic cordova run ios -l -- --buildFlag="-UseModernBuildSystem=0"
 
 
@@ -67,18 +67,9 @@ angular.module('fencesForBusiness', [
   $ionicPlatform.ready(function() {
     fencesLocations.startLocation();
 
-    if(hockeyapp) {
-      if(device.platform != 'Android') {
-        hockeyapp.start(null, null, "ff5782db811a44a79fb5eb47a37cec95");
-        hockeyapp.checkForUpdate(function() {}, function(err) {});
-      } else {
-        hockeyapp.start(null, null, "7a6c56a424724895bcb2da0564d04935");
-        hockeyapp.checkForUpdate(function() {}, function(err) {});
-      }
-      if (window.cordova && window.cordova.plugins.Keyboard){
+    if (window.cordova && window.cordova.plugins.Keyboard){
           cordova.plugins.Keyboard.disableScroll(true); // This will prevent the view to bounce when inputs are on focus
       }
-    }
   });
 })
 
