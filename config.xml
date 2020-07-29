@@ -31,8 +31,11 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
+    <engine name="android" spec="^8.0.0" />
     <platform name="android">
         <preference name="APP_SECRET" value="9f30c351-d0b4-4c60-b2b1-2d79edd4b049" />
+        <preference name="android-minSdkVersion" value="21" />
+        <preference name="android-targetSdkVersion" value="28" />
         <config-file parent="/manifest" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
