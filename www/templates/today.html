@@ -134,8 +134,8 @@
 		      	<span ng-if="appointment.type == 'Delivery'">DEL - </span>
 			      <span ng-if="appointment.type == 'Pickup'">PU - </span>
 
-			      <span ng-if="containsRoomService(appointment.serviceType)">RS - </span>
-			      <span ng-if="!containsRoomService(appointment.serviceType)">ME - </span>
+			      <span ng-if="containsRoomService(appointment.serviceType) && appointment.type == 'Pickup'">RS - </span>
+			      <span ng-if="!containsRoomService(appointment.serviceType) && appointment.type == 'Pickup'">ME - </span>
 
 			      <span ng-if="appointment.shipping"><strong>Ship</strong> - </span>
 
