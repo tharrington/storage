@@ -9,8 +9,9 @@
 
   <ion-content>
   	<div class="item item-divider tutorial-alert" ng-if="isTraining">Training Mode</div>
-  	<div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
-  	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div>
+	<div class="item item-divider tutorial-alert" ng-if="missingEeCode">Inform your manager your Paycom ID is not set.</div>
+  	<!-- <div class="item item-divider tutorial-alert" ng-if="!isPunchedIn">Not Punched In</div>
+  	<div class="item item-divider tutorial-alert" ng-if="isMissingTWSEmployeeId">Missing Paychex ID</div> -->
 
   	<div ng-if="!loading">
 	  	<div ng-if="!currentUser.tutorialCompleted && !isTraining">

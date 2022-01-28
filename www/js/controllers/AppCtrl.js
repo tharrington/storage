@@ -23,8 +23,15 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       // $ionicLoading.show({ template: 'Loading Punch...' });
       checkIfPunchedIn();
     }
+    console.log('### mover: ' + JSON.stringify($scope.mover));
 
-    $rootScope.isMissingTWSEmployeeId = false;
+    if($scope.mover && !$scope.mover.eecode) {
+      $rootScope.missingEeCode = true;
+    } else if($scope.mover) {
+      $rootScope.missingEeCode = false;
+    }
+    console.log('### user: ' + JSON.stringify($scope.user));
+    $rootScope.isMissingTWSEmployeeId = true;
 
 
     fencesData.callWrapper('/orders/shippingInfo/today', 'GET', null)
@@ -38,20 +45,31 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       });
   });
 
+  $scope.displayTrainingMessage = function() {
+    $ionicLoading.show({ template:  'This function is not available during training.', duration: 2000 });
+  }
+
+
   var checkIfPunchedIn = function() {
     if (!$scope.moverId) {
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
-      // $ionicLoading.hide();
       return
     }
-    fencesData.callWrapper('/punches/getLastStratusTimePunch/' + $scope.moverId, 'GET', null)
-    .then(function(stratusTimePunch) {
-      // $ionicLoading.hide();
-      $scope.stratusTimePunch = stratusTimePunch;
-      $rootScope.isPunchedIn = $scope.stratusTimePunch && (!$scope.stratusTimePunch.OutTime);
+    console.log('### checking for time');
+    fencesData.callWrapper('/timepunches/getLastPunch/' + $scope.moverId, 'GET', null)
+    .then(function(punchData) {
+
+      console.log('### punchData: ' + JSON.stringify(punchData));
+      if(!punchData) {
+        $rootScope.isPunchedIn = false;
+      } else if(punchData && punchData.isPunchIn) {
+        $rootScope.isPunchedIn = true;
+      } else {
+        $rootScope.isPunchedIn = false;
+      }
       // Perioodically check if user is punched in
-      $rootScope.punchCheckDelay = 180000;
+      $rootScope.punchCheckDelay = 1800000;
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, $rootScope.punchCheckDelay);
       $rootScope.startedPunchChecks = true;
@@ -61,35 +79,47 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $rootScope.startedPunchChecks = false
       if (!$rootScope.startedPunchChecks) {
         clearTimeout($rootScope.checkPunchinTimeout);
-        $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
+        $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 1800000);
       }
-      // $ionicLoading.show({template : 'Error loading last punch.', duration: 500});
+
       if(err) {
         $scope.errorMessage = err.message || 'Unknown error';
-        if ($scope.errorMessage === 'User does not have TWS Employee ID') {
+        if ($scope.errorMessage === 'User does not have Paycom Employee ID') {
           $rootScope.isMissingTWSEmployeeId = true;
         }
       }
     });
   };
 
-  $scope.displayTrainingMessage = function() {
-    $ionicLoading.show({ template:  'This function is not available during training.', duration: 2000 });
-  }
 
+  /**
+   * 
+   */
   $scope.createPunch = function(isPunchIn) {
-    $rootScope.punchCheckDelay = 0;
     $ionicLoading.show({ template: `Punching ${isPunchIn ? 'in' : 'out'}...` });
+
+    var punchTime = Math.floor(new Date().getTime() / 1000) - 60;
     var payload = {
-      userId:      $scope.moverId,
-      time:        (new Date()).getTime(),
+      userId:      $scope.mover.eecode,
       isPunchIn: isPunchIn,
+      time:       punchTime,
     };
-    fencesData.postInfo('/punches', 'POST', payload)
+
+    console.log('### submitting payload: ' + JSON.stringify(payload));
+
+    fencesData.postInfo('/timepunches/createPunchForUser', 'POST', payload)
     .then(function(punch) {
+      console.log('### got punch: ' + JSON.stringify(punch));
       $ionicLoading.show({ template: `Successfully punched ${isPunchIn ? 'in' : 'out'}...`, duration: 500});
       $scope.punch = punch;
-      $rootScope.isPunchedIn = isPunchIn;
+      if(punch.errorCount > 0) {
+        $ionicLoading.show({template : 'Error loading last punch.', duration: 3000});
+      } else if(punch.data[0].punchtype == "ID") {
+        $rootScope.isPunchedIn = true;
+      } else {
+        $rootScope.isPunchedIn = false;
+      }
+      
       if ($rootScope.checkPunchinTimeout) clearTimeout($rootScope.checkPunchinTimeout);
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
     })
@@ -103,7 +133,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $rootScope.checkPunchinTimeout = setTimeout(checkIfPunchedIn, 180000);
     })
   }
-
+  
   $scope.logout = function() {
     $rootScope.punchCheckDelay = 0;
     $rootScope.startedPunchChecks = false;
