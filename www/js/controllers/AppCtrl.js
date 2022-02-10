@@ -101,8 +101,9 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
     var punchTime = Math.floor(new Date().getTime() / 1000) - 60;
     var payload = {
       userId:      $scope.mover.eecode,
-      isPunchIn: isPunchIn,
-      time:       punchTime,
+      isPunchIn:    isPunchIn,
+      time:         punchTime,
+      moverId:      $scope.mover._id,
     };
 
     console.log('### submitting payload: ' + JSON.stringify(payload));
@@ -114,7 +115,7 @@ angular.module('fencesForBusiness.app_ctrl', ['ngIOS9UIWebViewPatch'])
       $scope.punch = punch;
       if(punch.errorCount > 0) {
         $ionicLoading.show({template : 'Error loading last punch.', duration: 3000});
-      } else if(punch.data[0].punchtype == "ID") {
+      } else if(punch.isPunchIn) {
         $rootScope.isPunchedIn = true;
       } else {
         $rootScope.isPunchedIn = false;
